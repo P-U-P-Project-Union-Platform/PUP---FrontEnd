@@ -84,8 +84,8 @@ export default function Sidebar({ onToggle }: { onToggle?: (isOpen: boolean) => 
         <Header isOpen={isOpen}>PUP</Header>
         <Nav>
           <NavItem href="/" isOpen={isOpen}>홈</NavItem>
-          <NavItem href="/project-plan" isOpen={isOpen}>프로젝트 기획서</NavItem>
-          <NavItem href="/settings" isOpen={isOpen}>설정</NavItem>
+          <NavItem href="/project" isOpen={isOpen}>프로젝트</NavItem>
+          <NavItem href="/project/my" isOpen={isOpen}>내 프로젝트</NavItem>
         </Nav>
       </SidebarContainer>
     </>
