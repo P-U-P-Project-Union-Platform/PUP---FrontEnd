@@ -14,16 +14,19 @@ const SidebarContainer = styled.aside<{ isOpen: boolean }>`
   transition: width 0.3s ease-in-out;
   display: flex;
   flex-direction: column;
+
+  & > * {
+    opacity: ${({ isOpen }) => (isOpen ? 1 : 0)};
+    transition: opacity 0.3s;
+  }
 `;
 
-const Header = styled.div<{ isOpen: boolean }>`
+const Header = styled.div`
   padding: 16px;
   font-size: 20px;
   font-weight: bold;
   border-bottom: 1px solid #374151;
   white-space: nowrap;
-  opacity: ${({ isOpen }) => (isOpen ? 1 : 0)};
-  transition: opacity 0.3s;
 `;
 
 const Nav = styled.nav`
@@ -34,7 +37,7 @@ const Nav = styled.nav`
   gap: 10px;
 `;
 
-const NavItem = styled.a<{ isOpen: boolean }>`
+const NavItem = styled.a`
   display: flex;
   align-items: center;
   gap: 10px;
@@ -43,8 +46,6 @@ const NavItem = styled.a<{ isOpen: boolean }>`
   color: white;
   text-decoration: none;
   white-space: nowrap;
-  opacity: ${({ isOpen }) => (isOpen ? 1 : 0)};
-  transition: opacity 0.3s;
 
   &:hover {
     background: #374151;
@@ -81,11 +82,11 @@ export default function Sidebar({ onToggle }: { onToggle?: (isOpen: boolean) => 
       <ToggleButton onClick={handleToggle}>{isOpen ? "닫기" : "메뉴"}</ToggleButton>
 
       <SidebarContainer isOpen={isOpen}>
-        <Header isOpen={isOpen}>PUP</Header>
+        <Header>PUP</Header>
         <Nav>
-          <NavItem href="/" isOpen={isOpen}>홈</NavItem>
-          <NavItem href="/project" isOpen={isOpen}>프로젝트</NavItem>
-          <NavItem href="/project/my" isOpen={isOpen}>내 프로젝트</NavItem>
+          <NavItem href="/">홈</NavItem>
+          <NavItem href="/project">프로젝트</NavItem>
+          <NavItem href="/project/my">내 프로젝트</NavItem>
         </Nav>
       </SidebarContainer>
     </>
