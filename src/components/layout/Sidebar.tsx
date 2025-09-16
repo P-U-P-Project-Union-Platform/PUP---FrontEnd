@@ -1,27 +1,22 @@
-import { useState } from "react";
 import styled from "styled-components";
 
-const SidebarContainer = styled.aside<{ isOpen: boolean }>`
+const SidebarWrapper = styled.aside<{ isOpen: boolean; isHover: boolean }>`
   position: fixed;
-  top: 0;
+  top: 60px; 
   left: 0;
-  height: 100vh;
-  width: ${({ isOpen }) => (isOpen ? "240px" : "0px")}; 
+  width: 240px; 
+  height: calc(100vh - 60px);
   background-color: #1f2937;
   color: white;
-  overflow: hidden;
-  z-index: 1000;
-  transition: width 0.3s ease-in-out;
   display: flex;
   flex-direction: column;
+  z-index: 1000;
+  transition: transform 0.3s ease-in-out;
 
-  & > * {
-    opacity: ${({ isOpen }) => (isOpen ? 1 : 0)};
-    transition: opacity 0.3s;
-  }
+  transform: ${({ isOpen, isHover }) => (isOpen || isHover ? "translateX(0)" : "translateX(-240px)")};
 `;
 
-const Header = styled.div`
+const SidebarHeader = styled.div`
   padding: 16px;
   font-size: 20px;
   font-weight: bold;
@@ -31,10 +26,10 @@ const Header = styled.div`
 
 const Nav = styled.nav`
   flex: 1;
-  padding: 16px;
   display: flex;
   flex-direction: column;
   gap: 10px;
+  padding: 16px;
 `;
 
 const NavItem = styled.a`
@@ -52,43 +47,32 @@ const NavItem = styled.a`
   }
 `;
 
-const ToggleButton = styled.button`
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  background: #111827;
-  color: white;
-  border: none;
-  padding: 10px 14px;
-  border-radius: 6px;
-  cursor: pointer;
-  z-index: 1100;
+type SidebarProps = {
+  isOpen: boolean;
+  isHover: boolean;
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
+};
 
-  &:hover {
-    background: #374151;
-  }
-`;
-
-export default function Sidebar({ onToggle }: { onToggle?: (isOpen: boolean) => void }) {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const handleToggle = () => {
-    setIsOpen(!isOpen);
-    onToggle?.(!isOpen);
-  };
-
+export default function Sidebar({
+  isOpen,
+  isHover,
+  onMouseEnter,
+  onMouseLeave,
+}: SidebarProps) {
   return (
-    <>
-      <ToggleButton onClick={handleToggle}>{isOpen ? "닫기" : "메뉴"}</ToggleButton>
-
-      <SidebarContainer isOpen={isOpen}>
-        <Header>PUP</Header>
-        <Nav>
-          <NavItem href="/">홈</NavItem>
-          <NavItem href="/project">프로젝트</NavItem>
-          <NavItem href="/project/my">내 프로젝트</NavItem>
-        </Nav>
-      </SidebarContainer>
-    </>
+    <SidebarWrapper
+      isOpen={isOpen}
+      isHover={isHover}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+    >
+      <SidebarHeader>PUP</SidebarHeader>
+      <Nav>
+        <NavItem href="/">홈</NavItem>
+        <NavItem href="/project">프로젝트</NavItem>
+        <NavItem href="/project/my">내 프로젝트</NavItem>
+      </Nav>
+    </SidebarWrapper>
   );
 }
