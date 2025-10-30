@@ -1,135 +1,151 @@
-import React, { useState } from "react";
+import { useState, useRef } from "react";
 import styled from "styled-components";
+import TextareaAutosize from "react-textarea-autosize";
 
 const Container = styled.div`
-  max-width: 720px;
-  padding: 30px;
+  background-color: #F9F9F9;
+  min-height: 100vh;
+  padding: 60px 40px;
+  color: #333;
 `;
 
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-`;
-
-const Section = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-`;
-
-const SectionTitle = styled.h2`
-  font-size: 20px;
-  font-weight: 700;
-  border-left: 4px solid #4f46e5;
-  padding-left: 10px;
-  margin-bottom: 8px;
-`;
-
-const Label = styled.label`
-  font-size: 14px;
-  font-weight: 600;
-  color: #444;
+const FormContainer = styled.div`
+  max-width: 800px;
+  margin: 0 auto;
 `;
 
 const Input = styled.input`
-  padding: 10px 14px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  font-size: 15px;
-  &:focus {
-    outline: none;
-    border-color: #4f46e5;
-    box-shadow: 0 0 0 2px rgba(79,70,229,0.1);
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: #1a1a1a;
+  font-size: 18px;
+  padding: 12px 0;
+  font-family: inherit;
+  outline: none;
+  
+  &::placeholder {
+    color: #aaa;
+    font-style: italic;
   }
 `;
 
-const Textarea = styled.textarea`
-  padding: 12px 14px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  resize: vertical;
-  font-size: 15px;
-  &:focus {
-    outline: none;
-    border-color: #4f46e5;
-    box-shadow: 0 0 0 2px rgba(79,70,229,0.1);
+const TitleInput = styled(Input)`
+  font-size: 32px;
+  font-weight: 600;
+  margin-bottom: 20px;
+`;
+
+const Textarea = styled(TextareaAutosize)`
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: #1a1a1a;
+  font-size: 16px;
+  padding: 12px 0;
+  font-family: inherit;
+  outline: none;
+  resize: none;
+  line-height: 1.8;
+  
+  &::placeholder {
+    color: #aaa;
+    font-style: italic;
   }
 `;
 
-const Select = styled.select`
-  padding: 10px 14px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  font-size: 15px;
+const Label = styled.div`
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 `;
 
 const TechInputContainer = styled.div`
   display: flex;
-  gap: 8px;
+  gap: 12px;
+  margin-bottom: 16px;
 `;
 
-const TechInput = styled.input`
+const TechInput = styled(Input)`
   flex: 1;
-  padding: 10px 14px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-`;
-
-const AddButton = styled.button`
-  padding: 10px 16px;
-  background-color: #4f46e5;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
-  &:hover {
-    background-color: #4338ca;
-  }
+  border-bottom: 1px solid #ddd;
 `;
 
 const TechList = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 10px;
+  margin-top: 16px;
 `;
 
 const TechTag = styled.span`
-  background-color: #eef2ff;
-  color: #4f46e5;
-  border-radius: 20px;
-  padding: 6px 12px;
+  background: #fff;
+  color: #333;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 6px 14px;
   font-size: 14px;
   cursor: pointer;
+  transition: all 0.2s;
+  
   &:hover {
-    background-color: #e0e7ff;
+    background: #f5f5f5;
+    border-color: #bbb;
+  }
+`;
+
+const Toolbar = styled.div`
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  padding: 8px 0;
+  border-bottom: 1px solid #ddd;
+`;
+
+const ToolButton = styled.button`
+  background: #fff;
+  border: 1px solid #ddd;
+  color: #666;
+  font-size: 13px;
+  cursor: pointer;
+  padding: 6px 12px;
+  font-weight: 500;
+  transition: all 0.2s;
+  border-radius: 4px;
+  
+  &:hover {
+    background: #f5f5f5;
+    border-color: #bbb;
+    color: #333;
   }
 `;
 
 const SubmitButton = styled.button`
-  background-color: #4f46e5;
+  background: #4f46e5;
   color: white;
   font-weight: 700;
   border: none;
-  border-radius: 10px;
-  padding: 14px;
+  border-radius: 8px;
+  padding: 16px 32px;
   cursor: pointer;
   font-size: 16px;
+  margin-top: 40px;
+  transition: background 0.2s;
+  
   &:hover {
-    background-color: #4338ca;
+    background: #4338ca;
   }
 `;
 
 export default function Register() {
   const [title, setTitle] = useState("");
-  const [summary, setSummary] = useState("");
-  const [category, setCategory] = useState("");
   const [techStack, setTechStack] = useState<string[]>([]);
   const [newTech, setNewTech] = useState("");
   const [github, setGithub] = useState("");
-  const [demo, setDemo] = useState("");
   const [description, setDescription] = useState("");
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const addTech = () => {
     if (newTech.trim() && !techStack.includes(newTech.trim())) {
@@ -142,15 +158,30 @@ export default function Register() {
     setTechStack(techStack.filter((t) => t !== tech));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const insertMarkdown = (before: string, after: string = "") => {
+    const textarea = textareaRef.current;
+    if (!textarea) return;
+
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const text = description;
+    const selectedText = text.substring(start, end);
+
+    const newText = text.substring(0, start) + before + selectedText + after + text.substring(end);
+    setDescription(newText);
+
+    setTimeout(() => {
+      textarea.focus();
+      const newCursorPos = start + before.length + selectedText.length;
+      textarea.setSelectionRange(newCursorPos, newCursorPos);
+    }, 0);
+  };
+
+  const handleSubmit = () => {
     const projectData = {
       title,
-      summary,
-      category,
       techStack,
       github,
-      demo,
       description,
     };
     console.log("📦 프로젝트 데이터:", projectData);
@@ -159,49 +190,22 @@ export default function Register() {
 
   return (
     <Container>
-      <Form onSubmit={handleSubmit}>
-        <Section>
-          <SectionTitle>기본 정보</SectionTitle>
-          <Label>프로젝트 제목</Label>
-          <Input
+      <FormContainer>
+          <TitleInput
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            placeholder="제목을 입력하세요"
-            required
+            placeholder="프로젝트 제목..."
           />
-
-          <Label>요약 설명</Label>
-          <Textarea
-            value={summary}
-            onChange={(e) => setSummary(e.target.value)}
-            placeholder="프로젝트에 대한 간단한 설명을 입력하세요"
-          />
-
-          <Label>카테고리</Label>
-          <Select
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            required
-          >
-            <option value="">선택하세요</option>
-            <option value="AI">AI</option>
-            <option value="Web">Web</option>
-            <option value="App">App</option>
-            <option value="IoT">IoT</option>
-            <option value="Game">Game</option>
-          </Select>
-        </Section>
-
-        <Section>
-          <SectionTitle>기술 스택</SectionTitle>
+          <Label>기술 스택</Label>
           <TechInputContainer>
             <TechInput
               value={newTech}
               onChange={(e) => setNewTech(e.target.value)}
               placeholder="기술 입력 후 Enter"
-              onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), addTech())}
+              onKeyDown={(e) =>
+                e.key === "Enter" && (e.preventDefault(), addTech())
+              }
             />
-            <AddButton type="button" onClick={addTech}>추가</AddButton>
           </TechInputContainer>
 
           <TechList>
@@ -211,10 +215,7 @@ export default function Register() {
               </TechTag>
             ))}
           </TechList>
-        </Section>
 
-        <Section>
-          <SectionTitle>링크</SectionTitle>
           <Label>GitHub 링크</Label>
           <Input
             value={github}
@@ -222,26 +223,28 @@ export default function Register() {
             placeholder="https://github.com/..."
           />
 
-          <Label>배포 링크</Label>
-          <Input
-            value={demo}
-            onChange={(e) => setDemo(e.target.value)}
-            placeholder="https://example.com"
-          />
-        </Section>
-
-        <Section>
-          <SectionTitle>상세 설명</SectionTitle>
+          <Label>프로젝트 설명</Label>
+          <Toolbar>
+            <ToolButton type="button" onClick={() => insertMarkdown("# ", "")}>H1</ToolButton>
+            <ToolButton type="button" onClick={() => insertMarkdown("## ", "")}>H2</ToolButton>
+            <ToolButton type="button" onClick={() => insertMarkdown("### ", "")}>H3</ToolButton>
+            <ToolButton type="button" onClick={() => insertMarkdown("**", "**")}>Bold</ToolButton>
+            <ToolButton type="button" onClick={() => insertMarkdown("*", "*")}>Italic</ToolButton>
+            <ToolButton type="button" onClick={() => insertMarkdown("`", "`")}>Code</ToolButton>
+            <ToolButton type="button" onClick={() => insertMarkdown("```\n", "\n```")}>Block</ToolButton>
+            <ToolButton type="button" onClick={() => insertMarkdown("[", "](url)")}>Link</ToolButton>
+            <ToolButton type="button" onClick={() => insertMarkdown("- ", "")}>List</ToolButton>
+          </Toolbar>
           <Textarea
-            rows={8}
+            ref={textareaRef}
+            minRows={8}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            placeholder="프로젝트의 동기, 과정, 결과 등을 자세히 입력하세요"
+            placeholder="해당 프로젝트의 대해서 설명해주세요"
           />
-        </Section>
 
-        <SubmitButton type="submit">프로젝트 등록</SubmitButton>
-      </Form>
+        <SubmitButton onClick={handleSubmit}>프로젝트 등록</SubmitButton>
+      </FormContainer>
     </Container>
   );
-};
+}
