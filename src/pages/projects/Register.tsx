@@ -96,32 +96,6 @@ const TechTag = styled.span`
   }
 `;
 
-const Toolbar = styled.div`
-  display: flex;
-  gap: 8px;
-  margin-bottom: 16px;
-  padding: 8px 0;
-  border-bottom: 1px solid #ddd;
-`;
-
-const ToolButton = styled.button`
-  background: #fff;
-  border: 1px solid #ddd;
-  color: #666;
-  font-size: 13px;
-  cursor: pointer;
-  padding: 6px 12px;
-  font-weight: 500;
-  transition: all 0.2s;
-  border-radius: 4px;
-  
-  &:hover {
-    background: #f5f5f5;
-    border-color: #bbb;
-    color: #333;
-  }
-`;
-
 const SubmitButton = styled.button`
   background: #4f46e5;
   color: white;
@@ -156,25 +130,6 @@ export default function Register() {
 
   const removeTech = (tech: string) => {
     setTechStack(techStack.filter((t) => t !== tech));
-  };
-
-  const insertMarkdown = (before: string, after: string = "") => {
-    const textarea = textareaRef.current;
-    if (!textarea) return;
-
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
-    const text = description;
-    const selectedText = text.substring(start, end);
-
-    const newText = text.substring(0, start) + before + selectedText + after + text.substring(end);
-    setDescription(newText);
-
-    setTimeout(() => {
-      textarea.focus();
-      const newCursorPos = start + before.length + selectedText.length;
-      textarea.setSelectionRange(newCursorPos, newCursorPos);
-    }, 0);
   };
 
   const handleSubmit = () => {
@@ -224,17 +179,6 @@ export default function Register() {
           />
 
           <Label>프로젝트 설명</Label>
-          <Toolbar>
-            <ToolButton type="button" onClick={() => insertMarkdown("# ", "")}>H1</ToolButton>
-            <ToolButton type="button" onClick={() => insertMarkdown("## ", "")}>H2</ToolButton>
-            <ToolButton type="button" onClick={() => insertMarkdown("### ", "")}>H3</ToolButton>
-            <ToolButton type="button" onClick={() => insertMarkdown("**", "**")}>Bold</ToolButton>
-            <ToolButton type="button" onClick={() => insertMarkdown("*", "*")}>Italic</ToolButton>
-            <ToolButton type="button" onClick={() => insertMarkdown("`", "`")}>Code</ToolButton>
-            <ToolButton type="button" onClick={() => insertMarkdown("```\n", "\n```")}>Block</ToolButton>
-            <ToolButton type="button" onClick={() => insertMarkdown("[", "](url)")}>Link</ToolButton>
-            <ToolButton type="button" onClick={() => insertMarkdown("- ", "")}>List</ToolButton>
-          </Toolbar>
           <Textarea
             ref={textareaRef}
             minRows={8}
