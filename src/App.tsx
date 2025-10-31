@@ -4,6 +4,7 @@ import Login from "./pages/Login"
 import Register from "./pages/projects/Register"
 import Layout from "./components/layout/Layout"
 import "./App.css"
+import Projects from "./pages/projects/Projects"
 
 function App() {
 
@@ -14,6 +15,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/projects">
+            <Route index element={<Projects />} />
             <Route path="register" element={<Register />} />
           </Route>
         </Routes>
