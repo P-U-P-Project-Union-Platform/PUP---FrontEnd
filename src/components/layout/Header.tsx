@@ -52,7 +52,7 @@ const NavLink = styled(Link)`
   }
 `;
 
-const LoginButton = styled.button`
+const LoginButton = styled(Link)`
   background: #2a2a2a;
   border: none;
   color: white;
@@ -61,9 +61,28 @@ const LoginButton = styled.button`
   font-size: 1rem;
   cursor: pointer;
   transition: background 0.2s;
+  text-decoration: none;
+  display: inline-block;
 
   &:hover {
     background: #3a3a3a;
+  }
+`;
+
+const SignupButton = styled(Link)`
+  background: transparent;
+  border: 1px solid #2a2a2a;
+  color: white;
+  padding: 0.7rem 1.8rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+  display: inline-block;
+
+  &:hover {
+    background: #2a2a2a;
   }
 `;
 
@@ -76,7 +95,8 @@ export default function Header() {
         <NavLink to="#">인원 모집</NavLink>
         <NavLink to="#">커뮤니티</NavLink>
         <NavLink to="#">마이페이지</NavLink>
-        <LoginButton>로그인</LoginButton>
+        <SignupButton to="/signup">회원가입</SignupButton>
+        <LoginButton to="/login">로그인</LoginButton>
       </Nav>
     </HeaderContainer>
   );

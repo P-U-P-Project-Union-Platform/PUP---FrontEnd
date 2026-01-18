@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -73,6 +74,22 @@ const Logo = styled.img`
   height: 32px;
 `;
 
+const LinkText = styled.p`
+  margin-top: 16px;
+  font-size: 14px;
+  color: #6b7280;
+`;
+
+const StyledLink = styled(Link)`
+  color: #4f46e5;
+  text-decoration: none;
+  font-weight: 500;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
 export default function Login() {
   const handleGithubLogin = () => {
     console.log("깃허브 로그인 클릭됨!");
@@ -90,6 +107,9 @@ export default function Login() {
           </IconWrapper>
           GitHub 계정으로 로그인
         </LoginButton>
+        <LinkText>
+          계정이 없으신가요? <StyledLink to="/signup">회원가입</StyledLink>
+        </LinkText>
       </Section>
     </Container>
   );
