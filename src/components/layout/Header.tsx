@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const HeaderContainer = styled.header`
   position: fixed;
@@ -39,7 +40,7 @@ const Nav = styled.nav`
   }
 `;
 
-const NavLink = styled.a`
+const NavLink = styled(Link)`
   color: rgba(255, 255, 255, 0.8);
   text-decoration: none;
   font-size: 1rem;
@@ -71,10 +72,10 @@ export default function Header() {
     <HeaderContainer>
       <Logo>C</Logo>
       <Nav>
-        <NavLink>프로젝트</NavLink>
-        <NavLink>인원 모집</NavLink>
-        <NavLink>커뮤니티</NavLink>
-        <NavLink>마이페이지</NavLink>
+        <NavLink to="/projects">프로젝트</NavLink>
+        <NavLink to="#">인원 모집</NavLink>
+        <NavLink to="#">커뮤니티</NavLink>
+        <NavLink to="#">마이페이지</NavLink>
         <LoginButton>로그인</LoginButton>
       </Nav>
     </HeaderContainer>
