@@ -1,95 +1,18 @@
 import { useState, useRef, ChangeEvent, DragEvent } from 'react';
-import styled from 'styled-components';
 import { validateImageFile, compressImage } from '../../utils/imageUtils';
-
-const Container = styled.div`
-  margin-bottom: 32px;
-`;
-
-const Label = styled.div`
-  font-size: 14px;
-  color: #666;
-  margin-bottom: 8px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-`;
-
-const UploadArea = styled.div<{ isDragging: boolean }>`
-  border: 2px dashed ${(props) => (props.isDragging ? '#4f46e5' : '#ddd')};
-  border-radius: 12px;
-  padding: 3rem;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.2s;
-  background: ${(props) => (props.isDragging ? '#f0f0ff' : '#fff')};
-
-  &:hover {
-    border-color: #4f46e5;
-    background: #f9f9ff;
-  }
-`;
-
-const UploadIcon = styled.div`
-  font-size: 48px;
-  margin-bottom: 12px;
-`;
-
-const UploadText = styled.p`
-  color: #666;
-  font-size: 16px;
-  margin: 8px 0;
-`;
-
-const UploadHint = styled.p`
-  color: #999;
-  font-size: 13px;
-  margin: 4px 0;
-`;
-
-const PreviewContainer = styled.div`
-  position: relative;
-  border-radius: 12px;
-  overflow: hidden;
-  background: #f5f5f5;
-`;
-
-const PreviewImage = styled.img`
-  width: 100%;
-  height: 240px;
-  object-fit: cover;
-`;
-
-const RemoveButton = styled.button`
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  background: rgba(0, 0, 0, 0.7);
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 32px;
-  height: 32px;
-  font-size: 18px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.2s;
-
-  &:hover {
-    background: rgba(0, 0, 0, 0.9);
-  }
-`;
-
-const ErrorText = styled.p`
-  color: #ef4444;
-  font-size: 14px;
-  margin-top: 8px;
-`;
-
-const HiddenInput = styled.input`
-  display: none;
-`;
+import {
+  Container,
+  Label,
+  UploadArea,
+  UploadIcon,
+  UploadText,
+  UploadHint,
+  PreviewContainer,
+  PreviewImage,
+  RemoveButton,
+  ErrorText,
+  HiddenInput,
+} from '../../styles/components/projects/imageUploaderStyles';
 
 interface ImageUploaderProps {
   value: string | null;

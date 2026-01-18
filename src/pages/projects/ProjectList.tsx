@@ -1,134 +1,27 @@
 import { useState, useMemo, useEffect } from 'react';
-import { useSearchParams, Link } from 'react-router-dom';
-import styled from 'styled-components';
+import { useSearchParams } from 'react-router-dom';
 import { projectService, filterProjects } from '../../services/projectService';
 import { PROJECT_CATEGORIES, type ProjectCategory } from '../../types/project';
 import SearchBar from '../../components/projects/SearchBar';
 import ProjectCard from '../../components/projects/ProjectCard';
 import { initializeMockData } from '../../services/mockData';
-
-const Container = styled.div`
-  background: #f9f9f9;
-  min-height: 100vh;
-  padding: 80px 40px 60px;
-
-  @media (max-width: 768px) {
-    padding: 80px 20px 40px;
-  }
-`;
-
-const Header = styled.div`
-  max-width: 1200px;
-  margin: 0 auto 3rem;
-`;
-
-const Title = styled.h1`
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: #1a1a1a;
-  margin-bottom: 1rem;
-
-  @media (max-width: 768px) {
-    font-size: 2rem;
-  }
-`;
-
-const SearchSection = styled.div`
-  margin-bottom: 2rem;
-`;
-
-const FilterSection = styled.div`
-  margin-bottom: 2rem;
-`;
-
-const FilterLabel = styled.div`
-  font-size: 14px;
-  color: #666;
-  margin-bottom: 12px;
-  font-weight: 600;
-`;
-
-const CategoryFilters = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-`;
-
-const CategoryChip = styled.button<{ $active: boolean }>`
-  background: ${(props) => (props.$active ? '#4f46e5' : '#fff')};
-  color: ${(props) => (props.$active ? 'white' : '#666')};
-  border: 1px solid ${(props) => (props.$active ? '#4f46e5' : '#ddd')};
-  border-radius: 20px;
-  padding: 8px 16px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: all 0.2s;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-
-  &:hover {
-    background: ${(props) => (props.$active ? '#4338ca' : '#f5f5f5')};
-    border-color: ${(props) => (props.$active ? '#4338ca' : '#bbb')};
-  }
-`;
-
-const Grid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
-
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-`;
-
-const EmptyState = styled.div`
-  text-align: center;
-  padding: 4rem 2rem;
-  color: #666;
-`;
-
-const EmptyIcon = styled.div`
-  font-size: 64px;
-  margin-bottom: 1rem;
-`;
-
-const EmptyText = styled.p`
-  font-size: 1.125rem;
-  margin-bottom: 0.5rem;
-`;
-
-const EmptyHint = styled.p`
-  font-size: 0.9rem;
-  color: #999;
-`;
-
-const RegisterButton = styled(Link)`
-  display: inline-block;
-  background: #4f46e5;
-  color: white;
-  padding: 12px 24px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: 600;
-  margin-top: 1.5rem;
-  transition: background 0.2s;
-
-  &:hover {
-    background: #4338ca;
-  }
-`;
-
-const ResultCount = styled.p`
-  text-align: center;
-  color: #666;
-  font-size: 0.9rem;
-  margin-top: 2rem;
-`;
+import {
+  Container,
+  Header,
+  Title,
+  SearchSection,
+  FilterSection,
+  FilterLabel,
+  CategoryFilters,
+  CategoryChip,
+  Grid,
+  EmptyState,
+  EmptyIcon,
+  EmptyText,
+  EmptyHint,
+  RegisterButton,
+  ResultCount,
+} from '../../styles/pages/projects/listStyles';
 
 export default function ProjectList() {
   const [searchParams, setSearchParams] = useSearchParams();

@@ -1,79 +1,13 @@
 import { useState } from 'react';
-import styled from 'styled-components';
-
-const Container = styled.div`
-  margin-bottom: 24px;
-`;
-
-const Label = styled.div`
-  font-size: 14px;
-  color: #666;
-  margin-bottom: 8px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-`;
-
-const Input = styled.input`
-  width: 100%;
-  background: transparent;
-  border: none;
-  border-bottom: 1px solid #ddd;
-  color: #1a1a1a;
-  font-size: 16px;
-  padding: 12px 0;
-  font-family: inherit;
-  outline: none;
-
-  &::placeholder {
-    color: #aaa;
-    font-style: italic;
-  }
-`;
-
-const TagList = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 16px;
-`;
-
-const Tag = styled.span`
-  background: #fff;
-  color: #333;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  padding: 6px 14px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: all 0.2s;
-
-  &:hover {
-    background: #f5f5f5;
-    border-color: #bbb;
-  }
-`;
-
-const Suggestions = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 12px;
-`;
-
-const SuggestionTag = styled.span`
-  background: #f0f0f0;
-  color: #666;
-  border-radius: 4px;
-  padding: 4px 10px;
-  font-size: 13px;
-  cursor: pointer;
-  transition: all 0.2s;
-
-  &:hover {
-    background: #4f46e5;
-    color: white;
-  }
-`;
+import {
+  Container,
+  Label,
+  Input,
+  TagList,
+  Tag,
+  Suggestions,
+  SuggestionTag,
+} from '../../styles/components/projects/tagInputStyles';
 
 interface TagInputProps {
   label: string;
