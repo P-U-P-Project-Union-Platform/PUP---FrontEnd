@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useApp } from '../contexts/AppContext';
 import ImageUploader from '../components/projects/ImageUploader';
 import TagInput from '../components/projects/TagInput';
 import {
@@ -34,6 +35,7 @@ interface Position {
 
 export default function RecruitWrite() {
   const navigate = useNavigate();
+  const { addRecruit } = useApp();
   const [thumbnail, setThumbnail] = useState<string>('');
   const [projectTitle, setProjectTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -94,7 +96,7 @@ export default function RecruitWrite() {
       return;
     }
 
-    // 프로젝트 데이터 생성 (실제로는 API 호출)
+    // 프로젝트 데이터 생성
     const recruitData = {
       thumbnail,
       projectTitle,
@@ -103,14 +105,15 @@ export default function RecruitWrite() {
       tags,
       author: '김개발', // 실제로는 로그인한 사용자 정보
       date: new Date().toISOString().split('T')[0],
-      status: 'recruiting'
+      status: 'recruiting' as const
     };
 
-    console.log('모집 공고 등록:', recruitData);
+    // Context에 추가
+    addRecruit(recruitData);
 
     // 프로젝트 목록 페이지로 이동
     alert('모집 공고가 등록되었습니다!');
-    navigate('/projects');
+    navigate('/recruit');
   };
 
   const handleCancel = () => {

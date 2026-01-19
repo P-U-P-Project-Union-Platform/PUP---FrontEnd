@@ -8,17 +8,20 @@ import ProjectDetail from "./pages/projects/ProjectDetail"
 import Recruit from "./pages/Recruit"
 import RecruitWrite from "./pages/RecruitWrite"
 import Community from "./pages/Community"
+import CommunityWrite from "./pages/CommunityWrite"
 import CommunityDetail from "./pages/CommunityDetail"
 import MyPage from "./pages/MyPage"
 import ProfileEdit from "./pages/ProfileEdit"
 import Layout from "./components/layout/Layout"
+import { AppProvider } from "./contexts/AppContext"
 import "./App.css"
 
 function App() {
 
   return (
-    <BrowserRouter>
-    <Layout>
+    <AppProvider>
+      <BrowserRouter>
+        <Layout>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
@@ -34,6 +37,7 @@ function App() {
           </Route>
           <Route path="/community">
             <Route index element={<Community />} />
+            <Route path="write" element={<CommunityWrite />} />
             <Route path=":id" element={<CommunityDetail />} />
           </Route>
           <Route path="/mypage">
@@ -41,8 +45,9 @@ function App() {
             <Route path="edit" element={<ProfileEdit />} />
           </Route>
         </Routes>
-    </Layout>
-    </BrowserRouter>
+      </Layout>
+      </BrowserRouter>
+    </AppProvider>
   )
 }
 

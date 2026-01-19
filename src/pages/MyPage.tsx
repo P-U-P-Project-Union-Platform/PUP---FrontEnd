@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useApp } from '../contexts/AppContext';
 import {
   Container,
   MaxWidthWrapper,
@@ -91,6 +92,7 @@ const myPosts: Post[] = [
 
 export default function MyPage() {
   const navigate = useNavigate();
+  const { userProfile } = useApp();
   const [activeTab, setActiveTab] = useState('내 프로젝트');
 
   const renderContent = () => {
@@ -162,14 +164,11 @@ export default function MyPage() {
       <MaxWidthWrapper>
         <ProfileSection>
           <ProfileHeader>
-            <Avatar>김</Avatar>
+            <Avatar>{userProfile.name.charAt(0)}</Avatar>
             <ProfileInfo>
-              <Name>김개발</Name>
-              <Email>developer@example.com</Email>
-              <Bio>
-                풀스택 개발자입니다. 새로운 기술을 배우고 적용하는 것을 좋아합니다.
-                함께 성장할 수 있는 프로젝트에 관심이 많습니다.
-              </Bio>
+              <Name>{userProfile.name}</Name>
+              <Email>{userProfile.email}</Email>
+              <Bio>{userProfile.bio}</Bio>
             </ProfileInfo>
             <EditButton onClick={() => navigate('/mypage/edit')}>프로필 수정</EditButton>
           </ProfileHeader>

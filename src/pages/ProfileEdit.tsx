@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useApp } from '../contexts/AppContext';
 import {
   Container,
   FormWrapper,
@@ -23,14 +24,12 @@ import {
 
 export default function ProfileEdit() {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    name: '김개발',
-    email: 'developer@example.com',
-    bio: '풀스택 개발자입니다. 새로운 기술을 배우고 적용하는 것을 좋아합니다.\n함께 성장할 수 있는 프로젝트에 관심이 많습니다.',
-    github: 'https://github.com/username',
-    blog: 'https://blog.example.com',
-    portfolio: 'https://portfolio.example.com'
-  });
+  const { userProfile, updateProfile } = useApp();
+  const [formData, setFormData] = useState(userProfile);
+
+  useEffect(() => {
+    setFormData(userProfile);
+  }, [userProfile]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -43,8 +42,8 @@ export default function ProfileEdit() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // 실제로는 API 호출
-    console.log('프로필 업데이트:', formData);
+    // Context 업데이트
+    updateProfile(formData);
 
     alert('프로필이 업데이트되었습니다!');
     navigate('/mypage');
@@ -70,7 +69,7 @@ export default function ProfileEdit() {
           <Section>
             <Label>프로필 사진</Label>
             <AvatarSection>
-              <Avatar>김</Avatar>
+              <Avatar>{formData.name.charAt(0)}</Avatar>
               <AvatarInfo>
                 <AvatarButton type="button">사진 변경</AvatarButton>
                 <HelpText>JPG, PNG 형식 / 최대 2MB</HelpText>

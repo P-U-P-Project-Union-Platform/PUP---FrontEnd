@@ -161,7 +161,97 @@ export const GithubLink = styled.a`
   transition: background ${theme.transitions.base};
 
   &:hover {
-    background: ${theme.colors.bgDarkHover};
+    background: #1a1a1a;
+  }
+`;
+
+export const RecruitSection = styled.div`
+  margin-top: ${theme.spacing['2xl']};
+  padding: ${theme.spacing.xl};
+  background: ${theme.colors.primaryLight};
+  border-radius: ${theme.borderRadius.lg};
+  border: 2px solid ${theme.colors.primary};
+`;
+
+export const RecruitHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: ${theme.spacing.lg};
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: ${theme.spacing.md};
+  }
+`;
+
+export const RecruitTitle = styled.h2`
+  font-size: ${theme.fontSizes.xl};
+  font-weight: ${theme.fontWeights.bold};
+  color: ${theme.colors.primary};
+`;
+
+export const RecruitStatus = styled.span<{ isOpen: boolean }>`
+  padding: ${theme.spacing.xs} ${theme.spacing.md};
+  background: ${props => props.isOpen ? theme.colors.success : theme.colors.textTertiary};
+  color: ${theme.colors.textWhite};
+  border-radius: ${theme.borderRadius.sm};
+  font-size: ${theme.fontSizes.sm};
+  font-weight: ${theme.fontWeights.semibold};
+`;
+
+export const PositionList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${theme.spacing.md};
+  margin-bottom: ${theme.spacing.xl};
+`;
+
+export const PositionItem = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: ${theme.spacing.md};
+  background: ${theme.colors.bgWhite};
+  border-radius: ${theme.borderRadius.md};
+  border: 1px solid ${theme.colors.border};
+`;
+
+export const PositionName = styled.span`
+  font-size: ${theme.fontSizes.base};
+  font-weight: ${theme.fontWeights.medium};
+  color: ${theme.colors.textPrimary};
+`;
+
+export const PositionCount = styled.span`
+  font-size: ${theme.fontSizes.base};
+  color: ${theme.colors.primary};
+  font-weight: ${theme.fontWeights.semibold};
+`;
+
+export const ApplyButton = styled.button`
+  width: 100%;
+  padding: ${theme.spacing.md} ${theme.spacing.xl};
+  background: ${theme.colors.primary};
+  color: ${theme.colors.textWhite};
+  border: none;
+  border-radius: ${theme.borderRadius.md};
+  font-size: ${theme.fontSizes.lg};
+  font-weight: ${theme.fontWeights.bold};
+  cursor: pointer;
+  transition: all ${theme.transitions.base};
+
+  &:hover {
+    background: ${theme.colors.primaryHover};
+    transform: translateY(-2px);
+  }
+
+  &:disabled {
+    background: ${theme.colors.bgGray};
+    color: ${theme.colors.textTertiary};
+    cursor: not-allowed;
+    transform: none;
   }
 `;
 
