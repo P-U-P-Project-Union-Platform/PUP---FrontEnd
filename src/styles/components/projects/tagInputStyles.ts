@@ -43,7 +43,7 @@ export const Tag = styled.span`
   color: ${theme.colors.textPrimary};
   border: 1px solid ${theme.colors.border};
   border-radius: ${theme.borderRadius.md};
-  padding: 6px 14px;
+  padding: ${theme.spacing.sm} ${theme.spacing.md};
   font-size: ${theme.fontSizes.sm};
   cursor: pointer;
   transition: all ${theme.transitions.base};
@@ -65,7 +65,7 @@ export const SuggestionTag = styled.span`
   background: ${theme.colors.bgGray};
   color: ${theme.colors.textSecondary};
   border-radius: ${theme.borderRadius.sm};
-  padding: 4px 10px;
+  padding: ${theme.spacing.xs} ${theme.spacing.sm};
   font-size: ${theme.fontSizes.sm};
   cursor: pointer;
   transition: all ${theme.transitions.base};
