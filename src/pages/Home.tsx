@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import {
     Container,
     Main,
@@ -14,6 +15,8 @@ import {
 } from '../styles/pages/homeStyles';
 
 export default function Home() {
+    const navigate = useNavigate();
+
     return (
         <Container>
             <Main>
@@ -27,8 +30,8 @@ export default function Home() {
                         지금 1,200+ 개의 프로젝트가 파트너를 기다리고 있습니다.
                     </Description>
                     <ButtonGroup>
-                        <Button primary>프로젝트 보기</Button>
-                        <Button>인원 모집 보기</Button>
+                        <Button primary onClick={() => navigate('/projects')}>프로젝트 보기</Button>
+                        <Button onClick={() => navigate('/community')}>커뮤니티 보기</Button>
                     </ButtonGroup>
                 </HeroContent>
 
