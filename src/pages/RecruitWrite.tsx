@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useApp } from '../contexts/AppContext';
+import { projectService } from '../services/projectService';
+import { PROJECT_CATEGORIES } from '../types/project';
 import ImageUploader from '../components/projects/ImageUploader';
 import TagInput from '../components/projects/TagInput';
+import CategorySelector from '../components/projects/CategorySelector';
 import {
   Container,
   FormWrapper,
@@ -35,14 +37,16 @@ interface Position {
 
 export default function RecruitWrite() {
   const navigate = useNavigate();
-  const { addRecruit } = useApp();
   const [thumbnail, setThumbnail] = useState<string>('');
+  const [category, setCategory] = useState<string>('');
   const [projectTitle, setProjectTitle] = useState('');
   const [description, setDescription] = useState('');
   const [positions, setPositions] = useState<Position[]>([
     { name: '', count: '' }
   ]);
   const [tags, setTags] = useState<string[]>([]);
+  const [techStack, setTechStack] = useState<string[]>([]);
+  const [github, setGithub] = useState('');
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
   const handleAddPosition = () => {
@@ -64,8 +68,8 @@ export default function RecruitWrite() {
   const validateForm = (): boolean => {
     const newErrors: { [key: string]: string } = {};
 
-    if (!thumbnail) {
-      newErrors.thumbnail = '썸네일 이미지를 업로드해주세요.';
+    if (!category) {
+      newErrors.category = '카테고리를 선택해주세요.';
     }
 
     if (!projectTitle.trim()) {
@@ -81,8 +85,8 @@ export default function RecruitWrite() {
       newErrors.positions = '최소 1개 이상의 포지션을 입력해주세요.';
     }
 
-    if (tags.length === 0) {
-      newErrors.tags = '최소 1개 이상의 기술 태그를 입력해주세요.';
+    if (techStack.length === 0) {
+      newErrors.techStack = '최소 1개 이상의 기술 스택을 입력해주세요.';
     }
 
     setErrors(newErrors);
@@ -97,28 +101,33 @@ export default function RecruitWrite() {
     }
 
     // 프로젝트 데이터 생성
-    const recruitData = {
-      thumbnail,
-      projectTitle,
+    const projectData = {
+      title: projectTitle,
       description,
-      positions: positions.filter(p => p.name.trim() && p.count.trim()),
+      thumbnail: thumbnail || null,
+      category: category as any,
       tags,
-      author: '김개발', // 실제로는 로그인한 사용자 정보
-      date: new Date().toISOString().split('T')[0],
-      status: 'recruiting' as const
+      techStack,
+      github,
+      author: {
+        id: '1',
+        name: '김개발' // 실제로는 로그인한 사용자 정보
+      },
+      status: 'recruiting' as const,
+      positions: positions.filter(p => p.name.trim() && p.count.trim())
     };
 
-    // Context에 추가
-    addRecruit(recruitData);
+    // 프로젝트 서비스에 추가
+    projectService.create(projectData);
 
     // 프로젝트 목록 페이지로 이동
-    alert('모집 공고가 등록되었습니다!');
-    navigate('/recruit');
+    alert('인원 모집 프로젝트가 등록되었습니다!');
+    navigate('/projects');
   };
 
   const handleCancel = () => {
     if (window.confirm('작성을 취소하시겠습니까? 입력한 내용이 모두 사라집니다.')) {
-      navigate('/recruit');
+      navigate('/projects');
     }
   };
 
@@ -135,14 +144,24 @@ export default function RecruitWrite() {
         <Form onSubmit={handleSubmit}>
           <Section>
             <Label>
-              프로젝트 썸네일<Required>*</Required>
+              프로젝트 썸네일
             </Label>
             <ImageUploader
               value={thumbnail}
               onChange={setThumbnail}
             />
-            {errors.thumbnail && <ErrorMessage>{errors.thumbnail}</ErrorMessage>}
             <HelpText>프로젝트를 대표하는 이미지를 업로드해주세요 (JPG, PNG, WEBP, GIF / 최대 5MB)</HelpText>
+          </Section>
+
+          <Section>
+            <Label>
+              카테고리<Required>*</Required>
+            </Label>
+            <CategorySelector
+              value={category}
+              onChange={setCategory}
+            />
+            {errors.category && <ErrorMessage>{errors.category}</ErrorMessage>}
           </Section>
 
           <Section>
@@ -215,15 +234,41 @@ export default function RecruitWrite() {
 
           <Section>
             <Label>
-              기술 스택<Required>*</Required>
+              해시태그
             </Label>
             <TagInput
               tags={tags}
               onChange={setTags}
+              placeholder="해시태그를 입력하고 Enter를 눌러주세요"
+            />
+            <HelpText>프로젝트 관련 해시태그를 입력해주세요 (예: #초보환영 #팀프로젝트)</HelpText>
+          </Section>
+
+          <Section>
+            <Label>
+              기술 스택<Required>*</Required>
+            </Label>
+            <TagInput
+              tags={techStack}
+              onChange={setTechStack}
               placeholder="기술 스택을 입력하고 Enter를 눌러주세요"
             />
-            {errors.tags && <ErrorMessage>{errors.tags}</ErrorMessage>}
-            <HelpText>프로젝트에 사용되는 기술 스택을 입력해주세요</HelpText>
+            {errors.techStack && <ErrorMessage>{errors.techStack}</ErrorMessage>}
+            <HelpText>프로젝트에 사용되는 기술 스택을 입력해주세요 (예: React, TypeScript)</HelpText>
+          </Section>
+
+          <Section>
+            <Label htmlFor="github">
+              GitHub 저장소 URL
+            </Label>
+            <Input
+              id="github"
+              type="url"
+              placeholder="https://github.com/username/project"
+              value={github}
+              onChange={(e) => setGithub(e.target.value)}
+            />
+            <HelpText>GitHub 저장소 URL이 있다면 입력해주세요</HelpText>
           </Section>
 
           <ButtonGroup>

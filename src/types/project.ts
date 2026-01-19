@@ -28,6 +28,9 @@ export const POPULAR_TAGS = [
   '오프라인',
 ];
 
+// 프로젝트 상태
+export type ProjectStatus = 'in_progress' | 'recruiting' | 'completed';
+
 // 프로젝트 인터페이스
 export interface Project {
   id: string;
@@ -46,6 +49,8 @@ export interface Project {
   };
   views: number;
   likes: number;
+  status: ProjectStatus; // 프로젝트 상태
+  positions?: { name: string; count: string }[]; // 모집 포지션 (선택)
 }
 
 // 프로젝트 등록 폼 데이터

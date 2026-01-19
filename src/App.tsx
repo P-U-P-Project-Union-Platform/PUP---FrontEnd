@@ -5,7 +5,6 @@ import Signup from "./pages/Signup"
 import Register from "./pages/projects/Register"
 import ProjectList from "./pages/projects/ProjectList"
 import ProjectDetail from "./pages/projects/ProjectDetail"
-import Recruit from "./pages/Recruit"
 import RecruitWrite from "./pages/RecruitWrite"
 import Community from "./pages/Community"
 import CommunityWrite from "./pages/CommunityWrite"
@@ -31,10 +30,7 @@ function App() {
             <Route path="register" element={<Register />} />
             <Route path=":id" element={<ProjectDetail />} />
           </Route>
-          <Route path="/recruit">
-            <Route index element={<Recruit />} />
-            <Route path="write" element={<RecruitWrite />} />
-          </Route>
+          <Route path="/recruit" element={<RecruitWrite />} />
           <Route path="/community">
             <Route index element={<Community />} />
             <Route path="write" element={<CommunityWrite />} />
