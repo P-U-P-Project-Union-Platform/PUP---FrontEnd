@@ -1,34 +1,49 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { BrowserRouter, Route, Routes } from "react-router-dom"
+import Home from "./pages/Home"
+import Login from "./pages/Login"
+import Signup from "./pages/Signup"
+import Register from "./pages/projects/Register"
+import ProjectList from "./pages/projects/ProjectList"
+import ProjectDetail from "./pages/projects/ProjectDetail"
+import RecruitWrite from "./pages/RecruitWrite"
+import Community from "./pages/Community"
+import CommunityWrite from "./pages/CommunityWrite"
+import CommunityDetail from "./pages/CommunityDetail"
+import MyPage from "./pages/MyPage"
+import ProfileEdit from "./pages/ProfileEdit"
+import Layout from "./components/layout/Layout"
+import { AppProvider } from "./contexts/AppContext"
+import "./App.css"
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <AppProvider>
+      <BrowserRouter>
+        <Layout>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/projects">
+            <Route index element={<ProjectList />} />
+            <Route path="register" element={<Register />} />
+            <Route path=":id" element={<ProjectDetail />} />
+          </Route>
+          <Route path="/recruit" element={<RecruitWrite />} />
+          <Route path="/community">
+            <Route index element={<Community />} />
+            <Route path="write" element={<CommunityWrite />} />
+            <Route path=":id" element={<CommunityDetail />} />
+          </Route>
+          <Route path="/mypage">
+            <Route index element={<MyPage />} />
+            <Route path="edit" element={<ProfileEdit />} />
+          </Route>
+        </Routes>
+      </Layout>
+      </BrowserRouter>
+    </AppProvider>
   )
 }
 

@@ -1,0 +1,203 @@
+import { useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { projectService } from '../../services/projectService';
+import { PROJECT_CATEGORIES } from '../../types/project';
+import {
+  Container,
+  Content,
+  Thumbnail,
+  ThumbnailImage,
+  DetailContent,
+  BackLink,
+  CategoryBadge,
+  Title,
+  MetaInfo,
+  MetaItem,
+  Section,
+  SectionLabel,
+  Description,
+  TagList,
+  Tag,
+  TechStack,
+  Tech,
+  GithubLink,
+  RecruitSection,
+  RecruitHeader,
+  RecruitTitle,
+  RecruitStatus,
+  PositionList,
+  PositionItem,
+  PositionName,
+  PositionCount,
+  ApplyButton,
+  NotFound,
+  NotFoundIcon,
+  NotFoundText,
+  NotFoundLink,
+} from '../../styles/pages/projects/detailStyles';
+
+// 임시 인원 모집 데이터 (실제로는 프로젝트 데이터에 포함되어야 함)
+const recruitData: { [key: string]: any } = {
+  '1': {
+    isRecruiting: true,
+    positions: [
+      { name: '프론트엔드 개발자', current: 1, total: 2 },
+      { name: 'AI 엔지니어', current: 0, total: 1 },
+      { name: 'UI/UX 디자이너', current: 1, total: 1 }
+    ]
+  },
+  '2': {
+    isRecruiting: true,
+    positions: [
+      { name: '백엔드 개발자', current: 0, total: 2 },
+      { name: '모바일 개발자', current: 1, total: 2 }
+    ]
+  }
+};
+
+export default function ProjectDetail() {
+  const { id } = useParams<{ id: string }>();
+  const project = id ? projectService.getById(id) : null;
+  const recruitInfo = id ? recruitData[id] : null;
+  const [hasApplied, setHasApplied] = useState(false);
+
+  if (!project) {
+    return (
+      <Container>
+        <NotFound>
+          <NotFoundIcon>❓</NotFoundIcon>
+          <NotFoundText>프로젝트를 찾을 수 없습니다</NotFoundText>
+          <NotFoundLink to="/projects">목록으로 돌아가기</NotFoundLink>
+        </NotFound>
+      </Container>
+    );
+  }
+
+  const category = PROJECT_CATEGORIES.find((c) => c.id === project.category);
+  const createdDate = new Date(project.createdAt).toLocaleDateString('ko-KR');
+
+  const handleApply = () => {
+    if (hasApplied) {
+      alert('이미 지원하셨습니다!');
+      return;
+    }
+
+    const confirmed = window.confirm('이 프로젝트에 지원하시겠습니까?');
+    if (confirmed) {
+      // 실제로는 API 호출
+      console.log('프로젝트 지원:', id);
+      setHasApplied(true);
+      alert('지원이 완료되었습니다! 프로젝트 담당자가 연락드릴 예정입니다.');
+    }
+  };
+
+  const isRecruitingOpen = recruitInfo?.isRecruiting && recruitInfo.positions.some(
+    (pos: any) => pos.current < pos.total
+  );
+
+  return (
+    <Container>
+      <Content>
+        <Thumbnail $hasImage={!!project.thumbnail}>
+          {project.thumbnail ? (
+            <ThumbnailImage src={project.thumbnail} alt={project.title} />
+          ) : (
+            <span>{category?.icon || '📦'}</span>
+          )}
+        </Thumbnail>
+
+        <DetailContent>
+          <BackLink to="/projects">← 목록으로</BackLink>
+
+          <CategoryBadge>
+            {category?.icon} {category?.label}
+          </CategoryBadge>
+
+          <Title>{project.title}</Title>
+
+          <MetaInfo>
+            <MetaItem>
+              👤 {project.author.name}
+            </MetaItem>
+            <MetaItem>
+              📅 {createdDate}
+            </MetaItem>
+            <MetaItem>
+              👁 {project.views}회 조회
+            </MetaItem>
+            <MetaItem>
+              ❤️ {project.likes}개 좋아요
+            </MetaItem>
+          </MetaInfo>
+
+          <Section>
+            <SectionLabel>프로젝트 설명</SectionLabel>
+            <Description>{project.description}</Description>
+          </Section>
+
+          {project.tags.length > 0 && (
+            <Section>
+              <SectionLabel>해시태그</SectionLabel>
+              <TagList>
+                {project.tags.map((tag) => (
+                  <Tag key={tag}>{tag}</Tag>
+                ))}
+              </TagList>
+            </Section>
+          )}
+
+          <Section>
+            <SectionLabel>기술 스택</SectionLabel>
+            <TechStack>
+              {project.techStack.map((tech) => (
+                <Tech key={tech}>{tech}</Tech>
+              ))}
+            </TechStack>
+          </Section>
+
+          {project.github && (
+            <Section>
+              <SectionLabel>GitHub 저장소</SectionLabel>
+              <GithubLink
+                href={project.github}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                📦 GitHub에서 보기
+              </GithubLink>
+            </Section>
+          )}
+
+          {recruitInfo && (
+            <RecruitSection>
+              <RecruitHeader>
+                <RecruitTitle>👥 팀원 모집</RecruitTitle>
+                <RecruitStatus isOpen={isRecruitingOpen}>
+                  {isRecruitingOpen ? '모집중' : '모집완료'}
+                </RecruitStatus>
+              </RecruitHeader>
+
+              <PositionList>
+                {recruitInfo.positions.map((position: any, index: number) => (
+                  <PositionItem key={index}>
+                    <PositionName>{position.name}</PositionName>
+                    <PositionCount>
+                      {position.current}/{position.total}
+                    </PositionCount>
+                  </PositionItem>
+                ))}
+              </PositionList>
+
+              <ApplyButton
+                onClick={handleApply}
+                disabled={!isRecruitingOpen || hasApplied}
+              >
+                {hasApplied ? '지원 완료' : isRecruitingOpen ? '지원하기' : '모집 마감'}
+              </ApplyButton>
+            </RecruitSection>
+          )}
+        </DetailContent>
+      </Content>
+    </Container>
+  );
+}
