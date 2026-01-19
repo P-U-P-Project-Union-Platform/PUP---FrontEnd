@@ -76,7 +76,7 @@ export const LoginButton = styled(Link)`
   font-weight: ${theme.fontWeights.medium};
 
   &:hover {
-    background: #3a3a3a;
+    background: ${theme.colors.borderDarkHover};
   }
 `;
 

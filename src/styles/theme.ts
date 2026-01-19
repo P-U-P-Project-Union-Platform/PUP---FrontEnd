@@ -16,6 +16,7 @@ export const theme = {
     // Border
     border: '#ddd',
     borderDark: '#2a2a2a',
+    borderDarkHover: '#3a3a3a',
     borderLight: '#e5e7eb',
 
     // Text
