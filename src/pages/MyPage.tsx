@@ -29,45 +29,16 @@ import {
   EmptyState,
 } from '../styles/pages/myPageStyles';
 
-// Post 타입은 아직 서비스가 없으므로 임시로 유지합니다.
-interface Post {
-  id: number;
-  title: string;
-  description: string;
-  date: string;
-  likes: number;
-}
-
 const tabs = ['내 프로젝트', '참여 프로젝트', '내 게시글', '스크랩'];
-
-// '내 게시글'은 아직 별도의 서비스가 없으므로 임시 데이터를 유지합니다.
-const myPosts: Post[] = [
-  {
-    id: 1,
-    title: '프로젝트 협업 시 커뮤니케이션 팁',
-    description:
-      '프로젝트를 진행하면서 팀원들과의 원활한 소통이 정말 중요하다는 걸 느꼈어요...',
-    date: '2024-01-18',
-    likes: 45,
-  },
-  {
-    id: 2,
-    title: '사이드 프로젝트로 첫 수익 달성',
-    description:
-      '3개월간 진행했던 사이드 프로젝트에서 드디어 첫 수익이 발생했습니다!',
-    date: '2024-01-12',
-    likes: 89,
-  },
-];
 
 export default function MyPage() {
   const navigate = useNavigate();
-  const { userProfile } = useApp();
+  const { userProfile, communityPosts } = useApp(); // communityPosts 추가
   const [activeTab, setActiveTab] = useState('내 프로젝트');
 
   // --- 데이터 흐름 수정 ---
-  // 1. 가상의 현재 로그인 사용자 ID
-  const currentUserId = '1'; // '홍길동'의 ID로 가정
+  // 1. 가상의 현재 로그인 사용자 ID (프로젝트 필터링용)
+  const currentUserId = '1'; // '김개발'의 ID로 가정
 
   // 2. projectService에서 모든 프로젝트를 가져와 메모이제이션
   const allProjects = useMemo(() => projectService.getAll(), []);
@@ -81,6 +52,12 @@ export default function MyPage() {
   // 4. '참여 프로젝트' 필터링 (현재 데이터 모델로는 구분 불가, 구조만 준비)
   // TODO: Project 모델에 'participants' 필드 추가 후 로직 구현 필요
   const participatingProjects: Project[] = [];
+
+  // 5. '내 게시글' 필터링 (AppContext의 communityPosts 사용)
+  const myFilteredPosts = useMemo(
+    () => communityPosts.filter((post) => post.author === userProfile.name),
+    [communityPosts, userProfile.name]
+  );
   // --- 수정 완료 ---
 
   const renderContent = () => {
@@ -129,17 +106,17 @@ export default function MyPage() {
         );
 
       case '내 게시글':
-        return myPosts.length > 0 ? (
+        return myFilteredPosts.length > 0 ? (
           <ContentGrid>
-            {myPosts.map((post) => (
+            {myFilteredPosts.map((post) => (
               <Card
                 key={post.id}
                 onClick={() => navigate(`/community/${post.id}`)}
               >
                 <CardTitle>{post.title}</CardTitle>
-                <CardDescription>{post.description}</CardDescription>
+                <CardDescription>{post.content}</CardDescription>
                 <CardFooter>
-                  <span>{post.date}</span>
+                  <span>{new Date(post.date).toLocaleDateString()}</span>
                   <span>❤️ {post.likes}</span>
                 </CardFooter>
               </Card>
@@ -183,7 +160,7 @@ export default function MyPage() {
               <StatLabel>참여 프로젝트</StatLabel>
             </StatItem>
             <StatItem>
-              <StatValue>{myPosts.length}</StatValue>
+              <StatValue>{myFilteredPosts.length}</StatValue>
               <StatLabel>게시글</StatLabel>
             </StatItem>
             <StatItem>
