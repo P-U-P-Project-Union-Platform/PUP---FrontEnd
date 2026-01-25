@@ -8,13 +8,13 @@ export const HeaderContainer = styled.header`
   left: 0;
   width: 100%;
   height: 64px;
-  background: ${theme.colors.bgDark};
-  color: ${theme.colors.textWhite};
+  background: var(--color-bg-dark);
+  color: var(--color-text-white);
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 ${theme.spacing.xl};
-  border-bottom: 1px solid ${theme.colors.borderDark};
+  border-bottom: 1px solid var(--color-border-dark);
   z-index: 1000;
 
   @media (max-width: ${theme.breakpoints.tablet}) {
@@ -25,13 +25,13 @@ export const HeaderContainer = styled.header`
 export const Logo = styled(Link)`
   width: 40px;
   height: 40px;
-  background: ${theme.colors.bgWhite};
+  background: #ffffff;
   border-radius: ${theme.borderRadius.md};
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: ${theme.fontWeights.bold};
-  color: ${theme.colors.bgDark};
+  color: #0a0a0a;
   font-size: ${theme.fontSizes.xl};
   text-decoration: none;
   transition: transform ${theme.transitions.base};
@@ -59,13 +59,13 @@ export const NavLink = styled(Link)`
   transition: color ${theme.transitions.base};
 
   &:hover {
-    color: ${theme.colors.textWhite};
+    color: var(--color-text-white);
   }
 `;
 
 export const LoginButton = styled(Link)`
-  background: ${theme.colors.borderDark};
-  color: ${theme.colors.textWhite};
+  background: var(--color-border-dark);
+  color: var(--color-text-white);
   padding: 0.7rem 1.8rem;
   border-radius: ${theme.borderRadius.md};
   font-size: ${theme.fontSizes.base};
@@ -76,14 +76,14 @@ export const LoginButton = styled(Link)`
   font-weight: ${theme.fontWeights.medium};
 
   &:hover {
-    background: ${theme.colors.borderDarkHover};
+    background: var(--color-border-dark-hover);
   }
 `;
 
 export const SignupButton = styled(Link)`
   background: transparent;
-  border: 1px solid ${theme.colors.borderDark};
-  color: ${theme.colors.textWhite};
+  border: 1px solid var(--color-border-dark);
+  color: var(--color-text-white);
   padding: 0.7rem 1.8rem;
   border-radius: ${theme.borderRadius.md};
   font-size: ${theme.fontSizes.base};
@@ -94,6 +94,6 @@ export const SignupButton = styled(Link)`
   font-weight: ${theme.fontWeights.medium};
 
   &:hover {
-    background: ${theme.colors.borderDark};
+    background: var(--color-border-dark);
   }
 `;

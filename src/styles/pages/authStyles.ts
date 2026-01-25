@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { theme } from '../theme';
 
 export const Container = styled.div`
-  background: ${theme.colors.bgLight};
+  background: var(--color-bg-light);
   min-height: 100vh;
   padding: 80px 40px 60px;
 
@@ -24,7 +24,7 @@ export const Header = styled.div`
 export const Title = styled.h1`
   font-size: ${theme.fontSizes['3xl']};
   font-weight: ${theme.fontWeights.bold};
-  color: ${theme.colors.textPrimary};
+  color: var(--color-text-primary);
   margin-bottom: ${theme.spacing.sm};
 
   @media (max-width: ${theme.breakpoints.tablet}) {
@@ -34,14 +34,14 @@ export const Title = styled.h1`
 
 export const Description = styled.p`
   font-size: ${theme.fontSizes.base};
-  color: ${theme.colors.textSecondary};
+  color: var(--color-text-secondary);
 `;
 
 export const FormCard = styled.div`
-  background: ${theme.colors.bgWhite};
+  background: var(--color-bg-white);
   border-radius: ${theme.borderRadius.lg};
   padding: ${theme.spacing['2xl']};
-  box-shadow: ${theme.shadows.md};
+  box-shadow: var(--shadow-md);
 
   @media (max-width: ${theme.breakpoints.tablet}) {
     padding: ${theme.spacing.xl};
@@ -60,7 +60,7 @@ export const SectionTitle = styled.h2`
   font-size: ${theme.fontSizes.lg};
   font-weight: ${theme.fontWeights.semibold};
   margin-bottom: ${theme.spacing.md};
-  color: ${theme.colors.textPrimary};
+  color: var(--color-text-primary);
 `;
 
 export const AuthButton = styled.button`
@@ -72,15 +72,15 @@ export const AuthButton = styled.button`
   padding: ${theme.spacing.md} ${theme.spacing.lg};
   border: none;
   border-radius: ${theme.borderRadius.md};
-  background-color: ${theme.colors.bgDark};
-  color: ${theme.colors.textWhite};
+  background-color: var(--color-bg-dark);
+  color: var(--color-text-white);
   font-size: ${theme.fontSizes.base};
   font-weight: ${theme.fontWeights.medium};
   cursor: pointer;
   transition: background ${theme.transitions.base};
 
   &:hover {
-    background-color: ${theme.colors.bgDarkHover};
+    background-color: var(--color-bg-dark-hover);
   }
 `;
 
@@ -88,7 +88,7 @@ export const IconWrapper = styled.div`
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background: ${theme.colors.bgWhite};
+  background: var(--color-bg-white);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -110,12 +110,12 @@ export const Divider = styled.div`
     content: '';
     flex: 1;
     height: 1px;
-    background: ${theme.colors.border};
+    background: var(--color-border);
   }
 `;
 
 export const DividerText = styled.span`
-  color: ${theme.colors.textTertiary};
+  color: var(--color-text-tertiary);
   font-size: ${theme.fontSizes.sm};
 `;
 
@@ -129,26 +129,27 @@ export const Label = styled.label`
   display: block;
   font-size: ${theme.fontSizes.base};
   font-weight: ${theme.fontWeights.semibold};
-  color: ${theme.colors.textPrimary};
+  color: var(--color-text-primary);
   margin-bottom: ${theme.spacing.sm};
 `;
 
 export const Input = styled.input`
   width: 100%;
   padding: ${theme.spacing.md};
-  border: 1px solid ${theme.colors.border};
+  border: 1px solid var(--color-border);
   border-radius: ${theme.borderRadius.md};
   font-size: ${theme.fontSizes.base};
-  color: ${theme.colors.textPrimary};
+  color: var(--color-text-primary);
+  background: var(--color-bg-white);
   outline: none;
   transition: border-color ${theme.transitions.base};
 
   &:focus {
-    border-color: ${theme.colors.primary};
+    border-color: var(--color-primary);
   }
 
   &::placeholder {
-    color: ${theme.colors.textTertiary};
+    color: var(--color-text-tertiary);
   }
 `;
 
@@ -157,8 +158,8 @@ export const SubmitButton = styled.button`
   padding: ${theme.spacing.md} ${theme.spacing.lg};
   border: none;
   border-radius: ${theme.borderRadius.md};
-  background-color: ${theme.colors.primary};
-  color: ${theme.colors.textWhite};
+  background-color: var(--color-primary);
+  color: var(--color-text-white);
   font-size: ${theme.fontSizes.base};
   font-weight: ${theme.fontWeights.semibold};
   cursor: pointer;
@@ -166,12 +167,12 @@ export const SubmitButton = styled.button`
   margin-top: ${theme.spacing.md};
 
   &:hover {
-    background-color: ${theme.colors.primaryHover};
+    background-color: var(--color-primary-hover);
   }
 
   &:disabled {
-    background: ${theme.colors.bgGray};
-    color: ${theme.colors.textTertiary};
+    background: var(--color-bg-gray);
+    color: var(--color-text-tertiary);
     cursor: not-allowed;
   }
 `;
@@ -179,12 +180,12 @@ export const SubmitButton = styled.button`
 export const LinkText = styled.p`
   margin-top: ${theme.spacing.lg};
   font-size: ${theme.fontSizes.sm};
-  color: ${theme.colors.textSecondary};
+  color: var(--color-text-secondary);
   text-align: center;
 `;
 
 export const StyledLink = styled(Link)`
-  color: ${theme.colors.primary};
+  color: var(--color-primary);
   text-decoration: none;
   font-weight: ${theme.fontWeights.medium};
 

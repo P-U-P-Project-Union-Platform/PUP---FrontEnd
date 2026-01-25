@@ -11,9 +11,9 @@ export const FooterContainer = styled.footer`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: ${theme.colors.bgDark};
+  background: var(--color-bg-dark);
   color: rgba(255, 255, 255, 0.6);
-  border-top: 1px solid ${theme.colors.borderDark};
+  border-top: 1px solid var(--color-border-dark);
 
   @media (max-width: ${theme.breakpoints.tablet}) {
     flex-direction: column;

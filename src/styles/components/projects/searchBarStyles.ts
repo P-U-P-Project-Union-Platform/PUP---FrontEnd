@@ -20,18 +20,19 @@ export const SearchInput = styled.input`
   width: 100%;
   padding: ${theme.spacing.md} 40px ${theme.spacing.md} ${theme.spacing.md};
   font-size: ${theme.fontSizes.base};
-  border: 1px solid ${theme.colors.border};
+  border: 1px solid var(--color-border);
   border-radius: ${theme.borderRadius.md};
   outline: none;
   transition: border-color ${theme.transitions.base};
-  background: ${theme.colors.bgWhite};
+  background: var(--color-bg-white);
+  color: var(--color-text-primary);
 
   &:focus {
-    border-color: ${theme.colors.primary};
+    border-color: var(--color-primary);
   }
 
   &::placeholder {
-    color: ${theme.colors.textTertiary};
+    color: var(--color-text-tertiary);
   }
 `;
 
@@ -40,7 +41,7 @@ export const SearchIcon = styled.span`
   right: ${theme.spacing.md};
   top: 50%;
   transform: translateY(-50%);
-  color: ${theme.colors.textTertiary};
+  color: var(--color-text-tertiary);
   font-size: ${theme.fontSizes.lg};
 `;
 
@@ -51,7 +52,7 @@ export const ClearButton = styled.button`
   transform: translateY(-50%);
   background: none;
   border: none;
-  color: ${theme.colors.textTertiary};
+  color: var(--color-text-tertiary);
   font-size: ${theme.fontSizes.xl};
   cursor: pointer;
   padding: ${theme.spacing.xs};
@@ -61,6 +62,6 @@ export const ClearButton = styled.button`
   transition: color ${theme.transitions.base};
 
   &:hover {
-    color: ${theme.colors.textPrimary};
+    color: var(--color-text-primary);
   }
 `;

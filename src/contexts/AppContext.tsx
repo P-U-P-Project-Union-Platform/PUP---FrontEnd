@@ -49,6 +49,10 @@ interface AppContextType {
   // 프로필
   userProfile: UserProfile;
   updateProfile: (profile: UserProfile) => void;
+
+  // 다크모드
+  isDarkMode: boolean;
+  toggleDarkMode: () => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -126,6 +130,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [recruits, setRecruits] = useState<RecruitPost[]>(initialRecruits);
   const [communityPosts, setCommunityPosts] = useState<CommunityPost[]>(initialCommunityPosts);
   const [userProfile, setUserProfile] = useState<UserProfile>(initialProfile);
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
 
   const addRecruit = (recruit: Omit<RecruitPost, 'id'>) => {
     const newRecruit: RecruitPost = {
@@ -150,6 +155,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setUserProfile(profile);
   };
 
+  const toggleDarkMode = () => {
+    setIsDarkMode(prev => !prev);
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -158,7 +167,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
         communityPosts,
         addCommunityPost,
         userProfile,
-        updateProfile
+        updateProfile,
+        isDarkMode,
+        toggleDarkMode
       }}
     >
       {children}

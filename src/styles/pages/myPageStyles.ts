@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { theme } from '../theme';
 
 export const Container = styled.div`
-  background: ${theme.colors.bgLight};
+  background: var(--color-bg-light);
   min-height: 100vh;
   padding: 80px 40px 60px;
 
@@ -17,11 +17,11 @@ export const MaxWidthWrapper = styled.div`
 `;
 
 export const ProfileSection = styled.div`
-  background: ${theme.colors.bgWhite};
+  background: var(--color-bg-white);
   border-radius: ${theme.borderRadius.lg};
   padding: ${theme.spacing['2xl']};
   margin-bottom: ${theme.spacing.xl};
-  box-shadow: ${theme.shadows.md};
+  box-shadow: var(--shadow-md);
 
   @media (max-width: ${theme.breakpoints.tablet}) {
     padding: ${theme.spacing.xl};
@@ -44,8 +44,8 @@ export const Avatar = styled.div`
   width: 120px;
   height: 120px;
   border-radius: ${theme.borderRadius.full};
-  background: linear-gradient(135deg, ${theme.colors.primary}, #764ba2);
-  color: ${theme.colors.textWhite};
+  background: linear-gradient(135deg, var(--color-primary), #764ba2);
+  color: var(--color-text-white);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -61,26 +61,26 @@ export const ProfileInfo = styled.div`
 export const Name = styled.h1`
   font-size: ${theme.fontSizes['2xl']};
   font-weight: ${theme.fontWeights.bold};
-  color: ${theme.colors.textPrimary};
+  color: var(--color-text-primary);
   margin-bottom: ${theme.spacing.sm};
 `;
 
 export const Email = styled.p`
   font-size: ${theme.fontSizes.base};
-  color: ${theme.colors.textSecondary};
+  color: var(--color-text-secondary);
   margin-bottom: ${theme.spacing.md};
 `;
 
 export const Bio = styled.p`
   font-size: ${theme.fontSizes.base};
-  color: ${theme.colors.textSecondary};
+  color: var(--color-text-secondary);
   line-height: 1.6;
 `;
 
 export const EditButton = styled.button`
   padding: ${theme.spacing.sm} ${theme.spacing.lg};
-  background: ${theme.colors.primary};
-  color: ${theme.colors.textWhite};
+  background: var(--color-primary);
+  color: var(--color-text-white);
   border: none;
   border-radius: ${theme.borderRadius.md};
   font-size: ${theme.fontSizes.base};
@@ -89,7 +89,7 @@ export const EditButton = styled.button`
   transition: all ${theme.transitions.base};
 
   &:hover {
-    background: ${theme.colors.primaryHover};
+    background: var(--color-primary-hover);
   }
 `;
 
@@ -98,7 +98,7 @@ export const StatsGrid = styled.div`
   grid-template-columns: repeat(4, 1fr);
   gap: ${theme.spacing.lg};
   padding-top: ${theme.spacing.xl};
-  border-top: 1px solid ${theme.colors.borderLight};
+  border-top: 1px solid var(--color-border-light);
 
   @media (max-width: ${theme.breakpoints.tablet}) {
     grid-template-columns: repeat(2, 1fr);
@@ -113,13 +113,13 @@ export const StatItem = styled.div`
 export const StatValue = styled.div`
   font-size: ${theme.fontSizes['2xl']};
   font-weight: ${theme.fontWeights.bold};
-  color: ${theme.colors.primary};
+  color: var(--color-primary);
   margin-bottom: ${theme.spacing.xs};
 `;
 
 export const StatLabel = styled.div`
   font-size: ${theme.fontSizes.sm};
-  color: ${theme.colors.textSecondary};
+  color: var(--color-text-secondary);
 `;
 
 export const TabSection = styled.div`
@@ -129,7 +129,7 @@ export const TabSection = styled.div`
 export const TabList = styled.div`
   display: flex;
   gap: ${theme.spacing.sm};
-  border-bottom: 2px solid ${theme.colors.borderLight};
+  border-bottom: 2px solid var(--color-border-light);
   margin-bottom: ${theme.spacing.xl};
   overflow-x: auto;
 
@@ -138,7 +138,7 @@ export const TabList = styled.div`
   }
 
   &::-webkit-scrollbar-thumb {
-    background: ${theme.colors.borderLight};
+    background: var(--color-border-light);
     border-radius: ${theme.borderRadius.full};
   }
 `;
@@ -147,17 +147,17 @@ export const Tab = styled.button<{ active?: boolean }>`
   padding: ${theme.spacing.md} ${theme.spacing.lg};
   font-size: ${theme.fontSizes.base};
   font-weight: ${theme.fontWeights.semibold};
-  color: ${props => props.active ? theme.colors.primary : theme.colors.textSecondary};
+  color: ${props => props.active ? 'var(--color-primary)' : 'var(--color-text-secondary)'};
   background: transparent;
   border: none;
-  border-bottom: 2px solid ${props => props.active ? theme.colors.primary : 'transparent'};
+  border-bottom: 2px solid ${props => props.active ? 'var(--color-primary)' : 'transparent'};
   margin-bottom: -2px;
   cursor: pointer;
   transition: all ${theme.transitions.base};
   white-space: nowrap;
 
   &:hover {
-    color: ${theme.colors.primary};
+    color: var(--color-primary);
   }
 `;
 
@@ -173,29 +173,29 @@ export const ContentGrid = styled.div`
 `;
 
 export const Card = styled.div`
-  background: ${theme.colors.bgWhite};
+  background: var(--color-bg-white);
   border-radius: ${theme.borderRadius.lg};
   padding: ${theme.spacing.xl};
-  box-shadow: ${theme.shadows.sm};
+  box-shadow: var(--shadow-sm);
   transition: all ${theme.transitions.base};
   cursor: pointer;
 
   &:hover {
     transform: translateY(-4px);
-    box-shadow: ${theme.shadows.md};
+    box-shadow: var(--shadow-md);
   }
 `;
 
 export const CardTitle = styled.h3`
   font-size: ${theme.fontSizes.lg};
   font-weight: ${theme.fontWeights.semibold};
-  color: ${theme.colors.textPrimary};
+  color: var(--color-text-primary);
   margin-bottom: ${theme.spacing.sm};
 `;
 
 export const CardDescription = styled.p`
   font-size: ${theme.fontSizes.sm};
-  color: ${theme.colors.textSecondary};
+  color: var(--color-text-secondary);
   line-height: 1.6;
   margin-bottom: ${theme.spacing.md};
   display: -webkit-box;
@@ -209,16 +209,16 @@ export const CardFooter = styled.div`
   justify-content: space-between;
   align-items: center;
   font-size: ${theme.fontSizes.sm};
-  color: ${theme.colors.textTertiary};
+  color: var(--color-text-tertiary);
   padding-top: ${theme.spacing.md};
-  border-top: 1px solid ${theme.colors.borderLight};
+  border-top: 1px solid var(--color-border-light);
 `;
 
 export const EmptyState = styled.div`
   text-align: center;
   padding: ${theme.spacing['3xl']} ${theme.spacing.xl};
-  background: ${theme.colors.bgWhite};
+  background: var(--color-bg-white);
   border-radius: ${theme.borderRadius.lg};
-  color: ${theme.colors.textTertiary};
+  color: var(--color-text-tertiary);
   font-size: ${theme.fontSizes.lg};
 `;

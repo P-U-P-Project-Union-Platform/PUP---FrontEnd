@@ -25,13 +25,13 @@ export const ModalOverlay = styled.div`
 `;
 
 export const ModalContent = styled.div`
-  background: ${theme.colors.bgWhite};
+  background: var(--color-bg-white);
   border-radius: ${theme.borderRadius.lg};
   width: 90%;
   max-width: 500px;
   max-height: 80vh;
   overflow-y: auto;
-  box-shadow: ${theme.shadows.lg};
+  box-shadow: var(--shadow-lg);
   animation: slideUp 0.3s ease-in-out;
 
   @keyframes slideUp {
@@ -55,17 +55,17 @@ export const ModalHeader = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: ${theme.spacing.xl};
-  border-bottom: 1px solid ${theme.colors.borderLight};
+  border-bottom: 1px solid var(--color-border-light);
   position: sticky;
   top: 0;
-  background: ${theme.colors.bgWhite};
+  background: var(--color-bg-white);
   z-index: 1;
 `;
 
 export const ModalTitle = styled.h2`
   font-size: ${theme.fontSizes.xl};
   font-weight: ${theme.fontWeights.bold};
-  color: ${theme.colors.textPrimary};
+  color: var(--color-text-primary);
   margin: 0;
 `;
 
@@ -74,7 +74,7 @@ export const CloseButton = styled.button`
   border: none;
   font-size: 32px;
   line-height: 1;
-  color: ${theme.colors.textSecondary};
+  color: var(--color-text-secondary);
   cursor: pointer;
   padding: 0;
   width: 32px;
@@ -85,7 +85,7 @@ export const CloseButton = styled.button`
   transition: color ${theme.transitions.base};
 
   &:hover {
-    color: ${theme.colors.textPrimary};
+    color: var(--color-text-primary);
   }
 `;
 
@@ -104,17 +104,17 @@ export const InfoSection = styled.div`
 export const InfoLabel = styled.div`
   font-size: ${theme.fontSizes.sm};
   font-weight: ${theme.fontWeights.semibold};
-  color: ${theme.colors.textSecondary};
+  color: var(--color-text-secondary);
   margin-bottom: ${theme.spacing.xs};
 `;
 
 export const InfoValue = styled.div`
   font-size: ${theme.fontSizes.base};
-  color: ${theme.colors.textPrimary};
+  color: var(--color-text-primary);
   line-height: 1.6;
 
   a {
-    color: ${theme.colors.primary};
+    color: var(--color-primary);
     text-decoration: none;
 
     &:hover {
@@ -125,6 +125,6 @@ export const InfoValue = styled.div`
 
 export const Divider = styled.hr`
   border: none;
-  border-top: 1px solid ${theme.colors.borderLight};
+  border-top: 1px solid var(--color-border-light);
   margin: ${theme.spacing.lg} 0;
 `;

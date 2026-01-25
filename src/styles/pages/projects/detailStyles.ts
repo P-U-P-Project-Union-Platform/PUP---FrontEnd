@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { theme } from '../../theme';
 
 export const Container = styled.div`
-  background: ${theme.colors.bgLight};
+  background: var(--color-bg-light);
   min-height: 100vh;
   padding: 80px 40px 60px;
 
@@ -15,17 +15,17 @@ export const Container = styled.div`
 export const Content = styled.div`
   max-width: 900px;
   margin: 0 auto;
-  background: ${theme.colors.bgWhite};
+  background: var(--color-bg-white);
   border-radius: ${theme.borderRadius.xl};
   overflow: hidden;
-  box-shadow: ${theme.shadows.lg};
+  box-shadow: var(--shadow-lg);
 `;
 
 export const Thumbnail = styled.div<{ $hasImage: boolean }>`
   width: 100%;
   height: 400px;
   background: ${(props) =>
-    props.$hasImage ? theme.colors.bgGray : theme.colors.gradientPurple};
+    props.$hasImage ? 'var(--color-bg-gray)' : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -55,21 +55,21 @@ export const BackLink = styled(Link)`
   display: inline-flex;
   align-items: center;
   gap: ${theme.spacing.xs};
-  color: ${theme.colors.primary};
+  color: var(--color-primary);
   text-decoration: none;
   font-size: ${theme.fontSizes.sm};
   margin-bottom: ${theme.spacing.xl};
   transition: color ${theme.transitions.base};
 
   &:hover {
-    color: ${theme.colors.primaryHover};
+    color: var(--color-primary-hover);
   }
 `;
 
 export const CategoryBadge = styled.span`
   display: inline-block;
-  background: ${theme.colors.bgGray};
-  color: ${theme.colors.textSecondary};
+  background: var(--color-bg-gray);
+  color: var(--color-text-secondary);
   padding: ${theme.spacing.xs} ${theme.spacing.md};
   border-radius: ${theme.borderRadius.sm};
   font-size: ${theme.fontSizes.sm};
@@ -79,7 +79,7 @@ export const CategoryBadge = styled.span`
 export const Title = styled.h1`
   font-size: ${theme.fontSizes['3xl']};
   font-weight: ${theme.fontWeights.bold};
-  color: ${theme.colors.textPrimary};
+  color: var(--color-text-primary);
   margin: 0 0 ${theme.spacing.lg} 0;
 
   @media (max-width: ${theme.breakpoints.tablet}) {
@@ -91,7 +91,7 @@ export const MetaInfo = styled.div`
   display: flex;
   gap: ${theme.spacing.xl};
   font-size: ${theme.fontSizes.sm};
-  color: ${theme.colors.textSecondary};
+  color: var(--color-text-secondary);
   margin-bottom: ${theme.spacing['2xl']};
   flex-wrap: wrap;
 `;
@@ -108,7 +108,7 @@ export const Section = styled.div`
 
 export const SectionLabel = styled.div`
   font-size: ${theme.fontSizes.sm};
-  color: ${theme.colors.textSecondary};
+  color: var(--color-text-secondary);
   margin-bottom: ${theme.spacing.md};
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -118,7 +118,7 @@ export const SectionLabel = styled.div`
 export const Description = styled.p`
   font-size: ${theme.fontSizes.lg};
   line-height: 1.8;
-  color: ${theme.colors.textPrimary};
+  color: var(--color-text-primary);
   white-space: pre-wrap;
 `;
 
@@ -129,8 +129,8 @@ export const TagList = styled.div`
 `;
 
 export const Tag = styled.span`
-  background: ${theme.colors.primary};
-  color: ${theme.colors.textWhite};
+  background: var(--color-primary);
+  color: var(--color-text-white);
   padding: ${theme.spacing.xs} ${theme.spacing.md};
   border-radius: ${theme.borderRadius.sm};
   font-size: ${theme.fontSizes.sm};
@@ -143,8 +143,8 @@ export const TechStack = styled.div`
 `;
 
 export const Tech = styled.span`
-  background: ${theme.colors.bgGray};
-  color: ${theme.colors.textSecondary};
+  background: var(--color-bg-gray);
+  color: var(--color-text-secondary);
   padding: ${theme.spacing.xs} ${theme.spacing.md};
   border-radius: ${theme.borderRadius.sm};
   font-size: ${theme.fontSizes.sm};
@@ -152,8 +152,8 @@ export const Tech = styled.span`
 
 export const GithubLink = styled.a`
   display: inline-block;
-  background: ${theme.colors.bgDark};
-  color: ${theme.colors.textWhite};
+  background: var(--color-bg-dark);
+  color: var(--color-text-white);
   padding: ${theme.spacing.md} ${theme.spacing.xl};
   border-radius: ${theme.borderRadius.md};
   text-decoration: none;
@@ -161,16 +161,16 @@ export const GithubLink = styled.a`
   transition: background ${theme.transitions.base};
 
   &:hover {
-    background: #1a1a1a;
+    background: var(--color-bg-dark-hover);
   }
 `;
 
 export const RecruitSection = styled.div`
   margin-top: ${theme.spacing['2xl']};
   padding: ${theme.spacing.xl};
-  background: ${theme.colors.primaryLight};
+  background: var(--color-primary-light);
   border-radius: ${theme.borderRadius.lg};
-  border: 2px solid ${theme.colors.primary};
+  border: 2px solid var(--color-primary);
 `;
 
 export const RecruitHeader = styled.div`
@@ -189,13 +189,13 @@ export const RecruitHeader = styled.div`
 export const RecruitTitle = styled.h2`
   font-size: ${theme.fontSizes.xl};
   font-weight: ${theme.fontWeights.bold};
-  color: ${theme.colors.primary};
+  color: var(--color-primary);
 `;
 
 export const RecruitStatus = styled.span<{ isOpen: boolean }>`
   padding: ${theme.spacing.xs} ${theme.spacing.md};
-  background: ${props => props.isOpen ? theme.colors.success : theme.colors.textTertiary};
-  color: ${theme.colors.textWhite};
+  background: ${props => props.isOpen ? 'var(--color-success)' : 'var(--color-text-tertiary)'};
+  color: var(--color-text-white);
   border-radius: ${theme.borderRadius.sm};
   font-size: ${theme.fontSizes.sm};
   font-weight: ${theme.fontWeights.semibold};
@@ -213,28 +213,28 @@ export const PositionItem = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: ${theme.spacing.md};
-  background: ${theme.colors.bgWhite};
+  background: var(--color-bg-white);
   border-radius: ${theme.borderRadius.md};
-  border: 1px solid ${theme.colors.border};
+  border: 1px solid var(--color-border);
 `;
 
 export const PositionName = styled.span`
   font-size: ${theme.fontSizes.base};
   font-weight: ${theme.fontWeights.medium};
-  color: ${theme.colors.textPrimary};
+  color: var(--color-text-primary);
 `;
 
 export const PositionCount = styled.span`
   font-size: ${theme.fontSizes.base};
-  color: ${theme.colors.primary};
+  color: var(--color-primary);
   font-weight: ${theme.fontWeights.semibold};
 `;
 
 export const ApplyButton = styled.button`
   width: 100%;
   padding: ${theme.spacing.md} ${theme.spacing.xl};
-  background: ${theme.colors.primary};
-  color: ${theme.colors.textWhite};
+  background: var(--color-primary);
+  color: var(--color-text-white);
   border: none;
   border-radius: ${theme.borderRadius.md};
   font-size: ${theme.fontSizes.lg};
@@ -243,13 +243,13 @@ export const ApplyButton = styled.button`
   transition: all ${theme.transitions.base};
 
   &:hover {
-    background: ${theme.colors.primaryHover};
+    background: var(--color-primary-hover);
     transform: translateY(-2px);
   }
 
   &:disabled {
-    background: ${theme.colors.bgGray};
-    color: ${theme.colors.textTertiary};
+    background: var(--color-bg-gray);
+    color: var(--color-text-tertiary);
     cursor: not-allowed;
     transform: none;
   }
@@ -267,14 +267,14 @@ export const NotFoundIcon = styled.div`
 
 export const NotFoundText = styled.h2`
   font-size: ${theme.fontSizes.xl};
-  color: ${theme.colors.textSecondary};
+  color: var(--color-text-secondary);
   margin-bottom: ${theme.spacing.lg};
 `;
 
 export const NotFoundLink = styled(Link)`
   display: inline-block;
-  background: ${theme.colors.primary};
-  color: ${theme.colors.textWhite};
+  background: var(--color-primary);
+  color: var(--color-text-white);
   padding: ${theme.spacing.md} ${theme.spacing.xl};
   border-radius: ${theme.borderRadius.md};
   text-decoration: none;
@@ -282,6 +282,6 @@ export const NotFoundLink = styled(Link)`
   transition: background ${theme.transitions.base};
 
   &:hover {
-    background: ${theme.colors.primaryHover};
+    background: var(--color-primary-hover);
   }
 `;

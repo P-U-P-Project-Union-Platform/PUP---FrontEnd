@@ -4,17 +4,17 @@ import { theme } from '../../theme';
 
 export const Card = styled(Link)`
   display: block;
-  background: ${theme.colors.bgWhite};
+  background: var(--color-bg-white);
   border-radius: ${theme.borderRadius.lg};
   overflow: hidden;
-  box-shadow: ${theme.shadows.md};
+  box-shadow: var(--shadow-md);
   transition: transform ${theme.transitions.base}, box-shadow ${theme.transitions.base};
   text-decoration: none;
   color: inherit;
 
   &:hover {
     transform: translateY(-4px);
-    box-shadow: ${theme.shadows.lg};
+    box-shadow: var(--shadow-lg);
   }
 `;
 
@@ -22,7 +22,7 @@ export const Thumbnail = styled.div<{ $hasImage: boolean }>`
   width: 100%;
   height: 180px;
   background: ${(props) =>
-    props.$hasImage ? theme.colors.bgGray : theme.colors.gradientPurple};
+    props.$hasImage ? 'var(--color-bg-gray)' : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -41,8 +41,8 @@ export const Content = styled.div`
 
 export const CategoryBadge = styled.span`
   display: inline-block;
-  background: ${theme.colors.bgGray};
-  color: ${theme.colors.textSecondary};
+  background: var(--color-bg-gray);
+  color: var(--color-text-secondary);
   padding: ${theme.spacing.xs} ${theme.spacing.sm};
   border-radius: ${theme.borderRadius.sm};
   font-size: ${theme.fontSizes.xs};
@@ -53,7 +53,7 @@ export const Title = styled.h3`
   font-size: ${theme.fontSizes.xl};
   font-weight: ${theme.fontWeights.semibold};
   margin: 0 0 ${theme.spacing.sm} 0;
-  color: ${theme.colors.textPrimary};
+  color: var(--color-text-primary);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -61,7 +61,7 @@ export const Title = styled.h3`
 
 export const Description = styled.p`
   font-size: ${theme.fontSizes.sm};
-  color: ${theme.colors.textSecondary};
+  color: var(--color-text-secondary);
   margin: 0 0 ${theme.spacing.md} 0;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -79,8 +79,8 @@ export const TagList = styled.div`
 `;
 
 export const Tag = styled.span`
-  background: ${theme.colors.primary};
-  color: ${theme.colors.textWhite};
+  background: var(--color-primary);
+  color: var(--color-text-white);
   padding: 3px 8px;
   border-radius: ${theme.borderRadius.sm};
   font-size: ${theme.fontSizes.xs};
@@ -93,8 +93,8 @@ export const TechStack = styled.div`
 `;
 
 export const Tech = styled.span`
-  background: ${theme.colors.bgGray};
-  color: ${theme.colors.textSecondary};
+  background: var(--color-bg-gray);
+  color: var(--color-text-secondary);
   padding: 3px 8px;
   border-radius: ${theme.borderRadius.sm};
   font-size: ${theme.fontSizes.xs};
