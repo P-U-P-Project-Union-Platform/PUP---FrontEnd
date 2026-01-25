@@ -45,6 +45,12 @@ export const FooterLink = styled.a`
   }
 `;
 
+export const ModeText = styled.p`
+  color: rgba(255, 255, 255, 0.6);
+  font-size: ${theme.fontSizes.sm};
+  margin: 0;
+`;
+
 export const Toggle = styled.div<ToggleProps>`
   width: 48px;
   height: 24px;

@@ -1,25 +1,44 @@
 import { useState } from 'react';
+import { useApp } from '../../contexts/AppContext';
+import CreatorInfoModal from './CreatorInfoModal';
 import {
   FooterContainer,
   FooterLeft,
   FooterRight,
   FooterLink,
+  ModeText,
   Toggle,
 } from '../../styles/components/footerStyles';
 
 export default function Footer() {
-  const [isDark, setIsDark] = useState<boolean>(true);
+  const { isDarkMode, toggleDarkMode } = useApp();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
-    <FooterContainer>
-      <FooterLeft>
-        <FooterLink>후원 / 기부</FooterLink>
-      </FooterLeft>
-      <FooterRight>
-        <FooterLink>제작자정보</FooterLink>
-        <FooterLink>다크모드</FooterLink>
-        <Toggle active={isDark} onClick={() => setIsDark(!isDark)} />
-      </FooterRight>
-    </FooterContainer>
+    <>
+      <FooterContainer>
+        <FooterLeft>
+          <FooterLink
+            href="https://example.com/donate"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            후원 / 기부
+          </FooterLink>
+        </FooterLeft>
+        <FooterRight>
+          <FooterLink onClick={() => setIsModalOpen(true)}>
+            제작자정보
+          </FooterLink>
+          <ModeText>{isDarkMode ? '다크 모드' : '라이트 모드'}</ModeText>
+          <Toggle active={isDarkMode} onClick={toggleDarkMode} />
+        </FooterRight>
+      </FooterContainer>
+
+      <CreatorInfoModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
+    </>
   );
 }
