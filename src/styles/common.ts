@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+ximport styled from 'styled-components';
 import { theme } from './theme';
 
 // 공통 컨테이너

@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useApp } from '../contexts/AppContext';
+import { projectService } from '../services/projectService';
+import type { Project } from '../types/project';
 import {
   Container,
   MaxWidthWrapper,
@@ -24,89 +26,56 @@ import {
   CardTitle,
   CardDescription,
   CardFooter,
-  EmptyState
+  EmptyState,
 } from '../styles/pages/myPageStyles';
-
-interface Project {
-  id: number;
-  title: string;
-  description: string;
-  date: string;
-  status: string;
-}
-
-interface Post {
-  id: number;
-  title: string;
-  description: string;
-  date: string;
-  likes: number;
-}
 
 const tabs = ['내 프로젝트', '참여 프로젝트', '내 게시글', '스크랩'];
 
-// 임시 데이터
-const myProjects: Project[] = [
-  {
-    id: 1,
-    title: 'AI 기반 학습 플랫폼',
-    description: '개인 맞춤형 학습 경로를 제공하는 AI 플랫폼입니다.',
-    date: '2024-01-10',
-    status: '진행중'
-  },
-  {
-    id: 2,
-    title: '친환경 배달 서비스',
-    description: '탄소 배출을 줄이는 친환경 배달 플랫폼입니다.',
-    date: '2023-12-15',
-    status: '완료'
-  }
-];
-
-const participatingProjects: Project[] = [
-  {
-    id: 3,
-    title: '소상공인 재고관리 시스템',
-    description: '소규모 상점을 위한 간편한 재고 관리 솔루션입니다.',
-    date: '2024-01-05',
-    status: '진행중'
-  }
-];
-
-const myPosts: Post[] = [
-  {
-    id: 1,
-    title: '프로젝트 협업 시 커뮤니케이션 팁',
-    description: '프로젝트를 진행하면서 팀원들과의 원활한 소통이 정말 중요하다는 걸 느꼈어요...',
-    date: '2024-01-18',
-    likes: 45
-  },
-  {
-    id: 2,
-    title: '사이드 프로젝트로 첫 수익 달성',
-    description: '3개월간 진행했던 사이드 프로젝트에서 드디어 첫 수익이 발생했습니다!',
-    date: '2024-01-12',
-    likes: 89
-  }
-];
-
 export default function MyPage() {
   const navigate = useNavigate();
-  const { userProfile } = useApp();
+  const { userProfile, communityPosts } = useApp(); // communityPosts 추가
   const [activeTab, setActiveTab] = useState('내 프로젝트');
+
+  // --- 데이터 흐름 수정 ---
+  // 1. 가상의 현재 로그인 사용자 ID (프로젝트 필터링용)
+  const currentUserId = '1'; // '김개발'의 ID로 가정
+
+  // 2. projectService에서 모든 프로젝트를 가져와 메모이제이션
+  const allProjects = useMemo(() => projectService.getAll(), []);
+
+  // 3. '내 프로젝트' 필터링
+  const myProjects = useMemo(
+    () => allProjects.filter((p) => p.author.id === currentUserId),
+    [allProjects, currentUserId]
+  );
+
+  // 4. '참여 프로젝트' 필터링 (현재 데이터 모델로는 구분 불가, 구조만 준비)
+  // TODO: Project 모델에 'participants' 필드 추가 후 로직 구현 필요
+  const participatingProjects: Project[] = [];
+
+  // 5. '내 게시글' 필터링 (AppContext의 communityPosts 사용)
+  const myFilteredPosts = useMemo(
+    () => communityPosts.filter((post) => post.author === userProfile.name),
+    [communityPosts, userProfile.name]
+  );
+  // --- 수정 완료 ---
 
   const renderContent = () => {
     switch (activeTab) {
       case '내 프로젝트':
         return myProjects.length > 0 ? (
           <ContentGrid>
-            {myProjects.map(project => (
-              <Card key={project.id} onClick={() => navigate(`/projects/${project.id}`)}>
+            {myProjects.map((project) => (
+              <Card
+                key={project.id}
+                onClick={() => navigate(`/projects/${project.id}`)}
+              >
                 <CardTitle>{project.title}</CardTitle>
                 <CardDescription>{project.description}</CardDescription>
                 <CardFooter>
-                  <span>{project.date}</span>
-                  <span>{project.status}</span>
+                  <span>{new Date(project.createdAt).toLocaleDateString()}</span>
+                  {/* API에 status가 있다면 project.status로 변경 */}
+                  <span>진행중</span>
                 </CardFooter>
               </Card>
             ))}
@@ -118,13 +87,16 @@ export default function MyPage() {
       case '참여 프로젝트':
         return participatingProjects.length > 0 ? (
           <ContentGrid>
-            {participatingProjects.map(project => (
-              <Card key={project.id} onClick={() => navigate(`/projects/${project.id}`)}>
+            {participatingProjects.map((project) => (
+              <Card
+                key={project.id}
+                onClick={() => navigate(`/projects/${project.id}`)}
+              >
                 <CardTitle>{project.title}</CardTitle>
                 <CardDescription>{project.description}</CardDescription>
                 <CardFooter>
-                  <span>{project.date}</span>
-                  <span>{project.status}</span>
+                  <span>{new Date(project.createdAt).toLocaleDateString()}</span>
+                  <span>진행중</span>
                 </CardFooter>
               </Card>
             ))}
@@ -134,14 +106,17 @@ export default function MyPage() {
         );
 
       case '내 게시글':
-        return myPosts.length > 0 ? (
+        return myFilteredPosts.length > 0 ? (
           <ContentGrid>
-            {myPosts.map(post => (
-              <Card key={post.id} onClick={() => navigate(`/community/${post.id}`)}>
+            {myFilteredPosts.map((post) => (
+              <Card
+                key={post.id}
+                onClick={() => navigate(`/community/${post.id}`)}
+              >
                 <CardTitle>{post.title}</CardTitle>
-                <CardDescription>{post.description}</CardDescription>
+                <CardDescription>{post.content}</CardDescription>
                 <CardFooter>
-                  <span>{post.date}</span>
+                  <span>{new Date(post.date).toLocaleDateString()}</span>
                   <span>❤️ {post.likes}</span>
                 </CardFooter>
               </Card>
@@ -170,20 +145,22 @@ export default function MyPage() {
               <Email>{userProfile.email}</Email>
               <Bio>{userProfile.bio}</Bio>
             </ProfileInfo>
-            <EditButton onClick={() => navigate('/mypage/edit')}>프로필 수정</EditButton>
+            <EditButton onClick={() => navigate('/mypage/edit')}>
+              프로필 수정
+            </EditButton>
           </ProfileHeader>
 
           <StatsGrid>
             <StatItem>
-              <StatValue>12</StatValue>
+              <StatValue>{myProjects.length}</StatValue>
               <StatLabel>내 프로젝트</StatLabel>
             </StatItem>
             <StatItem>
-              <StatValue>5</StatValue>
+              <StatValue>{participatingProjects.length}</StatValue>
               <StatLabel>참여 프로젝트</StatLabel>
             </StatItem>
             <StatItem>
-              <StatValue>34</StatValue>
+              <StatValue>{myFilteredPosts.length}</StatValue>
               <StatLabel>게시글</StatLabel>
             </StatItem>
             <StatItem>
@@ -195,7 +172,7 @@ export default function MyPage() {
 
         <TabSection>
           <TabList>
-            {tabs.map(tab => (
+            {tabs.map((tab) => (
               <Tab
                 key={tab}
                 active={activeTab === tab}

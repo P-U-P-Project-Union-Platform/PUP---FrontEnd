@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { theme } from '../theme';
 
 export const Container = styled.div`
-  background: ${theme.colors.bgLight};
+  background: var(--color-bg-light);
   min-height: 100vh;
   padding: 80px 40px 60px;
 
@@ -30,7 +30,7 @@ export const TitleSection = styled.div``;
 export const Title = styled.h1`
   font-size: ${theme.fontSizes['3xl']};
   font-weight: ${theme.fontWeights.bold};
-  color: ${theme.colors.textPrimary};
+  color: var(--color-text-primary);
   margin-bottom: ${theme.spacing.sm};
 
   @media (max-width: ${theme.breakpoints.tablet}) {
@@ -40,13 +40,13 @@ export const Title = styled.h1`
 
 export const Description = styled.p`
   font-size: ${theme.fontSizes.base};
-  color: ${theme.colors.textSecondary};
+  color: var(--color-text-secondary);
 `;
 
 export const WriteButton = styled.button`
   padding: ${theme.spacing.md} ${theme.spacing.xl};
-  background: ${theme.colors.primary};
-  color: ${theme.colors.textWhite};
+  background: var(--color-primary);
+  color: var(--color-text-white);
   border: none;
   border-radius: ${theme.borderRadius.md};
   font-size: ${theme.fontSizes.base};
@@ -55,7 +55,7 @@ export const WriteButton = styled.button`
   transition: all ${theme.transitions.base};
 
   &:hover {
-    background: ${theme.colors.primaryHover};
+    background: var(--color-primary-hover);
   }
 `;
 
@@ -74,16 +74,16 @@ export const CategorySection = styled.div`
 export const CategoryButton = styled.button<{ active?: boolean }>`
   padding: ${theme.spacing.sm} ${theme.spacing.lg};
   border-radius: ${theme.borderRadius.full};
-  border: 1px solid ${props => props.active ? theme.colors.primary : theme.colors.border};
-  background: ${props => props.active ? theme.colors.primary : theme.colors.bgWhite};
-  color: ${props => props.active ? theme.colors.textWhite : theme.colors.textSecondary};
+  border: 1px solid ${props => props.active ? 'var(--color-primary)' : 'var(--color-border)'};
+  background: ${props => props.active ? 'var(--color-primary)' : 'var(--color-bg-white)'};
+  color: ${props => props.active ? 'var(--color-text-white)' : 'var(--color-text-secondary)'};
   font-size: ${theme.fontSizes.sm};
   font-weight: ${theme.fontWeights.medium};
   cursor: pointer;
   transition: all ${theme.transitions.base};
 
   &:hover {
-    background: ${props => props.active ? theme.colors.primaryHover : theme.colors.bgGray};
+    background: ${props => props.active ? 'var(--color-primary-hover)' : 'var(--color-bg-gray)'};
   }
 `;
 
@@ -96,15 +96,15 @@ export const PostList = styled.div`
 `;
 
 export const PostCard = styled.div`
-  background: ${theme.colors.bgWhite};
+  background: var(--color-bg-white);
   border-radius: ${theme.borderRadius.lg};
   padding: ${theme.spacing.xl};
-  box-shadow: ${theme.shadows.sm};
+  box-shadow: var(--shadow-sm);
   transition: all ${theme.transitions.base};
   cursor: pointer;
 
   &:hover {
-    box-shadow: ${theme.shadows.md};
+    box-shadow: var(--shadow-md);
     transform: translateY(-2px);
   }
 `;
@@ -120,15 +120,15 @@ export const PostHeader = styled.div`
 export const PostTitle = styled.h3`
   font-size: ${theme.fontSizes.xl};
   font-weight: ${theme.fontWeights.semibold};
-  color: ${theme.colors.textPrimary};
+  color: var(--color-text-primary);
   margin-bottom: ${theme.spacing.xs};
   flex: 1;
 `;
 
 export const CategoryBadge = styled.span`
   padding: ${theme.spacing.xs} ${theme.spacing.sm};
-  background: ${theme.colors.primaryLight};
-  color: ${theme.colors.primary};
+  background: var(--color-primary-light);
+  color: var(--color-primary);
   border-radius: ${theme.borderRadius.sm};
   font-size: ${theme.fontSizes.xs};
   font-weight: ${theme.fontWeights.semibold};
@@ -137,7 +137,7 @@ export const CategoryBadge = styled.span`
 
 export const PostContent = styled.p`
   font-size: ${theme.fontSizes.base};
-  color: ${theme.colors.textSecondary};
+  color: var(--color-text-secondary);
   line-height: 1.6;
   margin-bottom: ${theme.spacing.lg};
   display: -webkit-box;
@@ -151,7 +151,7 @@ export const PostFooter = styled.div`
   justify-content: space-between;
   align-items: center;
   padding-top: ${theme.spacing.md};
-  border-top: 1px solid ${theme.colors.borderLight};
+  border-top: 1px solid var(--color-border-light);
 `;
 
 export const AuthorInfo = styled.div`
@@ -164,8 +164,8 @@ export const Avatar = styled.div`
   width: 32px;
   height: 32px;
   border-radius: ${theme.borderRadius.full};
-  background: ${theme.colors.primary};
-  color: ${theme.colors.textWhite};
+  background: var(--color-primary);
+  color: var(--color-text-white);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -181,12 +181,12 @@ export const AuthorDetails = styled.div`
 export const AuthorName = styled.span`
   font-size: ${theme.fontSizes.sm};
   font-weight: ${theme.fontWeights.medium};
-  color: ${theme.colors.textPrimary};
+  color: var(--color-text-primary);
 `;
 
 export const PostDate = styled.span`
   font-size: ${theme.fontSizes.xs};
-  color: ${theme.colors.textTertiary};
+  color: var(--color-text-tertiary);
 `;
 
 export const PostStats = styled.div`
@@ -200,12 +200,12 @@ export const Stat = styled.div`
   align-items: center;
   gap: ${theme.spacing.xs};
   font-size: ${theme.fontSizes.sm};
-  color: ${theme.colors.textTertiary};
+  color: var(--color-text-tertiary);
 `;
 
 export const EmptyState = styled.div`
   text-align: center;
   padding: ${theme.spacing['3xl']} ${theme.spacing.xl};
-  color: ${theme.colors.textTertiary};
+  color: var(--color-text-tertiary);
   font-size: ${theme.fontSizes.lg};
 `;
