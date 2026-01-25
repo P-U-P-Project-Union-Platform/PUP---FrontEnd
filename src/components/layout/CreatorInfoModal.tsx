@@ -37,7 +37,7 @@ export default function CreatorInfoModal({ isOpen, onClose }: CreatorInfoModalPr
 
           <InfoSection>
             <InfoLabel>제작자</InfoLabel>
-            <InfoValue>팀명 또는 개인명</InfoValue>
+            <InfoValue>김준승, 이효준</InfoValue>
           </InfoSection>
 
           <Divider />
@@ -53,11 +53,11 @@ export default function CreatorInfoModal({ isOpen, onClose }: CreatorInfoModalPr
             <InfoLabel>GitHub</InfoLabel>
             <InfoValue>
               <a
-                href="https://github.com/your-repo"
+                href="https://github.com/P-U-P-Project-Union-Platform"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                github.com/your-repo
+                제작 과정은 여기에 있습니다!
               </a>
             </InfoValue>
           </InfoSection>
