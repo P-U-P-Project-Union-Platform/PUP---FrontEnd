@@ -127,7 +127,9 @@ export default function CommunityDetail() {
             <Title>{post.title}</Title>
             <Meta>
               <AuthorInfo>
-                <Avatar>{post.authorInitial}</Avatar>
+                <Avatar onClick={() => navigate(`/user/${post.author}`)}>
+                  {post.authorInitial}
+                </Avatar>
                 <AuthorDetails>
                   <AuthorName>{post.author}</AuthorName>
                   <PostDate>{post.date}</PostDate>
@@ -169,7 +171,9 @@ export default function CommunityDetail() {
               {comments.map(comment => (
                 <Comment key={comment.id}>
                   <CommentAuthor>
-                    <CommentAvatar>{comment.authorInitial}</CommentAvatar>
+                    <CommentAvatar onClick={() => navigate(`/user/${comment.author}`)}>
+                      {comment.authorInitial}
+                    </CommentAvatar>
                     <CommentAuthorName>{comment.author}</CommentAuthorName>
                     <CommentDate>{comment.date}</CommentDate>
                   </CommentAuthor>

@@ -76,7 +76,14 @@ export default function Community() {
 
               <PostFooter>
                 <AuthorInfo>
-                  <Avatar>{post.authorInitial}</Avatar>
+                  <Avatar
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      navigate(`/user/${post.author}`);
+                    }}
+                  >
+                    {post.authorInitial}
+                  </Avatar>
                   <AuthorDetails>
                     <AuthorName>{post.author}</AuthorName>
                     <PostDate>{post.date}</PostDate>
@@ -84,9 +91,9 @@ export default function Community() {
                 </AuthorInfo>
 
                 <PostStats>
-                  <Stat>👁 {post.views}</Stat>
-                  <Stat>💬 {post.comments}</Stat>
-                  <Stat>❤️ {post.likes}</Stat>
+                  <Stat><span>👁</span> {post.views}</Stat>
+                  <Stat><span>💬</span> {post.comments}</Stat>
+                  <Stat><span>❤️</span> {post.likes}</Stat>
                 </PostStats>
               </PostFooter>
             </PostCard>

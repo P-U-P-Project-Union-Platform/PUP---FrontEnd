@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { projectService } from '../../services/projectService';
 import { PROJECT_CATEGORIES } from '../../types/project';
+import { getUserProfile } from '../../mocks';
 import {
   Container,
   Content,
@@ -30,6 +31,14 @@ import {
   PositionName,
   PositionCount,
   ApplyButton,
+  AuthorSection,
+  AuthorHeader,
+  AuthorAvatar,
+  AuthorInfo,
+  AuthorName,
+  AuthorBio,
+  AuthorLinks,
+  AuthorLink,
   NotFound,
   NotFoundIcon,
   NotFoundText,
@@ -57,9 +66,12 @@ const recruitData: { [key: string]: any } = {
 
 export default function ProjectDetail() {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const project = id ? projectService.getById(id) : null;
   const recruitInfo = id ? recruitData[id] : null;
+  const authorProfile = project ? getUserProfile(project.author.name) : null;
   const [hasApplied, setHasApplied] = useState(false);
+  const [selectedPosition, setSelectedPosition] = useState<number | null>(null);
 
   if (!project) {
     return (
@@ -76,16 +88,30 @@ export default function ProjectDetail() {
   const category = PROJECT_CATEGORIES.find((c) => c.id === project.category);
   const createdDate = new Date(project.createdAt).toLocaleDateString('ko-KR');
 
+  const handlePositionClick = (index: number, position: any) => {
+    if (position.current >= position.total) {
+      alert('이미 모집이 완료된 포지션입니다.');
+      return;
+    }
+    setSelectedPosition(index === selectedPosition ? null : index);
+  };
+
   const handleApply = () => {
     if (hasApplied) {
       alert('이미 지원하셨습니다!');
       return;
     }
 
-    const confirmed = window.confirm('이 프로젝트에 지원하시겠습니까?');
+    if (selectedPosition === null) {
+      alert('지원할 포지션을 선택해주세요!');
+      return;
+    }
+
+    const position = recruitInfo.positions[selectedPosition];
+    const confirmed = window.confirm(`${position.name} 포지션에 지원하시겠습니까?`);
     if (confirmed) {
       // 실제로는 API 호출
-      console.log('프로젝트 지원:', id);
+      console.log('프로젝트 지원:', id, '포지션:', position.name);
       setHasApplied(true);
       alert('지원이 완료되었습니다! 프로젝트 담당자가 연락드릴 예정입니다.');
     }
@@ -107,7 +133,7 @@ export default function ProjectDetail() {
         </Thumbnail>
 
         <DetailContent>
-          <BackLink to="/projects">← 목록으로</BackLink>
+          <BackLink to="/projects">← 목록으로  </BackLink>
 
           <CategoryBadge>
             {category?.icon} {category?.label}
@@ -168,6 +194,52 @@ export default function ProjectDetail() {
             </Section>
           )}
 
+          {authorProfile && (
+            <AuthorSection>
+              <SectionLabel>프로젝트 작성자</SectionLabel>
+              <AuthorHeader>
+                <AuthorAvatar
+                  onClick={() => navigate(`/user/${encodeURIComponent(authorProfile.username)}`)}
+                >
+                  {authorProfile.initial}
+                </AuthorAvatar>
+                <AuthorInfo>
+                  <AuthorName>{authorProfile.name}</AuthorName>
+                  <AuthorBio>{authorProfile.bio}</AuthorBio>
+                  <AuthorLinks>
+                    {authorProfile.github && (
+                      <AuthorLink
+                        href={authorProfile.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        💻 GitHub
+                      </AuthorLink>
+                    )}
+                    {authorProfile.blog && (
+                      <AuthorLink
+                        href={authorProfile.blog}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        📝 블로그
+                      </AuthorLink>
+                    )}
+                    {authorProfile.portfolio && (
+                      <AuthorLink
+                        href={authorProfile.portfolio}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        🎨 포트폴리오
+                      </AuthorLink>
+                    )}
+                  </AuthorLinks>
+                </AuthorInfo>
+              </AuthorHeader>
+            </AuthorSection>
+          )}
+
           {recruitInfo && (
             <RecruitSection>
               <RecruitHeader>
@@ -178,21 +250,42 @@ export default function ProjectDetail() {
               </RecruitHeader>
 
               <PositionList>
-                {recruitInfo.positions.map((position: any, index: number) => (
-                  <PositionItem key={index}>
-                    <PositionName>{position.name}</PositionName>
-                    <PositionCount>
-                      {position.current}/{position.total}
-                    </PositionCount>
-                  </PositionItem>
-                ))}
+                {recruitInfo.positions.map((position: any, index: number) => {
+                  const isSelected = selectedPosition === index;
+                  const isFull = position.current >= position.total;
+                  return (
+                    <PositionItem
+                      key={index}
+                      selected={isSelected}
+                      onClick={() => handlePositionClick(index, position)}
+                      style={{
+                        cursor: isFull ? 'not-allowed' : 'pointer',
+                        opacity: isFull ? 0.6 : 1
+                      }}
+                    >
+                      <PositionName selected={isSelected}>
+                        {position.name}
+                        {isFull && ' (마감)'}
+                      </PositionName>
+                      <PositionCount selected={isSelected}>
+                        {position.current}/{position.total}
+                      </PositionCount>
+                    </PositionItem>
+                  );
+                })}
               </PositionList>
 
               <ApplyButton
                 onClick={handleApply}
-                disabled={!isRecruitingOpen || hasApplied}
+                disabled={!isRecruitingOpen || hasApplied || selectedPosition === null}
               >
-                {hasApplied ? '지원 완료' : isRecruitingOpen ? '지원하기' : '모집 마감'}
+                {hasApplied
+                  ? '지원 완료'
+                  : selectedPosition === null
+                  ? '포지션을 선택해주세요'
+                  : isRecruitingOpen
+                  ? '지원하기'
+                  : '모집 마감'}
               </ApplyButton>
             </RecruitSection>
           )}

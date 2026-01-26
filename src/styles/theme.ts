@@ -48,11 +48,12 @@ const commonTheme = {
     wide: '1280px',
   },
 
-  // Transition
+  // Transition - 더 부드러운 easing
   transitions: {
-    fast: '0.15s ease',
-    base: '0.2s ease',
-    slow: '0.3s ease',
+    fast: '0.15s cubic-bezier(0.4, 0, 0.2, 1)',
+    base: '0.25s cubic-bezier(0.4, 0, 0.2, 1)',
+    slow: '0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+    bounce: '0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55)',
   },
 } as const;
 
@@ -60,47 +61,52 @@ const commonTheme = {
 export const lightTheme = {
   ...commonTheme,
   colors: {
-    // Primary
-    primary: '#4f46e5',
-    primaryHover: '#4338ca',
-    primaryLight: '#f0f0ff',
+    // Primary - 더 생생한 인디고/바이올렛
+    primary: '#6366f1',
+    primaryHover: '#4f46e5',
+    primaryLight: '#eef2ff',
 
-    // Background
-    bgDark: '#0a0a0a',
-    bgLight: '#F9F9F9',
+    // Background - 더 부드러운 그레이 톤
+    bgDark: '#0f172a',
+    bgLight: '#fafbfc',
     bgWhite: '#ffffff',
-    bgGray: '#f5f5f5',
-    bgDarkHover: '#1a1a1a',
+    bgGray: '#f1f5f9',
+    bgDarkHover: '#1e293b',
 
-    // Border
-    border: '#ddd',
-    borderDark: '#2a2a2a',
-    borderDarkHover: '#3a3a3a',
-    borderLight: '#e5e7eb',
+    // Border - 더 섬세한 경계
+    border: '#e2e8f0',
+    borderDark: '#334155',
+    borderDarkHover: '#475569',
+    borderLight: '#f1f5f9',
 
-    // Text
-    textPrimary: '#1a1a1a',
-    textSecondary: '#666',
-    textTertiary: '#999',
-    textLight: '#6b7280',
+    // Text - 더 명확한 계층
+    textPrimary: '#0f172a',
+    textSecondary: '#475569',
+    textTertiary: '#94a3b8',
+    textLight: '#64748b',
     textWhite: '#ffffff',
 
-    // Status
-    success: '#10b981',
+    // Status - 더 선명한 상태 색상
+    success: '#22c55e',
     error: '#ef4444',
     warning: '#f59e0b',
     info: '#3b82f6',
 
-    // Gradient
+    // Gradient - 더 역동적인 그라데이션
     gradientPurple: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    gradientBlue: 'linear-gradient(135deg, #667eea 0%, #4f46e5 100%)',
+    gradientPink: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+    gradientOrange: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
   },
 
-  // 그림자
+  // 그림자 - 더 입체적인 깊이감
   shadows: {
-    sm: '0 1px 2px rgba(0, 0, 0, 0.05)',
-    md: '0 4px 6px rgba(0, 0, 0, 0.1)',
-    lg: '0 10px 15px rgba(0, 0, 0, 0.1)',
-    xl: '0 20px 25px rgba(0, 0, 0, 0.1)',
+    sm: '0 2px 4px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02)',
+    md: '0 4px 12px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04)',
+    lg: '0 12px 24px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.06)',
+    xl: '0 20px 40px rgba(0, 0, 0, 0.16), 0 8px 16px rgba(0, 0, 0, 0.08)',
+    inner: 'inset 0 2px 4px rgba(0, 0, 0, 0.06)',
+    glow: '0 0 20px rgba(99, 102, 241, 0.3)',
   },
 } as const;
 
@@ -108,47 +114,52 @@ export const lightTheme = {
 export const darkTheme = {
   ...commonTheme,
   colors: {
-    // Primary
-    primary: '#6366f1',
-    primaryHover: '#4f46e5',
+    // Primary - 네온 같은 생생한 컬러
+    primary: '#818cf8',
+    primaryHover: '#6366f1',
     primaryLight: '#312e81',
 
-    // Background
-    bgDark: '#1a1a1a',
-    bgLight: '#0f0f0f',
-    bgWhite: '#1e1e1e',
-    bgGray: '#2a2a2a',
-    bgDarkHover: '#2a2a2a',
+    // Background - 깊은 네이비 블랙
+    bgDark: '#0f172a',
+    bgLight: '#0a0f1e',
+    bgWhite: '#1e293b',
+    bgGray: '#334155',
+    bgDarkHover: '#1e293b',
 
-    // Border
-    border: '#3a3a3a',
-    borderDark: '#2a2a2a',
-    borderDarkHover: '#3a3a3a',
-    borderLight: '#2a2a2a',
+    // Border - 은은한 경계
+    border: '#334155',
+    borderDark: '#1e293b',
+    borderDarkHover: '#475569',
+    borderLight: '#334155',
 
-    // Text
-    textPrimary: '#e5e5e5',
-    textSecondary: '#a3a3a3',
-    textTertiary: '#737373',
-    textLight: '#9ca3af',
+    // Text - 부드러운 대비
+    textPrimary: '#f1f5f9',
+    textSecondary: '#cbd5e1',
+    textTertiary: '#64748b',
+    textLight: '#94a3b8',
     textWhite: '#ffffff',
 
-    // Status
-    success: '#10b981',
-    error: '#ef4444',
-    warning: '#f59e0b',
-    info: '#3b82f6',
+    // Status - 더 밝고 선명한 상태 색상
+    success: '#34d399',
+    error: '#f87171',
+    warning: '#fbbf24',
+    info: '#60a5fa',
 
-    // Gradient
-    gradientPurple: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    // Gradient - 네온 느낌의 그라데이션
+    gradientPurple: 'linear-gradient(135deg, #818cf8 0%, #c084fc 100%)',
+    gradientBlue: 'linear-gradient(135deg, #60a5fa 0%, #818cf8 100%)',
+    gradientPink: 'linear-gradient(135deg, #f472b6 0%, #ec4899 100%)',
+    gradientOrange: 'linear-gradient(135deg, #fb923c 0%, #fbbf24 100%)',
   },
 
-  // 그림자
+  // 그림자 - 더 극적인 깊이감
   shadows: {
-    sm: '0 1px 2px rgba(0, 0, 0, 0.3)',
-    md: '0 4px 6px rgba(0, 0, 0, 0.4)',
-    lg: '0 10px 15px rgba(0, 0, 0, 0.5)',
-    xl: '0 20px 25px rgba(0, 0, 0, 0.6)',
+    sm: '0 2px 8px rgba(0, 0, 0, 0.4), 0 1px 4px rgba(0, 0, 0, 0.3)',
+    md: '0 4px 16px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.4)',
+    lg: '0 12px 32px rgba(0, 0, 0, 0.6), 0 4px 12px rgba(0, 0, 0, 0.5)',
+    xl: '0 20px 48px rgba(0, 0, 0, 0.7), 0 8px 20px rgba(0, 0, 0, 0.6)',
+    inner: 'inset 0 2px 8px rgba(0, 0, 0, 0.4)',
+    glow: '0 0 24px rgba(129, 140, 248, 0.5), 0 0 48px rgba(129, 140, 248, 0.2)',
   },
 } as const;
 

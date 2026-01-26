@@ -4,8 +4,8 @@ import { float, pulseLine } from '../animations';
 export const Container = styled.div`
     width: 100%;
     min-height: 100vh;
-    background: #0a0a0a;
-    color: white;
+    background: var(--color-bg-light);
+    color: var(--color-text-primary);
     overflow: hidden;
     position: relative;
 
@@ -46,12 +46,26 @@ export const Title = styled.h1`
     line-height: 1.2;
     margin: 0 0 1.5rem 0;
     letter-spacing: -0.02em;
+    color: var(--color-text-primary);
 
     /* '아이디어' 부분 강조 */
     span {
-        background: linear-gradient(90deg, #407bff, #00d2ff);
+        background: var(--gradient-blue);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
+        background-clip: text;
+        position: relative;
+        display: inline-block;
+        animation: shimmer 3s ease-in-out infinite;
+    }
+
+    @keyframes shimmer {
+        0%, 100% {
+            filter: brightness(1);
+        }
+        50% {
+            filter: brightness(1.2);
+        }
     }
 
     @media (max-width: 1024px) { font-size: 3.5rem; }
@@ -60,7 +74,7 @@ export const Title = styled.h1`
 
 export const Description = styled.p`
     font-size: 1.2rem;
-    color: #888;
+    color: var(--color-text-secondary);
     margin-bottom: 3rem;
     line-height: 1.6;
     @media (max-width: 768px) { margin-bottom: 2rem; }
@@ -74,20 +88,48 @@ export const ButtonGroup = styled.div`
 `;
 
 export const Button = styled.button<{ primary?: boolean }>`
-    background: ${props => props.primary ? '#407bff' : '#1a1a1a'};
-    border: 1px solid ${props => props.primary ? '#407bff' : '#333'};
-    color: white;
-    padding: 1.2rem 2.5rem;
-    border-radius: 12px;
+    background: ${props => props.primary ? 'var(--gradient-blue)' : 'var(--color-bg-white)'};
+    border: ${props => props.primary ? 'none' : '2px solid var(--color-border)'};
+    color: ${props => props.primary ? 'var(--color-text-white)' : 'var(--color-text-primary)'};
+    padding: 1.2rem 2.8rem;
+    border-radius: 50px;
     font-size: 1.1rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: ${props => props.primary ? 'var(--shadow-md)' : 'var(--shadow-sm)'};
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: ${props => props.primary ? 'rgba(255,255,255,0.2)' : 'var(--color-primary-light)'};
+        transform: translate(-50%, -50%);
+        transition: width 0.6s, height 0.6s;
+        z-index: -1;
+    }
 
     &:hover {
-        background: ${props => props.primary ? '#2d6ae0' : '#2a2a2a'};
-        transform: translateY(-5px);
-        box-shadow: ${props => props.primary ? '0 10px 25px rgba(64, 123, 255, 0.4)' : '0 10px 20px rgba(0,0,0,0.4)'};
+        transform: translateY(-4px);
+        box-shadow: ${props => props.primary ? 'var(--shadow-xl), var(--shadow-glow)' : 'var(--shadow-lg)'};
+        border-color: ${props => props.primary ? 'none' : 'var(--color-primary)'};
+        color: ${props => props.primary ? 'var(--color-text-white)' : 'var(--color-text-primary)'};
+
+        &::before {
+            width: 300px;
+            height: 300px;
+        }
+    }
+
+    &:active {
+        transform: translateY(-2px);
     }
 `;
 
@@ -101,13 +143,14 @@ export const HeroVisual = styled.div`
 export const Laptop = styled.div`
     width: 550px;
     height: 380px;
-    background: linear-gradient(145deg, #1e1e1e, #111);
+    background: var(--color-bg-white);
     border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--color-border);
     padding: 18px;
     position: relative;
     z-index: 1;
     animation: ${float} 6s infinite ease-in-out;
+    box-shadow: var(--shadow-xl);
 
     @media (max-width: 1024px) { width: 450px; height: 310px; }
     @media (max-width: 768px) { width: 100%; max-width: 500px; height: 280px; }
@@ -116,7 +159,7 @@ export const Laptop = styled.div`
 export const Screen = styled.div`
     width: 100%;
     height: 100%;
-    background: #000;
+    background: var(--color-bg-dark);
     border-radius: 12px;
     padding: 2.5rem;
     display: flex;
@@ -131,14 +174,14 @@ export const Screen = styled.div`
         position: absolute;
         top: 0; left: 0; right: 0;
         height: 25px;
-        background: #111;
-        border-bottom: 1px solid #222;
+        background: var(--color-bg-dark-hover);
+        border-bottom: 1px solid var(--color-border-dark);
     }
 `;
 
 export const Line = styled.div<{ width: string; duration: string; delay: string }>`
   height: 10px;
-  background: linear-gradient(90deg, #2a2a2a, #333);
+  background: linear-gradient(90deg, var(--color-bg-gray), var(--color-border-dark-hover));
   border-radius: 5px;
   animation: ${pulseLine} ${props => props.duration} infinite ease-in-out;
   animation-delay: ${props => props.delay};
@@ -148,14 +191,14 @@ export const StatusBadge = styled.div`
     position: absolute;
     bottom: -20px;
     right: -20px;
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--color-bg-white);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--color-border);
     padding: 1rem 1.5rem;
     border-radius: 16px;
     font-weight: 500;
-    color: #407bff;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    color: var(--color-primary);
+    box-shadow: var(--shadow-xl);
     z-index: 2;
     @media (max-width: 480px) { display: none; }
 `;

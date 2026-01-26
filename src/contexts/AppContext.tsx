@@ -130,7 +130,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [recruits, setRecruits] = useState<RecruitPost[]>(initialRecruits);
   const [communityPosts, setCommunityPosts] = useState<CommunityPost[]>(initialCommunityPosts);
   const [userProfile, setUserProfile] = useState<UserProfile>(initialProfile);
-  const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
 
   const addRecruit = (recruit: Omit<RecruitPost, 'id'>) => {
     const newRecruit: RecruitPost = {

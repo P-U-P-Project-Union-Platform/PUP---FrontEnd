@@ -39,12 +39,14 @@ export const Description = styled.p`
 
 export const FormCard = styled.div`
   background: var(--color-bg-white);
-  border-radius: ${theme.borderRadius.lg};
-  padding: ${theme.spacing['2xl']};
-  box-shadow: var(--shadow-md);
+  border-radius: ${theme.borderRadius.xl};
+  padding: ${theme.spacing['3xl']};
+  box-shadow: var(--shadow-xl);
+  border: 1px solid var(--color-border);
+  backdrop-filter: blur(20px);
 
   @media (max-width: ${theme.breakpoints.tablet}) {
-    padding: ${theme.spacing.xl};
+    padding: ${theme.spacing['2xl']};
   }
 `;
 
@@ -69,18 +71,26 @@ export const AuthButton = styled.button`
   align-items: center;
   gap: ${theme.spacing.md};
   width: 100%;
-  padding: ${theme.spacing.md} ${theme.spacing.lg};
-  border: none;
-  border-radius: ${theme.borderRadius.md};
-  background-color: var(--color-bg-dark);
-  color: var(--color-text-white);
+  padding: ${theme.spacing.lg};
+  border: 2px solid var(--color-border);
+  border-radius: ${theme.borderRadius.lg};
+  background-color: var(--color-bg-white);
+  color: var(--color-text-primary);
   font-size: ${theme.fontSizes.base};
-  font-weight: ${theme.fontWeights.medium};
+  font-weight: ${theme.fontWeights.semibold};
   cursor: pointer;
-  transition: background ${theme.transitions.base};
+  transition: all ${theme.transitions.base};
+  box-shadow: var(--shadow-sm);
 
   &:hover {
-    background-color: var(--color-bg-dark-hover);
+    background-color: var(--color-bg-gray);
+    border-color: var(--color-border-dark-hover);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0);
   }
 `;
 
@@ -135,17 +145,22 @@ export const Label = styled.label`
 
 export const Input = styled.input`
   width: 100%;
-  padding: ${theme.spacing.md};
-  border: 1px solid var(--color-border);
-  border-radius: ${theme.borderRadius.md};
+  padding: ${theme.spacing.lg};
+  border: 2px solid var(--color-border);
+  border-radius: ${theme.borderRadius.lg};
   font-size: ${theme.fontSizes.base};
   color: var(--color-text-primary);
   background: var(--color-bg-white);
   outline: none;
-  transition: border-color ${theme.transitions.base};
+  transition: all ${theme.transitions.base};
 
   &:focus {
     border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px var(--color-primary-light);
+  }
+
+  &:hover {
+    border-color: var(--color-border-dark-hover);
   }
 
   &::placeholder {
@@ -155,25 +170,59 @@ export const Input = styled.input`
 
 export const SubmitButton = styled.button`
   width: 100%;
-  padding: ${theme.spacing.md} ${theme.spacing.lg};
+  padding: ${theme.spacing.lg};
   border: none;
-  border-radius: ${theme.borderRadius.md};
-  background-color: var(--color-primary);
+  border-radius: ${theme.borderRadius.lg};
+  background: var(--gradient-blue);
   color: var(--color-text-white);
   font-size: ${theme.fontSizes.base};
-  font-weight: ${theme.fontWeights.semibold};
+  font-weight: ${theme.fontWeights.bold};
   cursor: pointer;
-  transition: background ${theme.transitions.base};
+  transition: all ${theme.transitions.base};
   margin-top: ${theme.spacing.md};
+  box-shadow: var(--shadow-md);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.3),
+      transparent
+    );
+    transition: left ${theme.transitions.slow};
+  }
 
   &:hover {
-    background-color: var(--color-primary-hover);
+    box-shadow: var(--shadow-lg), var(--shadow-glow);
+    transform: translateY(-2px);
+
+    &::before {
+      left: 100%;
+    }
+  }
+
+  &:active {
+    transform: translateY(0);
   }
 
   &:disabled {
     background: var(--color-bg-gray);
     color: var(--color-text-tertiary);
     cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+
+    &::before {
+      display: none;
+    }
   }
 `;
 
