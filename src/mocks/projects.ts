@@ -1,14 +1,11 @@
 import type { Project } from '../types/project';
 
-/**
- * 개발 및 테스트용 더미 프로젝트 데이터
- */
-export const MOCK_PROJECTS: Project[] = [
+export const mockProjects: Project[] = [
   {
     id: '1',
     title: '실시간 채팅 애플리케이션',
     description:
-      'Socket.io를 활용한 실시간 채팅 dad애플리케이션입니다. 개인 채팅, 그룹 채팅, 파일 전송 기능을 지원합니다.',
+      'Socket.io를 활용한 실시간 채팅 애플리케이션입니다. 개인 채팅, 그룹 채팅, 파일 전송 기능을 지원합니다.',
     thumbnail: null,
     category: 'web',
     tags: ['#팀프로젝트', '#초보환영', '#리모트'],
@@ -174,8 +171,8 @@ export function initializeMockData() {
   if (import.meta.env.DEV) {
     const existing = localStorage.getItem('pup_projects');
     if (!existing) {
-      localStorage.setItem('pup_projects', JSON.stringify(MOCK_PROJECTS));
-      console.log('✅ Mock 데이터가 초기화되었습니다.');
+      localStorage.setItem('pup_projects', JSON.stringify(mockProjects));
+      console.log('✅ Mock 프로젝트 데이터가 초기화되었습니다.');
     }
   }
 }

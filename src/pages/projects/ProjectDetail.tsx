@@ -133,7 +133,7 @@ export default function ProjectDetail() {
         </Thumbnail>
 
         <DetailContent>
-          <BackLink to="/projects">← 목록으로  </BackLink>
+          <BackLink to="/projects">← 목록으로</BackLink>
 
           <CategoryBadge>
             {category?.icon} {category?.label}
@@ -143,13 +143,10 @@ export default function ProjectDetail() {
 
           <MetaInfo>
             <MetaItem>
-              👤 {project.author.name}
+              {createdDate}
             </MetaItem>
             <MetaItem>
-              📅 {createdDate}
-            </MetaItem>
-            <MetaItem>
-              👁 {project.views}회 조회
+              {project.views}회 조회
             </MetaItem>
             <MetaItem>
               ❤️ {project.likes}개 좋아요

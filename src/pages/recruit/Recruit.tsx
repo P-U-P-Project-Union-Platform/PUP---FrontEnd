@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useApp } from '../contexts/AppContext';
+import { useApp } from '../../contexts/AppContext';
 import {
   Container,
   Header,
@@ -26,7 +26,7 @@ import {
   Author,
   Date,
   EmptyState
-} from '../styles/pages/recruitStyles';
+} from '../../styles/pages/recruitStyles';
 
 export default function Recruit() {
   const navigate = useNavigate();

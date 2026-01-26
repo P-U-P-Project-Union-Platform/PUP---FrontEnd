@@ -7,10 +7,11 @@ import Signup from "./pages/Signup"
 import Register from "./pages/projects/Register"
 import ProjectList from "./pages/projects/ProjectList"
 import ProjectDetail from "./pages/projects/ProjectDetail"
-import RecruitWrite from "./pages/RecruitWrite"
-import Community from "./pages/Community"
-import CommunityWrite from "./pages/CommunityWrite"
-import CommunityDetail from "./pages/CommunityDetail"
+import Recruit from "./pages/recruit/Recruit"
+import RecruitWrite from "./pages/recruit/RecruitWrite"
+import Community from "./pages/community/Community"
+import CommunityWrite from "./pages/community/CommunityWrite"
+import CommunityDetail from "./pages/community/CommunityDetail"
 import MyPage from "./pages/MyPage"
 import ProfileEdit from "./pages/ProfileEdit"
 import UserProfile from "./pages/UserProfile"
@@ -35,7 +36,10 @@ function AnimatedRoutes() {
           <Route path="register" element={<PageTransition><Register /></PageTransition>} />
           <Route path=":id" element={<PageTransition><ProjectDetail /></PageTransition>} />
         </Route>
-        <Route path="/recruit" element={<PageTransition><RecruitWrite /></PageTransition>} />
+        <Route path="/recruit">
+          <Route index element={<PageTransition><Recruit /></PageTransition>} />
+          <Route path="write" element={<PageTransition><RecruitWrite /></PageTransition>} />
+        </Route>
         <Route path="/community">
           <Route index element={<PageTransition><Community /></PageTransition>} />
           <Route path="write" element={<PageTransition><CommunityWrite /></PageTransition>} />

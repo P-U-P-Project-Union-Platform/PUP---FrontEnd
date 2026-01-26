@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useApp } from '../contexts/AppContext';
+import { useApp } from '../../contexts/AppContext';
 import {
   Container,
   Header,
@@ -25,7 +25,7 @@ import {
   PostStats,
   Stat,
   EmptyState
-} from '../styles/pages/communityStyles';
+} from '../../styles/pages/communityStyles';
 
 const categories = ['전체', '자유', '질문', '정보', '후기'];
 

@@ -4,7 +4,7 @@ import { projectService, filterProjects } from '../../services/projectService';
 import { PROJECT_CATEGORIES, type ProjectCategory } from '../../types/project';
 import SearchBar from '../../components/projects/SearchBar';
 import ProjectCard from '../../components/projects/ProjectCard';
-import { initializeMockData } from '../../services/mockData';
+import { initializeMockData } from '../../mocks/projects';
 import {
   Container,
   Header,
