@@ -16,6 +16,7 @@ import ProfileEdit from "./pages/ProfileEdit"
 import UserProfile from "./pages/UserProfile"
 import Layout from "./components/layout/Layout"
 import PageTransition from "./components/common/PageTransition"
+import ScrollToTop from "./components/common/ScrollToTop"
 import { AppProvider, useApp } from "./contexts/AppContext"
 import { lightTheme, darkTheme } from "./styles/theme"
 import { GlobalStyle } from "./styles/GlobalStyle"
@@ -58,6 +59,7 @@ function ThemedApp() {
     <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
       <GlobalStyle />
       <BrowserRouter>
+        <ScrollToTop />
         <Layout>
           <AnimatedRoutes />
         </Layout>
