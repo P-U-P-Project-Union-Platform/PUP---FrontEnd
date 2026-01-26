@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { getUserProfile } from '../mocks';
+import { useApp } from '../contexts/AppContext';
 import {
   Container,
   ProfileSection,
@@ -26,8 +26,9 @@ import {
 export default function UserProfile() {
   const { username } = useParams();
   const navigate = useNavigate();
+  const { users } = useApp();
 
-  const user = username ? getUserProfile(decodeURIComponent(username)) : null;
+  const user = username ? users[decodeURIComponent(username)] : null;
 
   if (!user) {
     return (
@@ -48,7 +49,12 @@ export default function UserProfile() {
 
       <ProfileSection>
         <ProfileHeader>
-          <Avatar>{user.initial}</Avatar>
+          <Avatar style={user.avatar ? {
+            background: `url(${user.avatar}) center/cover`,
+            fontSize: 0
+          } : {}}>
+            {!user.avatar && user.initial}
+          </Avatar>
           <ProfileInfo>
             <UserName>{user.name}</UserName>
             <UserBio>{user.bio}</UserBio>

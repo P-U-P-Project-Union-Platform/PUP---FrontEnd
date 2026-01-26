@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useApp } from '../contexts/AppContext';
+import { useApp } from '../../contexts/AppContext';
 import {
   Container,
   ContentWrapper,
@@ -33,7 +33,7 @@ import {
   CommentDate,
   CommentContent,
   EmptyComments
-} from '../styles/pages/communityDetailStyles';
+} from '../../styles/pages/communityDetailStyles';
 
 interface CommentType {
   id: number;

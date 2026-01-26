@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useApp } from '../contexts/AppContext';
+import { useApp } from '../../contexts/AppContext';
 import {
   Container,
   FormWrapper,
@@ -19,7 +19,7 @@ import {
   CancelButton,
   SubmitButton,
   ErrorMessage
-} from '../styles/pages/communityWriteStyles';
+} from '../../styles/pages/communityWriteStyles';
 
 const categories = ['자유', '질문', '정보', '후기'];
 

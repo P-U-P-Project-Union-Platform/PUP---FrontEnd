@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { projectService } from '../services/projectService';
-import { PROJECT_CATEGORIES } from '../types/project';
-import ImageUploader from '../components/projects/ImageUploader';
-import TagInput from '../components/projects/TagInput';
-import CategorySelector from '../components/projects/CategorySelector';
+import { projectService } from '../../services/projectService';
+import { PROJECT_CATEGORIES } from '../../types/project';
+import ImageUploader from '../../components/projects/ImageUploader';
+import TagInput from '../../components/projects/TagInput';
+import CategorySelector from '../../components/projects/CategorySelector';
 import {
   Container,
   FormWrapper,
@@ -28,14 +28,14 @@ import {
   SubmitButton,
   ErrorMessage,
   HelpText
-} from '../styles/pages/recruitWriteStyles';
+} from '../../styles/pages/recruitWriteStyles';
 
 interface Position {
   name: string;
   count: string;
 }
 
-export default function RecruitWrite() {
+export default function Recruit() {
   const navigate = useNavigate();
   const [thumbnail, setThumbnail] = useState<string>('');
   const [category, setCategory] = useState<string>('');

@@ -7,6 +7,7 @@ export interface UserProfile {
   github?: string;
   blog?: string;
   portfolio?: string;
+  avatar?: string;
   stats: {
     projects: number;
     posts: number;

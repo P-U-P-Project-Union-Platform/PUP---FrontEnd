@@ -1,11 +1,23 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { Link } from 'react-router-dom';
 import { theme } from '../../theme';
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
 
 export const Container = styled.div`
   background: var(--color-bg-light);
   min-height: 100vh;
   padding: 80px 40px 60px;
+  animation: ${fadeIn} 0.4s ease-out;
 
   @media (max-width: ${theme.breakpoints.tablet}) {
     padding: 80px 20px 40px;
