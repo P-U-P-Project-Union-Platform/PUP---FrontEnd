@@ -44,18 +44,46 @@ export const Description = styled.p`
 `;
 
 export const WriteButton = styled.button`
-  padding: ${theme.spacing.md} ${theme.spacing.xl};
-  background: var(--color-primary);
+  padding: ${theme.spacing.md} ${theme.spacing['2xl']};
+  background: var(--gradient-blue);
   color: var(--color-text-white);
   border: none;
-  border-radius: ${theme.borderRadius.md};
+  border-radius: ${theme.borderRadius.full};
   font-size: ${theme.fontSizes.base};
-  font-weight: ${theme.fontWeights.semibold};
+  font-weight: ${theme.fontWeights.bold};
   cursor: pointer;
   transition: all ${theme.transitions.base};
+  box-shadow: var(--shadow-md);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent
+    );
+    transition: left ${theme.transitions.slow};
+  }
 
   &:hover {
-    background: var(--color-primary-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg), var(--shadow-glow);
+
+    &::before {
+      left: 100%;
+    }
+  }
+
+  &:active {
+    transform: translateY(0);
   }
 `;
 
@@ -72,18 +100,25 @@ export const CategorySection = styled.div`
 `;
 
 export const CategoryButton = styled.button<{ active?: boolean }>`
-  padding: ${theme.spacing.sm} ${theme.spacing.lg};
+  padding: ${theme.spacing.sm} ${theme.spacing.xl};
   border-radius: ${theme.borderRadius.full};
-  border: 1px solid ${props => props.active ? 'var(--color-primary)' : 'var(--color-border)'};
-  background: ${props => props.active ? 'var(--color-primary)' : 'var(--color-bg-white)'};
+  border: 2px solid ${props => props.active ? 'var(--color-primary)' : 'var(--color-border)'};
+  background: ${props => props.active ? 'var(--gradient-blue)' : 'var(--color-bg-white)'};
   color: ${props => props.active ? 'var(--color-text-white)' : 'var(--color-text-secondary)'};
   font-size: ${theme.fontSizes.sm};
-  font-weight: ${theme.fontWeights.medium};
+  font-weight: ${theme.fontWeights.semibold};
   cursor: pointer;
   transition: all ${theme.transitions.base};
+  box-shadow: ${props => props.active ? 'var(--shadow-md)' : 'var(--shadow-sm)'};
 
   &:hover {
-    background: ${props => props.active ? 'var(--color-primary-hover)' : 'var(--color-bg-gray)'};
+    background: ${props => props.active ? 'var(--gradient-blue)' : 'var(--color-bg-gray)'};
+    transform: translateY(-2px);
+    box-shadow: ${props => props.active ? 'var(--shadow-lg), var(--shadow-glow)' : 'var(--shadow-md)'};
+  }
+
+  &:active {
+    transform: translateY(0);
   }
 `;
 
@@ -97,15 +132,17 @@ export const PostList = styled.div`
 
 export const PostCard = styled.div`
   background: var(--color-bg-white);
-  border-radius: ${theme.borderRadius.lg};
-  padding: ${theme.spacing.xl};
-  box-shadow: var(--shadow-sm);
+  border-radius: ${theme.borderRadius.xl};
+  padding: ${theme.spacing['2xl']};
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--color-border);
   transition: all ${theme.transitions.base};
   cursor: pointer;
 
   &:hover {
-    box-shadow: var(--shadow-md);
-    transform: translateY(-2px);
+    box-shadow: var(--shadow-xl);
+    transform: translateY(-4px);
+    border-color: var(--color-primary);
   }
 `;
 
@@ -126,13 +163,14 @@ export const PostTitle = styled.h3`
 `;
 
 export const CategoryBadge = styled.span`
-  padding: ${theme.spacing.xs} ${theme.spacing.sm};
+  padding: ${theme.spacing.xs} ${theme.spacing.md};
   background: var(--color-primary-light);
   color: var(--color-primary);
-  border-radius: ${theme.borderRadius.sm};
+  border-radius: ${theme.borderRadius.full};
   font-size: ${theme.fontSizes.xs};
-  font-weight: ${theme.fontWeights.semibold};
+  font-weight: ${theme.fontWeights.bold};
   white-space: nowrap;
+  border: 1px solid var(--color-primary);
 `;
 
 export const PostContent = styled.p`
@@ -150,8 +188,9 @@ export const PostFooter = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: ${theme.spacing.md};
-  border-top: 1px solid var(--color-border-light);
+  padding-top: ${theme.spacing.lg};
+  margin-top: ${theme.spacing.md};
+  border-top: 1px solid var(--color-border);
 `;
 
 export const AuthorInfo = styled.div`
@@ -161,16 +200,17 @@ export const AuthorInfo = styled.div`
 `;
 
 export const Avatar = styled.div`
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   border-radius: ${theme.borderRadius.full};
-  background: var(--color-primary);
+  background: var(--gradient-purple);
   color: var(--color-text-white);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: ${theme.fontWeights.semibold};
+  font-weight: ${theme.fontWeights.bold};
   font-size: ${theme.fontSizes.sm};
+  box-shadow: var(--shadow-sm);
 `;
 
 export const AuthorDetails = styled.div`
@@ -191,7 +231,7 @@ export const PostDate = styled.span`
 
 export const PostStats = styled.div`
   display: flex;
-  gap: ${theme.spacing.lg};
+  gap: ${theme.spacing.sm};
   align-items: center;
 `;
 
@@ -199,8 +239,23 @@ export const Stat = styled.div`
   display: flex;
   align-items: center;
   gap: ${theme.spacing.xs};
-  font-size: ${theme.fontSizes.sm};
-  color: var(--color-text-tertiary);
+  padding: ${theme.spacing.xs} ${theme.spacing.sm};
+  background: var(--color-bg-gray);
+  border-radius: ${theme.borderRadius.full};
+  font-size: ${theme.fontSizes.xs};
+  font-weight: ${theme.fontWeights.medium};
+  color: var(--color-text-secondary);
+  transition: all ${theme.transitions.base};
+
+  &:hover {
+    background: var(--color-border);
+    transform: translateY(-1px);
+  }
+
+  /* 첫 번째 자식 (이모지)에 스타일 적용 */
+  span:first-child {
+    font-size: ${theme.fontSizes.sm};
+  }
 `;
 
 export const EmptyState = styled.div`

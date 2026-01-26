@@ -84,9 +84,9 @@ export default function Community() {
                 </AuthorInfo>
 
                 <PostStats>
-                  <Stat>👁 {post.views}</Stat>
-                  <Stat>💬 {post.comments}</Stat>
-                  <Stat>❤️ {post.likes}</Stat>
+                  <Stat><span>👁</span> {post.views}</Stat>
+                  <Stat><span>💬</span> {post.comments}</Stat>
+                  <Stat><span>❤️</span> {post.likes}</Stat>
                 </PostStats>
               </PostFooter>
             </PostCard>
