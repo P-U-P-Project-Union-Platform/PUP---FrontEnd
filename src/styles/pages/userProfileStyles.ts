@@ -97,6 +97,45 @@ export const UserBio = styled.p`
   font-size: ${theme.fontSizes.base};
   color: var(--color-text-secondary);
   line-height: 1.6;
+  margin-bottom: ${theme.spacing.lg};
+`;
+
+export const InfoList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${theme.spacing.md};
+`;
+
+export const InfoItem = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${theme.spacing.md};
+  flex-wrap: wrap;
+`;
+
+export const InfoLabel = styled.span`
+  font-size: ${theme.fontSizes.sm};
+  font-weight: ${theme.fontWeights.semibold};
+  color: var(--color-text-secondary);
+  min-width: 100px;
+`;
+
+export const InfoValue = styled.span`
+  font-size: ${theme.fontSizes.sm};
+  color: var(--color-text-primary);
+`;
+
+export const InfoLink = styled.a`
+  font-size: ${theme.fontSizes.sm};
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: ${theme.fontWeights.medium};
+  transition: all ${theme.transitions.base};
+
+  &:hover {
+    color: var(--color-primary-hover);
+    text-decoration: underline;
+  }
 `;
 
 export const StatsGrid = styled.div`

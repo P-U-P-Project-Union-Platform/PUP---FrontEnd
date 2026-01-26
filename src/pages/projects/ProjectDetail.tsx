@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { projectService } from '../../services/projectService';
 import { PROJECT_CATEGORIES } from '../../types/project';
+import { getUserProfile } from '../../mocks';
 import {
   Container,
   Content,
@@ -30,6 +31,14 @@ import {
   PositionName,
   PositionCount,
   ApplyButton,
+  AuthorSection,
+  AuthorHeader,
+  AuthorAvatar,
+  AuthorInfo,
+  AuthorName,
+  AuthorBio,
+  AuthorLinks,
+  AuthorLink,
   NotFound,
   NotFoundIcon,
   NotFoundText,
@@ -57,8 +66,10 @@ const recruitData: { [key: string]: any } = {
 
 export default function ProjectDetail() {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const project = id ? projectService.getById(id) : null;
   const recruitInfo = id ? recruitData[id] : null;
+  const authorProfile = project ? getUserProfile(project.author.name) : null;
   const [hasApplied, setHasApplied] = useState(false);
   const [selectedPosition, setSelectedPosition] = useState<number | null>(null);
 
@@ -181,6 +192,52 @@ export default function ProjectDetail() {
                 📦 GitHub에서 보기
               </GithubLink>
             </Section>
+          )}
+
+          {authorProfile && (
+            <AuthorSection>
+              <SectionLabel>프로젝트 작성자</SectionLabel>
+              <AuthorHeader>
+                <AuthorAvatar
+                  onClick={() => navigate(`/user/${encodeURIComponent(authorProfile.username)}`)}
+                >
+                  {authorProfile.initial}
+                </AuthorAvatar>
+                <AuthorInfo>
+                  <AuthorName>{authorProfile.name}</AuthorName>
+                  <AuthorBio>{authorProfile.bio}</AuthorBio>
+                  <AuthorLinks>
+                    {authorProfile.github && (
+                      <AuthorLink
+                        href={authorProfile.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        💻 GitHub
+                      </AuthorLink>
+                    )}
+                    {authorProfile.blog && (
+                      <AuthorLink
+                        href={authorProfile.blog}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        📝 블로그
+                      </AuthorLink>
+                    )}
+                    {authorProfile.portfolio && (
+                      <AuthorLink
+                        href={authorProfile.portfolio}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        🎨 포트폴리오
+                      </AuthorLink>
+                    )}
+                  </AuthorLinks>
+                </AuthorInfo>
+              </AuthorHeader>
+            </AuthorSection>
           )}
 
           {recruitInfo && (

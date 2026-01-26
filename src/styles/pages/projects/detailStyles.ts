@@ -390,3 +390,92 @@ export const NotFoundLink = styled(Link)`
     background: var(--color-primary-hover);
   }
 `;
+
+// 작성자 프로필 섹션
+export const AuthorSection = styled.div`
+  margin-top: ${theme.spacing['3xl']};
+  padding: ${theme.spacing['2xl']};
+  background: var(--color-bg-gray);
+  border-radius: ${theme.borderRadius.xl};
+  border: 1px solid var(--color-border);
+`;
+
+export const AuthorHeader = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${theme.spacing.lg};
+  margin-bottom: ${theme.spacing.md};
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    flex-direction: column;
+    text-align: center;
+  }
+`;
+
+export const AuthorAvatar = styled.div`
+  width: 64px;
+  height: 64px;
+  border-radius: ${theme.borderRadius.full};
+  background: var(--gradient-purple);
+  color: var(--color-text-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: ${theme.fontWeights.bold};
+  font-size: ${theme.fontSizes['2xl']};
+  box-shadow: var(--shadow-lg);
+  cursor: pointer;
+  transition: all ${theme.transitions.base};
+  flex-shrink: 0;
+
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: var(--shadow-xl);
+  }
+`;
+
+export const AuthorInfo = styled.div`
+  flex: 1;
+`;
+
+export const AuthorName = styled.h3`
+  font-size: ${theme.fontSizes.xl};
+  font-weight: ${theme.fontWeights.bold};
+  color: var(--color-text-primary);
+  margin-bottom: ${theme.spacing.xs};
+`;
+
+export const AuthorBio = styled.p`
+  font-size: ${theme.fontSizes.sm};
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  margin-bottom: ${theme.spacing.md};
+`;
+
+export const AuthorLinks = styled.div`
+  display: flex;
+  gap: ${theme.spacing.md};
+  flex-wrap: wrap;
+`;
+
+export const AuthorLink = styled.a`
+  display: inline-flex;
+  align-items: center;
+  gap: ${theme.spacing.xs};
+  padding: ${theme.spacing.xs} ${theme.spacing.md};
+  background: var(--color-bg-white);
+  border: 1px solid var(--color-border);
+  border-radius: ${theme.borderRadius.full};
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  font-size: ${theme.fontSizes.sm};
+  font-weight: ${theme.fontWeights.medium};
+  transition: all ${theme.transitions.base};
+
+  &:hover {
+    background: var(--color-primary);
+    color: var(--color-text-white);
+    border-color: var(--color-primary);
+    transform: translateY(-2px);
+  }
+`;
