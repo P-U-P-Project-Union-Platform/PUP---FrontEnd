@@ -1,4 +1,6 @@
 import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { projectService } from '../services/projectService';
 import {
     Container,
     Main,
@@ -16,6 +18,29 @@ import {
 
 export default function Home() {
     const navigate = useNavigate();
+    const [projectCount, setProjectCount] = useState(0);
+    const totalProjects = projectService.getAll().length;
+    const roundedTotal = Math.ceil(totalProjects / 100) * 100;
+
+    useEffect(() => {
+        const duration = 500; // 2초
+        const steps = 60;
+        const stepDuration = duration / steps;
+        const increment = roundedTotal / steps;
+        let currentStep = 0;
+
+        const timer = setInterval(() => {
+            currentStep++;
+            if (currentStep >= steps) {
+                setProjectCount(roundedTotal);
+                clearInterval(timer);
+            } else {
+                setProjectCount(Math.floor(increment * currentStep));
+            }
+        }, stepDuration);
+
+        return () => clearInterval(timer);
+    }, [roundedTotal]);
 
     return (
         <Container>
@@ -27,7 +52,7 @@ export default function Home() {
                     </Title>
                     <Description>
                         함께 성장할 팀원을 찾고 프로젝트를 성공으로 이끄세요.<br />
-                        지금 1,200+ 개의 프로젝트가 파트너를 기다리고 있습니다.
+                        지금 {projectCount.toLocaleString()}+ 개의 프로젝트가 파트너를 기다리고 있습니다.
                     </Description>
                     <ButtonGroup>
                         <Button primary onClick={() => navigate('/projects')}>프로젝트 보기</Button>
