@@ -7,17 +7,19 @@ interface ToggleProps {
 
 export const FooterContainer = styled.footer`
   width: 100%;
-  padding: ${theme.spacing.xl} ${theme.spacing['2xl']};
+  padding: ${theme.spacing['2xl']} ${theme.spacing['3xl']};
   display: flex;
   justify-content: space-between;
   align-items: center;
   background: var(--color-bg-dark);
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--color-text-secondary);
   border-top: 1px solid var(--color-border-dark);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
 
   @media (max-width: ${theme.breakpoints.tablet}) {
     flex-direction: column;
-    gap: ${theme.spacing.md};
+    gap: ${theme.spacing.lg};
     padding: ${theme.spacing.xl};
   }
 `;
@@ -34,20 +36,39 @@ export const FooterRight = styled.div`
 `;
 
 export const FooterLink = styled.a`
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--color-text-secondary);
   text-decoration: none;
   font-size: ${theme.fontSizes.sm};
+  font-weight: ${theme.fontWeights.medium};
   cursor: pointer;
-  transition: color ${theme.transitions.base};
+  transition: all ${theme.transitions.base};
+  position: relative;
+  padding: 0.25rem 0;
+
+  &::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background: var(--gradient-blue);
+    transition: width ${theme.transitions.base};
+  }
 
   &:hover {
-    color: ${theme.colors.textWhite};
+    color: var(--color-text-white);
+
+    &::after {
+      width: 100%;
+    }
   }
 `;
 
 export const ModeText = styled.p`
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--color-text-secondary);
   font-size: ${theme.fontSizes.sm};
+  font-weight: ${theme.fontWeights.medium};
   margin: 0;
 `;
 

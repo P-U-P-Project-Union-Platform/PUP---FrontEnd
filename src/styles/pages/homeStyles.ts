@@ -46,12 +46,26 @@ export const Title = styled.h1`
     line-height: 1.2;
     margin: 0 0 1.5rem 0;
     letter-spacing: -0.02em;
+    color: var(--color-text-primary);
 
     /* '아이디어' 부분 강조 */
     span {
-        background: linear-gradient(90deg, #407bff, #00d2ff);
+        background: var(--gradient-blue);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
+        background-clip: text;
+        position: relative;
+        display: inline-block;
+        animation: shimmer 3s ease-in-out infinite;
+    }
+
+    @keyframes shimmer {
+        0%, 100% {
+            filter: brightness(1);
+        }
+        50% {
+            filter: brightness(1.2);
+        }
     }
 
     @media (max-width: 1024px) { font-size: 3.5rem; }
@@ -74,20 +88,45 @@ export const ButtonGroup = styled.div`
 `;
 
 export const Button = styled.button<{ primary?: boolean }>`
-    background: ${props => props.primary ? 'var(--color-primary)' : 'var(--color-bg-dark)'};
-    border: 1px solid ${props => props.primary ? 'var(--color-primary)' : 'var(--color-border-dark)'};
-    color: var(--color-text-white);
-    padding: 1.2rem 2.5rem;
-    border-radius: 12px;
+    background: ${props => props.primary ? 'var(--gradient-blue)' : 'var(--color-bg-white)'};
+    border: ${props => props.primary ? 'none' : '2px solid var(--color-border)'};
+    color: ${props => props.primary ? 'var(--color-text-white)' : 'var(--color-text-primary)'};
+    padding: 1.2rem 2.8rem;
+    border-radius: ${props => props.primary ? '50px' : '50px'};
     font-size: 1.1rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: ${props => props.primary ? 'var(--shadow-md)' : 'var(--shadow-sm)'};
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: ${props => props.primary ? 'rgba(255,255,255,0.2)' : 'var(--color-primary-light)'};
+        transform: translate(-50%, -50%);
+        transition: width 0.6s, height 0.6s;
+    }
 
     &:hover {
-        background: ${props => props.primary ? 'var(--color-primary-hover)' : 'var(--color-bg-dark-hover)'};
-        transform: translateY(-5px);
-        box-shadow: ${props => props.primary ? '0 10px 25px rgba(64, 123, 255, 0.4)' : 'var(--shadow-lg)'};
+        transform: translateY(-4px);
+        box-shadow: ${props => props.primary ? 'var(--shadow-xl), var(--shadow-glow)' : 'var(--shadow-lg)'};
+        ${props => !props.primary && 'border-color: var(--color-primary);'}
+
+        &::before {
+            width: 300px;
+            height: 300px;
+        }
+    }
+
+    &:active {
+        transform: translateY(-2px);
     }
 `;
 
