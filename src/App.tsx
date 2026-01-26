@@ -1,5 +1,6 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom"
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom"
 import { ThemeProvider } from "styled-components"
+import { AnimatePresence } from "framer-motion"
 import Home from "./pages/Home"
 import Login from "./pages/Login"
 import Signup from "./pages/Signup"
@@ -13,10 +14,40 @@ import CommunityDetail from "./pages/CommunityDetail"
 import MyPage from "./pages/MyPage"
 import ProfileEdit from "./pages/ProfileEdit"
 import Layout from "./components/layout/Layout"
+import PageTransition from "./components/common/PageTransition"
 import { AppProvider, useApp } from "./contexts/AppContext"
 import { lightTheme, darkTheme } from "./styles/theme"
 import { GlobalStyle } from "./styles/GlobalStyle"
 import "./App.css"
+
+function AnimatedRoutes() {
+  const location = useLocation();
+
+  return (
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route path="/" element={<PageTransition><Home /></PageTransition>} />
+        <Route path="/login" element={<PageTransition><Login /></PageTransition>} />
+        <Route path="/signup" element={<PageTransition><Signup /></PageTransition>} />
+        <Route path="/projects">
+          <Route index element={<PageTransition><ProjectList /></PageTransition>} />
+          <Route path="register" element={<PageTransition><Register /></PageTransition>} />
+          <Route path=":id" element={<PageTransition><ProjectDetail /></PageTransition>} />
+        </Route>
+        <Route path="/recruit" element={<PageTransition><RecruitWrite /></PageTransition>} />
+        <Route path="/community">
+          <Route index element={<PageTransition><Community /></PageTransition>} />
+          <Route path="write" element={<PageTransition><CommunityWrite /></PageTransition>} />
+          <Route path=":id" element={<PageTransition><CommunityDetail /></PageTransition>} />
+        </Route>
+        <Route path="/mypage">
+          <Route index element={<PageTransition><MyPage /></PageTransition>} />
+          <Route path="edit" element={<PageTransition><ProfileEdit /></PageTransition>} />
+        </Route>
+      </Routes>
+    </AnimatePresence>
+  );
+}
 
 function ThemedApp() {
   const { isDarkMode } = useApp();
@@ -26,26 +57,7 @@ function ThemedApp() {
       <GlobalStyle />
       <BrowserRouter>
         <Layout>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/projects">
-              <Route index element={<ProjectList />} />
-              <Route path="register" element={<Register />} />
-              <Route path=":id" element={<ProjectDetail />} />
-            </Route>
-            <Route path="/recruit" element={<RecruitWrite />} />
-            <Route path="/community">
-              <Route index element={<Community />} />
-              <Route path="write" element={<CommunityWrite />} />
-              <Route path=":id" element={<CommunityDetail />} />
-            </Route>
-            <Route path="/mypage">
-              <Route index element={<MyPage />} />
-              <Route path="edit" element={<ProfileEdit />} />
-            </Route>
-          </Routes>
+          <AnimatedRoutes />
         </Layout>
       </BrowserRouter>
     </ThemeProvider>
