@@ -1,16 +1,6 @@
 import { createContext, useContext, useState, ReactNode } from 'react';
-import type { RecruitPost, CommunityPost } from '../mocks';
-import { mockRecruits, mockCommunityPosts } from '../mocks';
-
-// 사용자 프로필 타입
-interface UserProfile {
-  name: string;
-  email: string;
-  bio: string;
-  github: string;
-  blog: string;
-  portfolio: string;
-}
+import type { RecruitPost, CommunityPost, UserProfile } from '../mocks';
+import { mockRecruits, mockCommunityPosts, mockUsers as initialMockUsers } from '../mocks';
 
 interface AppContextType {
   // 인원 모집
@@ -25,6 +15,9 @@ interface AppContextType {
   userProfile: UserProfile;
   updateProfile: (profile: UserProfile) => void;
 
+  // 사용자 목록
+  users: Record<string, UserProfile>;
+
   // 다크모드
   isDarkMode: boolean;
   toggleDarkMode: () => void;
@@ -32,20 +25,15 @@ interface AppContextType {
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
-// 초기 프로필 데이터
-const initialProfile: UserProfile = {
-  name: '김개발',
-  email: 'developer@example.com',
-  bio: '풀스택 개발자입니다. 새로운 기술을 배우고 적용하는 것을 좋아합니다.\n함께 성장할 수 있는 프로젝트에 관심이 많습니다.',
-  github: 'https://github.com/username',
-  blog: 'https://blog.example.com',
-  portfolio: 'https://portfolio.example.com'
-};
+// 현재 로그인한 사용자 (고정)
+const CURRENT_USER = '김개발';
+const initialProfile: UserProfile = initialMockUsers[CURRENT_USER];
 
 export function AppProvider({ children }: { children: ReactNode }) {
   const [recruits, setRecruits] = useState<RecruitPost[]>(mockRecruits);
   const [communityPosts, setCommunityPosts] = useState<CommunityPost[]>(mockCommunityPosts);
   const [userProfile, setUserProfile] = useState<UserProfile>(initialProfile);
+  const [users, setUsers] = useState<Record<string, UserProfile>>(initialMockUsers);
   const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
 
   const addRecruit = (recruit: Omit<RecruitPost, 'id'>) => {
@@ -69,6 +57,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   const updateProfile = (profile: UserProfile) => {
     setUserProfile(profile);
+    // users 목록도 함께 업데이트
+    setUsers(prev => ({
+      ...prev,
+      [profile.username]: profile
+    }));
   };
 
   const toggleDarkMode = () => {
@@ -84,6 +77,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         addCommunityPost,
         userProfile,
         updateProfile,
+        users,
         isDarkMode,
         toggleDarkMode
       }}
