@@ -8,13 +8,13 @@ export const Card = styled(Link)`
   border-radius: ${theme.borderRadius.lg};
   overflow: hidden;
   box-shadow: var(--shadow-md);
-  transition: transform ${theme.transitions.base}, box-shadow ${theme.transitions.base};
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   text-decoration: none;
   color: inherit;
 
   &:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-lg);
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
   }
 `;
 

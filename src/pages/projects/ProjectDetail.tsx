@@ -74,6 +74,11 @@ export default function ProjectDetail() {
     const [hasApplied, setHasApplied] = useState(false);
     const [selectedPosition, setSelectedPosition] = useState<number | null>(null);
 
+    const handleBackClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        e.preventDefault();
+        navigate('/projects');
+    };
+
     if (!project) {
         return (
             <Container>
@@ -134,7 +139,7 @@ export default function ProjectDetail() {
                 </Thumbnail>
 
                 <DetailContent>
-                    <BackLink to="/projects">← 목록으로</BackLink>
+                    <BackLink to="/projects" onClick={handleBackClick}>← 목록으로</BackLink>
 
                     <CategoryBadge>
                         {category?.icon} {category?.label}

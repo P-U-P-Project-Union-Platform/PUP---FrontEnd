@@ -165,7 +165,10 @@ export default function ProjectList() {
         <>
           <Grid>
             {projects.map((project) => (
-              <ProjectCard key={project.id} project={project} />
+              <ProjectCard
+                key={project.id}
+                project={project}
+              />
             ))}
           </Grid>
           <ResultCount>
