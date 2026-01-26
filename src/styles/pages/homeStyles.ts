@@ -92,7 +92,7 @@ export const Button = styled.button<{ primary?: boolean }>`
     border: ${props => props.primary ? 'none' : '2px solid var(--color-border)'};
     color: ${props => props.primary ? 'var(--color-text-white)' : 'var(--color-text-primary)'};
     padding: 1.2rem 2.8rem;
-    border-radius: ${props => props.primary ? '50px' : '50px'};
+    border-radius: 50px;
     font-size: 1.1rem;
     font-weight: 600;
     cursor: pointer;
@@ -100,6 +100,7 @@ export const Button = styled.button<{ primary?: boolean }>`
     box-shadow: ${props => props.primary ? 'var(--shadow-md)' : 'var(--shadow-sm)'};
     position: relative;
     overflow: hidden;
+    z-index: 1;
 
     &::before {
         content: '';
@@ -112,12 +113,14 @@ export const Button = styled.button<{ primary?: boolean }>`
         background: ${props => props.primary ? 'rgba(255,255,255,0.2)' : 'var(--color-primary-light)'};
         transform: translate(-50%, -50%);
         transition: width 0.6s, height 0.6s;
+        z-index: -1;
     }
 
     &:hover {
         transform: translateY(-4px);
         box-shadow: ${props => props.primary ? 'var(--shadow-xl), var(--shadow-glow)' : 'var(--shadow-lg)'};
-        ${props => !props.primary && 'border-color: var(--color-primary);'}
+        border-color: ${props => props.primary ? 'none' : 'var(--color-primary)'};
+        color: ${props => props.primary ? 'var(--color-text-white)' : 'var(--color-text-primary)'};
 
         &::before {
             width: 300px;
