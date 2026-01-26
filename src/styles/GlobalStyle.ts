@@ -33,11 +33,19 @@ export const GlobalStyle = createGlobalStyle`
     --color-warning: ${({ theme }) => theme.colors.warning};
     --color-info: ${({ theme }) => theme.colors.info};
 
+    /* Gradients */
+    --gradient-purple: ${({ theme }) => theme.colors.gradientPurple};
+    --gradient-blue: ${({ theme }) => theme.colors.gradientBlue};
+    --gradient-pink: ${({ theme }) => theme.colors.gradientPink};
+    --gradient-orange: ${({ theme }) => theme.colors.gradientOrange};
+
     /* Shadows */
     --shadow-sm: ${({ theme }) => theme.shadows.sm};
     --shadow-md: ${({ theme }) => theme.shadows.md};
     --shadow-lg: ${({ theme }) => theme.shadows.lg};
     --shadow-xl: ${({ theme }) => theme.shadows.xl};
+    --shadow-inner: ${({ theme }) => theme.shadows.inner};
+    --shadow-glow: ${({ theme }) => theme.shadows.glow};
   }
 
   * {
@@ -45,6 +53,10 @@ export const GlobalStyle = createGlobalStyle`
     padding: 0;
     box-sizing: border-box;
     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  }
+
+  html {
+    scroll-behavior: smooth;
   }
 
   html, body {
@@ -56,6 +68,7 @@ export const GlobalStyle = createGlobalStyle`
     color: var(--color-text-primary);
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   a {
