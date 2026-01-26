@@ -105,6 +105,13 @@ export const Avatar = styled.div`
   font-weight: ${theme.fontWeights.bold};
   font-size: ${theme.fontSizes.lg};
   box-shadow: var(--shadow-md);
+  cursor: pointer;
+  transition: all ${theme.transitions.base};
+
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: var(--shadow-lg);
+  }
 `;
 
 export const AuthorDetails = styled.div`
@@ -300,6 +307,13 @@ export const CommentAvatar = styled.div`
   font-size: ${theme.fontSizes.sm};
   font-weight: ${theme.fontWeights.bold};
   box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: all ${theme.transitions.base};
+
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: var(--shadow-md);
+  }
 `;
 
 export const CommentAuthorName = styled.span`

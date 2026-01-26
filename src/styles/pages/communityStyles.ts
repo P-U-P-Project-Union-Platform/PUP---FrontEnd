@@ -211,6 +211,13 @@ export const Avatar = styled.div`
   font-weight: ${theme.fontWeights.bold};
   font-size: ${theme.fontSizes.sm};
   box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: all ${theme.transitions.base};
+
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: var(--shadow-md);
+  }
 `;
 
 export const AuthorDetails = styled.div`

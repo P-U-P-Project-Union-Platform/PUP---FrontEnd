@@ -13,6 +13,7 @@ import CommunityWrite from "./pages/CommunityWrite"
 import CommunityDetail from "./pages/CommunityDetail"
 import MyPage from "./pages/MyPage"
 import ProfileEdit from "./pages/ProfileEdit"
+import UserProfile from "./pages/UserProfile"
 import Layout from "./components/layout/Layout"
 import PageTransition from "./components/common/PageTransition"
 import { AppProvider, useApp } from "./contexts/AppContext"
@@ -44,6 +45,7 @@ function AnimatedRoutes() {
           <Route index element={<PageTransition><MyPage /></PageTransition>} />
           <Route path="edit" element={<PageTransition><ProfileEdit /></PageTransition>} />
         </Route>
+        <Route path="/user/:username" element={<PageTransition><UserProfile /></PageTransition>} />
       </Routes>
     </AnimatePresence>
   );
