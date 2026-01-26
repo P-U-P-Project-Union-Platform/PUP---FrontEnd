@@ -68,12 +68,15 @@ export const BackLink = styled(Link)`
 
 export const CategoryBadge = styled.span`
   display: inline-block;
-  background: var(--color-bg-gray);
-  color: var(--color-text-secondary);
-  padding: ${theme.spacing.xs} ${theme.spacing.md};
-  border-radius: ${theme.borderRadius.sm};
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  padding: ${theme.spacing.sm} ${theme.spacing.lg};
+  border-radius: ${theme.borderRadius.full};
   font-size: ${theme.fontSizes.sm};
+  font-weight: ${theme.fontWeights.bold};
   margin-bottom: ${theme.spacing.lg};
+  border: 2px solid var(--color-primary);
+  box-shadow: var(--shadow-sm);
 `;
 
 export const Title = styled.h1`
@@ -100,6 +103,10 @@ export const MetaItem = styled.span`
   display: flex;
   align-items: center;
   gap: ${theme.spacing.xs};
+  padding: ${theme.spacing.xs} ${theme.spacing.sm};
+  background: var(--color-bg-gray);
+  border-radius: ${theme.borderRadius.full};
+  font-weight: ${theme.fontWeights.medium};
 `;
 
 export const Section = styled.div`
@@ -129,11 +136,19 @@ export const TagList = styled.div`
 `;
 
 export const Tag = styled.span`
-  background: var(--color-primary);
+  background: var(--gradient-purple);
   color: var(--color-text-white);
-  padding: ${theme.spacing.xs} ${theme.spacing.md};
-  border-radius: ${theme.borderRadius.sm};
+  padding: ${theme.spacing.sm} ${theme.spacing.md};
+  border-radius: ${theme.borderRadius.full};
   font-size: ${theme.fontSizes.sm};
+  font-weight: ${theme.fontWeights.semibold};
+  box-shadow: var(--shadow-sm);
+  transition: all ${theme.transitions.base};
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
 `;
 
 export const TechStack = styled.div`
@@ -145,32 +160,63 @@ export const TechStack = styled.div`
 export const Tech = styled.span`
   background: var(--color-bg-gray);
   color: var(--color-text-secondary);
-  padding: ${theme.spacing.xs} ${theme.spacing.md};
-  border-radius: ${theme.borderRadius.sm};
+  padding: ${theme.spacing.sm} ${theme.spacing.md};
+  border-radius: ${theme.borderRadius.full};
   font-size: ${theme.fontSizes.sm};
+  font-weight: ${theme.fontWeights.medium};
+  border: 1px solid var(--color-border);
+  transition: all ${theme.transitions.base};
+
+  &:hover {
+    background: var(--color-border);
+    transform: translateY(-1px);
+  }
 `;
 
 export const GithubLink = styled.a`
-  display: inline-block;
-  background: var(--color-bg-dark);
-  color: var(--color-text-white);
-  padding: ${theme.spacing.md} ${theme.spacing.xl};
-  border-radius: ${theme.borderRadius.md};
+  display: inline-flex;
+  align-items: center;
+  gap: ${theme.spacing.sm};
+  background: #24292e;
+  color: #ffffff;
+  padding: ${theme.spacing.md} ${theme.spacing['2xl']};
+  border-radius: ${theme.borderRadius.full};
   text-decoration: none;
-  font-weight: ${theme.fontWeights.semibold};
-  transition: background ${theme.transitions.base};
+  font-weight: ${theme.fontWeights.bold};
+  transition: all ${theme.transitions.base};
+  box-shadow: var(--shadow-md);
+  border: 2px solid #24292e;
 
   &:hover {
-    background: var(--color-bg-dark-hover);
+    background: #2c3237;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  &:active {
+    transform: translateY(0);
   }
 `;
 
 export const RecruitSection = styled.div`
-  margin-top: ${theme.spacing['2xl']};
-  padding: ${theme.spacing.xl};
+  margin-top: ${theme.spacing['3xl']};
+  padding: ${theme.spacing['2xl']};
   background: var(--color-primary-light);
-  border-radius: ${theme.borderRadius.lg};
+  border-radius: ${theme.borderRadius.xl};
   border: 2px solid var(--color-primary);
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradient-blue);
+  }
 `;
 
 export const RecruitHeader = styled.div`
@@ -193,12 +239,21 @@ export const RecruitTitle = styled.h2`
 `;
 
 export const RecruitStatus = styled.span<{ isOpen: boolean }>`
-  padding: ${theme.spacing.xs} ${theme.spacing.md};
+  padding: ${theme.spacing.sm} ${theme.spacing.lg};
   background: ${props => props.isOpen ? 'var(--color-success)' : 'var(--color-text-tertiary)'};
   color: var(--color-text-white);
-  border-radius: ${theme.borderRadius.sm};
+  border-radius: ${theme.borderRadius.full};
   font-size: ${theme.fontSizes.sm};
-  font-weight: ${theme.fontWeights.semibold};
+  font-weight: ${theme.fontWeights.bold};
+  box-shadow: var(--shadow-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: ${theme.spacing.xs};
+
+  &::before {
+    content: '${props => props.isOpen ? '●' : '○'}';
+    font-size: ${theme.fontSizes.xs};
+  }
 `;
 
 export const PositionList = styled.div`
@@ -208,43 +263,88 @@ export const PositionList = styled.div`
   margin-bottom: ${theme.spacing.xl};
 `;
 
-export const PositionItem = styled.div`
+export const PositionItem = styled.div<{ selected?: boolean }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: ${theme.spacing.md};
-  background: var(--color-bg-white);
-  border-radius: ${theme.borderRadius.md};
-  border: 1px solid var(--color-border);
+  padding: ${theme.spacing.lg};
+  background: ${props => props.selected ? 'var(--gradient-blue)' : 'var(--color-bg-white)'};
+  border-radius: ${theme.borderRadius.lg};
+  border: 2px solid ${props => props.selected ? 'var(--color-primary)' : 'var(--color-border)'};
+  cursor: pointer;
+  transition: all ${theme.transitions.base};
+  box-shadow: ${props => props.selected ? 'var(--shadow-md)' : 'var(--shadow-sm)'};
+
+  &:hover {
+    border-color: var(--color-primary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
 `;
 
-export const PositionName = styled.span`
+export const PositionName = styled.span<{ selected?: boolean }>`
   font-size: ${theme.fontSizes.base};
-  font-weight: ${theme.fontWeights.medium};
-  color: var(--color-text-primary);
+  font-weight: ${props => props.selected ? theme.fontWeights.bold : theme.fontWeights.medium};
+  color: ${props => props.selected ? 'var(--color-text-white)' : 'var(--color-text-primary)'};
+  transition: all ${theme.transitions.base};
 `;
 
-export const PositionCount = styled.span`
+export const PositionCount = styled.span<{ selected?: boolean }>`
   font-size: ${theme.fontSizes.base};
-  color: var(--color-primary);
-  font-weight: ${theme.fontWeights.semibold};
+  color: ${props => props.selected ? 'var(--color-text-white)' : 'var(--color-primary)'};
+  font-weight: ${theme.fontWeights.bold};
+  padding: ${theme.spacing.xs} ${theme.spacing.md};
+  background: ${props => props.selected ? 'rgba(255,255,255,0.2)' : 'transparent'};
+  border-radius: ${theme.borderRadius.full};
+  transition: all ${theme.transitions.base};
 `;
 
 export const ApplyButton = styled.button`
   width: 100%;
-  padding: ${theme.spacing.md} ${theme.spacing.xl};
-  background: var(--color-primary);
+  padding: ${theme.spacing.lg} ${theme.spacing.xl};
+  background: var(--gradient-blue);
   color: var(--color-text-white);
   border: none;
-  border-radius: ${theme.borderRadius.md};
+  border-radius: ${theme.borderRadius.full};
   font-size: ${theme.fontSizes.lg};
   font-weight: ${theme.fontWeights.bold};
   cursor: pointer;
   transition: all ${theme.transitions.base};
+  box-shadow: var(--shadow-md);
+  position: relative;
+  overflow: hidden;
 
-  &:hover {
-    background: var(--color-primary-hover);
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.3),
+      transparent
+    );
+    transition: left ${theme.transitions.slow};
+  }
+
+  &:hover:not(:disabled) {
     transform: translateY(-2px);
+    box-shadow: var(--shadow-lg), var(--shadow-glow);
+
+    &::before {
+      left: 100%;
+    }
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
   }
 
   &:disabled {
@@ -252,6 +352,11 @@ export const ApplyButton = styled.button`
     color: var(--color-text-tertiary);
     cursor: not-allowed;
     transform: none;
+    box-shadow: none;
+
+    &::before {
+      display: none;
+    }
   }
 `;
 
