@@ -97,6 +97,7 @@ export const lightTheme = {
     gradientBlue: 'linear-gradient(135deg, #667eea 0%, #4f46e5 100%)',
     gradientPink: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
     gradientOrange: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
+    gradientGreen: 'linear-gradient(135deg, #34d399 0%, #10b981 100%)',
   },
 
   // 그림자 - 더 입체적인 깊이감
@@ -150,6 +151,7 @@ export const darkTheme = {
     gradientBlue: 'linear-gradient(135deg, #60a5fa 0%, #818cf8 100%)',
     gradientPink: 'linear-gradient(135deg, #f472b6 0%, #ec4899 100%)',
     gradientOrange: 'linear-gradient(135deg, #fb923c 0%, #fbbf24 100%)',
+    gradientGreen: 'linear-gradient(135deg, #4ade80 0%, #22c55e 100%)',
   },
 
   // 그림자 - 더 극적인 깊이감

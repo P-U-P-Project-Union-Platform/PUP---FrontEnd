@@ -1,21 +1,4 @@
-export interface UserProfile {
-  username: string;
-  name: string;
-  initial: string;
-  bio: string;
-  email?: string;
-  github?: string;
-  blog?: string;
-  portfolio?: string;
-  avatar?: string;
-  stats: {
-    projects: number;
-    posts: number;
-    likes: number;
-    followers: number;
-  };
-  joinedAt: string;
-}
+import type { UserProfile } from '../types';
 
 export const mockUsers: Record<string, UserProfile> = {
   '김철수': {
@@ -27,13 +10,16 @@ export const mockUsers: Record<string, UserProfile> = {
     github: 'https://github.com/kimchulsu',
     blog: 'https://blog.kimchulsu.dev',
     portfolio: 'https://kimchulsu.dev',
+    role: 'user' as const,
+    status: 'active' as const,
     stats: {
       projects: 8,
       posts: 15,
       likes: 124,
       followers: 45
     },
-    joinedAt: '2023-01-15'
+    joinedAt: '2023-01-15',
+    lastLoginAt: '2026-02-03T14:23:00Z'
   },
   '이영희': {
     username: '이영희',
@@ -42,29 +28,35 @@ export const mockUsers: Record<string, UserProfile> = {
     bio: '지속 가능한 서비스를 만드는 것에 관심이 많은 백엔드 개발자입니다. 클린 코드와 좋은 아키텍처를 추구합니다.',
     email: 'leeyh@example.com',
     github: 'https://github.com/leeyounghee',
+    role: 'user' as const,
+    status: 'active' as const,
     stats: {
       projects: 6,
       posts: 22,
       likes: 89,
       followers: 38
     },
-    joinedAt: '2023-03-20'
+    joinedAt: '2023-03-20',
+    lastLoginAt: '2026-02-02T09:15:00Z'
   },
   '김개발': {
     username: '김개발',
     name: '김개발',
     initial: '김',
-    bio: '프로젝트를 진행하면서 팀원들과의 원활한 소통이 정말 중요하다는 걸 느꼈어요. 함께 성장하는 것을 좋아합니다.',
-    email: 'kimdev@example.com',
+    bio: '시스템 관리자',
+    email: 'admin@example.com',
     github: 'https://github.com/kimdev',
     blog: 'https://dev.to/kimdev',
+    role: 'admin' as const,
+    status: 'active' as const,
     stats: {
       projects: 12,
-      posts: 34,
-      likes: 256,
+      posts: 45,
+      likes: 230,
       followers: 89
     },
-    joinedAt: '2022-11-05'
+    joinedAt: '2022-11-05',
+    lastLoginAt: '2026-02-04T10:00:00Z'
   },
   '이초보': {
     username: '이초보',
@@ -73,13 +65,16 @@ export const mockUsers: Record<string, UserProfile> = {
     bio: '개발을 시작한 지 1년 된 주니어 개발자입니다. 열심히 배우고 있습니다!',
     email: 'leechobo@example.com',
     github: 'https://github.com/leechobo',
+    role: 'user' as const,
+    status: 'active' as const,
     stats: {
       projects: 3,
       posts: 8,
       likes: 42,
       followers: 15
     },
-    joinedAt: '2023-10-10'
+    joinedAt: '2023-10-10',
+    lastLoginAt: '2026-02-01T16:45:00Z'
   },
   '박프론트': {
     username: '박프론트',
@@ -89,13 +84,16 @@ export const mockUsers: Record<string, UserProfile> = {
     email: 'parkfront@example.com',
     github: 'https://github.com/parkfront',
     portfolio: 'https://parkfront.vercel.app',
+    role: 'user' as const,
+    status: 'active' as const,
     stats: {
       projects: 10,
       posts: 28,
       likes: 178,
       followers: 62
     },
-    joinedAt: '2023-02-14'
+    joinedAt: '2023-02-14',
+    lastLoginAt: '2026-02-04T08:30:00Z'
   },
   '이코더': {
     username: '이코더',
@@ -104,13 +102,16 @@ export const mockUsers: Record<string, UserProfile> = {
     bio: '깔끔한 코드와 좋은 설계를 지향하는 개발자입니다. 코드 리뷰를 좋아합니다.',
     email: 'leecoder@example.com',
     github: 'https://github.com/leecoder',
+    role: 'user' as const,
+    status: 'active' as const,
     stats: {
       projects: 7,
       posts: 19,
       likes: 145,
       followers: 52
     },
-    joinedAt: '2023-04-22'
+    joinedAt: '2023-04-22',
+    lastLoginAt: '2026-01-30T11:20:00Z'
   }
 };
 

@@ -1,6 +1,8 @@
-import { createContext, useContext, useState, ReactNode } from 'react';
-import type { RecruitPost, CommunityPost, UserProfile } from '../mocks';
+import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+import type { RecruitPost, CommunityPost } from '../mocks';
+import type { UserProfile, UserRole } from '../types';
 import { mockRecruits, mockCommunityPosts, mockUsers as initialMockUsers } from '../mocks';
+import { authService } from '../services/authService';
 
 interface AppContextType {
   // 인원 모집
@@ -12,7 +14,7 @@ interface AppContextType {
   addCommunityPost: (post: Omit<CommunityPost, 'id' | 'views' | 'comments' | 'likes'>) => void;
 
   // 프로필
-  userProfile: UserProfile;
+  userProfile: UserProfile | null;
   updateProfile: (profile: UserProfile) => void;
 
   // 사용자 목록
@@ -21,20 +23,39 @@ interface AppContextType {
   // 다크모드
   isDarkMode: boolean;
   toggleDarkMode: () => void;
+
+  // 인증
+  isLoggedIn: boolean;
+  isAdmin: boolean;
+  login: (username: string, password: string) => boolean;
+  logout: () => void;
+  checkRole: (requiredRole: UserRole) => boolean;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
-// 현재 로그인한 사용자 (고정)
+// 현재 로그인한 사용자 (기본값: 김개발 - admin)
 const CURRENT_USER = '김개발';
-const initialProfile: UserProfile = initialMockUsers[CURRENT_USER];
 
 export function AppProvider({ children }: { children: ReactNode }) {
   const [recruits, setRecruits] = useState<RecruitPost[]>(mockRecruits);
   const [communityPosts, setCommunityPosts] = useState<CommunityPost[]>(mockCommunityPosts);
-  const [userProfile, setUserProfile] = useState<UserProfile>(initialProfile);
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [users, setUsers] = useState<Record<string, UserProfile>>(initialMockUsers);
   const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
+
+  // Initialize user from localStorage or default user
+  useEffect(() => {
+    const savedUser = authService.getCurrentUser();
+    if (savedUser) {
+      setUserProfile(savedUser);
+    } else {
+      // Auto-login as default user for development
+      const defaultUser = initialMockUsers[CURRENT_USER];
+      setUserProfile(defaultUser);
+      authService.saveCurrentUser(defaultUser);
+    }
+  }, []);
 
   const addRecruit = (recruit: Omit<RecruitPost, 'id'>) => {
     const newRecruit: RecruitPost = {
@@ -68,6 +89,28 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setIsDarkMode(prev => !prev);
   };
 
+  const login = (username: string, password: string): boolean => {
+    const user = authService.login({ username, password });
+    if (user) {
+      setUserProfile(user);
+      authService.saveCurrentUser(user);
+      return true;
+    }
+    return false;
+  };
+
+  const logout = (): void => {
+    authService.logout();
+    setUserProfile(null);
+  };
+
+  const checkRole = (requiredRole: UserRole): boolean => {
+    return authService.checkRole(userProfile, requiredRole);
+  };
+
+  const isLoggedIn = userProfile !== null;
+  const isAdmin = authService.isAdmin(userProfile);
+
   return (
     <AppContext.Provider
       value={{
@@ -79,7 +122,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
         updateProfile,
         users,
         isDarkMode,
-        toggleDarkMode
+        toggleDarkMode,
+        isLoggedIn,
+        isAdmin,
+        login,
+        logout,
+        checkRole
       }}
     >
       {children}
