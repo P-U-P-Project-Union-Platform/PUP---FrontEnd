@@ -67,6 +67,12 @@ export interface ProjectFormData {
   tags: string[];
   techStack: string[];
   github: string;
+  positions?: { name: string; count: string }[];
+  status?: ProjectStatus;
+  author?: {
+    id: string;
+    name: string;
+  };
 }
 
 // 검색 필터

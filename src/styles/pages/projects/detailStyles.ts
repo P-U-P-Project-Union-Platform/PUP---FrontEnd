@@ -57,9 +57,58 @@ export const ThumbnailImage = styled.img`
 
 export const DetailContent = styled.div`
   padding: ${theme.spacing['3xl']};
+  position: relative;
 
   @media (max-width: ${theme.breakpoints.tablet}) {
     padding: ${theme.spacing['2xl']} ${theme.spacing.xl};
+  }
+`;
+
+export const ActionButtons = styled.div`
+  position: absolute;
+  top: ${theme.spacing['3xl']};
+  right: ${theme.spacing['3xl']};
+  display: flex;
+  gap: ${theme.spacing.sm};
+  z-index: 10;
+
+  @media (max-width: ${theme.breakpoints.tablet}) {
+    top: ${theme.spacing['2xl']};
+    right: ${theme.spacing.xl};
+  }
+`;
+
+export const EditButton = styled.button`
+  padding: ${theme.spacing.sm} ${theme.spacing.md};
+  background: var(--color-bg-gray);
+  border: 1px solid var(--color-border);
+  border-radius: ${theme.borderRadius.md};
+  color: var(--color-text-secondary);
+  font-size: ${theme.fontSizes.sm};
+  font-weight: ${theme.fontWeights.medium};
+  cursor: pointer;
+  transition: all ${theme.transitions.base};
+
+  &:hover {
+    background: var(--color-border);
+    color: var(--color-text-primary);
+  }
+`;
+
+export const DeleteButton = styled.button`
+  padding: ${theme.spacing.sm} ${theme.spacing.md};
+  background: transparent;
+  border: 1px solid var(--color-error);
+  border-radius: ${theme.borderRadius.md};
+  color: var(--color-error);
+  font-size: ${theme.fontSizes.sm};
+  font-weight: ${theme.fontWeights.medium};
+  cursor: pointer;
+  transition: all ${theme.transitions.base};
+
+  &:hover {
+    background: var(--color-error);
+    color: white;
   }
 `;
 

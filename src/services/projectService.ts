@@ -52,9 +52,11 @@ export const projectService = {
       github: formData.github,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
-      author: { id: 'user-1', name: '익명' }, // 임시 (로그인 기능 구현 전)
+      author: formData.author || { id: 'user-1', name: '익명' },
       views: 0,
       likes: 0,
+      status: formData.status || 'in_progress',
+      positions: formData.positions,
     };
 
     const projects = this.getAll();

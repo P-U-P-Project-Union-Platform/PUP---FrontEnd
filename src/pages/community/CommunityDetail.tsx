@@ -7,6 +7,9 @@ import {
   BackButton,
   Article,
   Header,
+  ActionButtons,
+  EditButton,
+  DeleteButton,
   CategoryBadge,
   Title,
   Meta,
@@ -63,7 +66,7 @@ const mockComments: CommentType[] = [
 export default function CommunityDetail() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { communityPosts } = useApp();
+  const { communityPosts, userProfile } = useApp();
 
   const post = communityPosts.find(p => p.id === Number(id));
 
@@ -71,6 +74,9 @@ export default function CommunityDetail() {
   const [likeCount, setLikeCount] = useState(post?.likes || 0);
   const [comments, setComments] = useState<CommentType[]>(mockComments);
   const [newComment, setNewComment] = useState('');
+
+  // 작성자 확인
+  const isAuthor = userProfile?.name === post?.author;
 
   if (!post) {
     return (
@@ -114,6 +120,20 @@ export default function CommunityDetail() {
     setNewComment('');
   };
 
+  const handleEdit = () => {
+    // 수정 페이지로 이동 (query parameter로 게시글 ID 전달)
+    navigate(`/community/write?edit=${id}`);
+  };
+
+  const handleDelete = () => {
+    const confirmed = window.confirm('정말로 이 게시글을 삭제하시겠습니까?');
+    if (confirmed) {
+      // TODO: 실제로는 API 호출하여 서버에서 삭제
+      alert('게시글이 삭제되었습니다.');
+      navigate('/community');
+    }
+  };
+
   return (
     <Container>
       <ContentWrapper>
@@ -123,6 +143,12 @@ export default function CommunityDetail() {
 
         <Article>
           <Header>
+            {isAuthor && (
+              <ActionButtons>
+                <EditButton onClick={handleEdit}>수정</EditButton>
+                <DeleteButton onClick={handleDelete}>삭제</DeleteButton>
+              </ActionButtons>
+            )}
             <CategoryBadge>{post.category}</CategoryBadge>
             <Title>{post.title}</Title>
             <Meta>

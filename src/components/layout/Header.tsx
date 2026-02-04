@@ -7,6 +7,7 @@ import {
   LoginButton,
 } from '../../styles/components/headerStyles';
 import { useApp } from '../../contexts/AppContext';
+import NotificationDropdown from '../common/NotificationDropdown';
 
 export default function Header() {
   const navigate = useNavigate();
@@ -33,6 +34,7 @@ export default function Header() {
             ⚙️ 관리자
           </NavLink>
         )}
+        {isLoggedIn && <NotificationDropdown />}
         {isLoggedIn ? (
           <LoginButton as="button" onClick={handleLogout}>
             로그아웃
