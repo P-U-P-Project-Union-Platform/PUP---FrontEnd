@@ -15,9 +15,15 @@ import MyPage from "./pages/MyPage"
 import ProfileEdit from "./pages/ProfileEdit"
 import UserProfile from "./pages/UserProfile"
 import Layout from "./components/layout/Layout"
+import AdminLayout from "./components/layout/AdminLayout"
+import AdminDashboard from "./pages/admin/AdminDashboard"
+import UserManagement from "./pages/admin/UserManagement"
+import ProjectManagement from "./pages/admin/ProjectManagement"
+import ProtectedRoute from "./components/common/ProtectedRoute"
 import PageTransition from "./components/common/PageTransition"
 import ScrollToTop from "./components/common/ScrollToTop"
 import {AppProvider, useApp} from "./contexts/AppContext"
+import {AdminProvider} from "./contexts/AdminContext"
 import {lightTheme, darkTheme} from "./styles/theme"
 import {GlobalStyle} from "./styles/GlobalStyle"
 import "./App.css"
@@ -52,18 +58,38 @@ function AnimatedRoutes() {
     );
 }
 
+function AdminRoutes() {
+    return (
+        <Routes>
+            <Route element={<ProtectedRoute requiredRole="admin" />}>
+                <Route element={<AdminLayout />}>
+                    <Route path="/admin" element={<PageTransition><AdminDashboard /></PageTransition>} />
+                    <Route path="/admin/users" element={<PageTransition><UserManagement /></PageTransition>} />
+                    <Route path="/admin/projects" element={<PageTransition><ProjectManagement /></PageTransition>} />
+                </Route>
+            </Route>
+        </Routes>
+    );
+}
+
 function ThemedApp() {
     const {isDarkMode} = useApp();
+    const location = useLocation();
+    const isAdminRoute = location.pathname.startsWith('/admin');
 
     return (
         <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
             <GlobalStyle/>
-            <BrowserRouter>
-                <ScrollToTop/>
-                <Layout>
-                    <AnimatedRoutes/>
-                </Layout>
-            </BrowserRouter>
+            <ScrollToTop/>
+            <AdminProvider>
+                {isAdminRoute ? (
+                    <AdminRoutes />
+                ) : (
+                    <Layout>
+                        <AnimatedRoutes/>
+                    </Layout>
+                )}
+            </AdminProvider>
         </ThemeProvider>
     );
 }
@@ -71,7 +97,9 @@ function ThemedApp() {
 function App() {
     return (
         <AppProvider>
-            <ThemedApp/>
+            <BrowserRouter>
+                <ThemedApp/>
+            </BrowserRouter>
         </AppProvider>
     )
 }
