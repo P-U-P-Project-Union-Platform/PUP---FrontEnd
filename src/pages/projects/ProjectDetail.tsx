@@ -113,7 +113,7 @@ export default function ProjectDetail() {
         setSelectedPosition(index === selectedPosition ? null : index);
     };
 
-    const handleApply = () => {
+    const handleApply = async () => {
         // 로그인 체크
         if (!isLoggedIn) {
             const confirmed = window.confirm('로그인이 필요한 서비스입니다. 로그인 페이지로 이동하시겠습니까?');
@@ -136,10 +136,17 @@ export default function ProjectDetail() {
         const position = recruitPositions[selectedPosition];
         const confirmed = window.confirm(`${position.name} 포지션에 지원하시겠습니까?`);
         if (confirmed) {
-            // 실제로는 API 호출
-            console.log('프로젝트 지원:', id, '포지션:', position.name);
-            setHasApplied(true);
-            alert('지원이 완료되었습니다! 프로젝트 담당자가 연락드릴 예정입니다.');
+            try {
+                await projectService.apply(id!, {
+                    positionName: position.name,
+                    userId: userProfile?.username || '',
+                });
+                setHasApplied(true);
+                alert('지원이 완료되었습니다! 프로젝트 담당자가 연락드릴 예정입니다.');
+            } catch (error) {
+                alert('지원 중 오류가 발생했습니다.');
+                console.error(error);
+            }
         }
     };
 
@@ -148,12 +155,17 @@ export default function ProjectDetail() {
         alert('수정 기능은 준비 중입니다.');
     };
 
-    const handleDelete = () => {
+    const handleDelete = async () => {
         const confirmed = window.confirm('정말로 이 프로젝트를 삭제하시겠습니까?');
         if (confirmed) {
-            // TODO: 실제로는 API 호출하여 서버에서 삭제
-            alert('프로젝트가 삭제되었습니다.');
-            navigate('/projects');
+            try {
+                await projectService.deleteAsync(id!);
+                alert('프로젝트가 삭제되었습니다.');
+                navigate('/projects');
+            } catch (error) {
+                alert('프로젝트 삭제 중 오류가 발생했습니다.');
+                console.error(error);
+            }
         }
     };
 

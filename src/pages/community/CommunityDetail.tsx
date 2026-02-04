@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useApp } from '../../contexts/AppContext';
+import { communityService } from '../../services/communityService';
 import {
   Container,
   ContentWrapper,
@@ -125,12 +126,17 @@ export default function CommunityDetail() {
     navigate(`/community/write?edit=${id}`);
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     const confirmed = window.confirm('정말로 이 게시글을 삭제하시겠습니까?');
     if (confirmed) {
-      // TODO: 실제로는 API 호출하여 서버에서 삭제
-      alert('게시글이 삭제되었습니다.');
-      navigate('/community');
+      try {
+        await communityService.delete(Number(id));
+        alert('게시글이 삭제되었습니다.');
+        navigate('/community');
+      } catch (error) {
+        alert('게시글 삭제 중 오류가 발생했습니다.');
+        console.error(error);
+      }
     }
   };
 

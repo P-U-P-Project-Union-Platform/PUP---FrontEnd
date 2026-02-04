@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import { theme } from '../../styles/theme';
 import type { Notification } from '../../types/notification';
 import { mockNotifications } from '../../mocks/notifications';
+import { notificationService } from '../../services/notificationService';
+import { useApp } from '../../contexts/AppContext';
 
 const NotificationButton = styled.button`
   position: relative;
@@ -156,11 +158,34 @@ const EmptyState = styled.div`
 
 export default function NotificationDropdown() {
   const navigate = useNavigate();
+  const { userProfile } = useApp();
   const [isOpen, setIsOpen] = useState(false);
   const [notifications, setNotifications] = useState<Notification[]>(mockNotifications);
+  const [loading, setLoading] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const unreadCount = notifications.filter(n => !n.isRead).length;
+
+  // 알림 목록 조회 (백엔드 API 연동)
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      if (!userProfile?.username) return;
+
+      setLoading(true);
+      try {
+        const data = await notificationService.getNotifications(userProfile.username);
+        setNotifications(data);
+      } catch (error) {
+        console.error('알림 조회 실패, Mock 데이터 사용:', error);
+        // 에러 시 Mock 데이터 유지
+        setNotifications(mockNotifications);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchNotifications();
+  }, [userProfile?.username]);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -173,12 +198,28 @@ export default function NotificationDropdown() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const handleMarkAllRead = () => {
-    setNotifications(notifications.map(n => ({ ...n, isRead: true })));
+  const handleMarkAllRead = async () => {
+    if (!userProfile?.username) return;
+
+    try {
+      await notificationService.markAllAsRead(userProfile.username);
+      setNotifications(notifications.map(n => ({ ...n, isRead: true })));
+    } catch (error) {
+      console.error('모든 알림 읽음 처리 실패:', error);
+      // 에러 발생 시에도 UI는 업데이트
+      setNotifications(notifications.map(n => ({ ...n, isRead: true })));
+    }
   };
 
-  const handleNotificationClick = (notification: Notification) => {
-    // 읽음 처리
+  const handleNotificationClick = async (notification: Notification) => {
+    // 읽음 처리 (백엔드 API 호출)
+    try {
+      await notificationService.markAsRead(notification.id);
+    } catch (error) {
+      console.error('알림 읽음 처리 실패:', error);
+    }
+
+    // UI 업데이트
     setNotifications(notifications.map(n =>
       n.id === notification.id ? { ...n, isRead: true } : n
     ));
