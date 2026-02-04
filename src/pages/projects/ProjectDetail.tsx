@@ -67,7 +67,7 @@ const recruitData: { [key: string]: any } = {
 export default function ProjectDetail() {
     const {id} = useParams<{ id: string }>();
     const navigate = useNavigate();
-    const {users} = useApp();
+    const {users, isLoggedIn} = useApp();
     const project = id ? projectService.getById(id) : null;
     const recruitInfo = id ? recruitData[id] : null;
     const authorProfile = project ? users[project.author.name] : null;
@@ -103,6 +103,15 @@ export default function ProjectDetail() {
     };
 
     const handleApply = () => {
+        // 로그인 체크
+        if (!isLoggedIn) {
+            const confirmed = window.confirm('로그인이 필요한 서비스입니다. 로그인 페이지로 이동하시겠습니까?');
+            if (confirmed) {
+                navigate('/login');
+            }
+            return;
+        }
+
         if (hasApplied) {
             alert('이미 지원하셨습니다!');
             return;

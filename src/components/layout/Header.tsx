@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import {
   HeaderContainer,
   Logo,
@@ -8,7 +9,16 @@ import {
 import { useApp } from '../../contexts/AppContext';
 
 export default function Header() {
-  const { isAdmin } = useApp();
+  const navigate = useNavigate();
+  const { isLoggedIn, isAdmin, logout } = useApp();
+
+  const handleLogout = () => {
+    const confirmed = window.confirm('로그아웃 하시겠습니까?');
+    if (confirmed) {
+      logout();
+      navigate('/');
+    }
+  };
 
   return (
     <HeaderContainer>
@@ -23,7 +33,13 @@ export default function Header() {
             ⚙️ 관리자
           </NavLink>
         )}
-        <LoginButton to="/login">로그인</LoginButton>
+        {isLoggedIn ? (
+          <LoginButton as="button" onClick={handleLogout}>
+            로그아웃
+          </LoginButton>
+        ) : (
+          <LoginButton to="/login">로그인</LoginButton>
+        )}
       </Nav>
     </HeaderContainer>
   );

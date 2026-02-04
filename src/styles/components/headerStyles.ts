@@ -128,6 +128,8 @@ export const LoginButton = styled(Link)`
   box-shadow: var(--shadow-md);
   position: relative;
   overflow: hidden;
+  border: none;
+  font-family: inherit;
 
   &::before {
     content: '';
