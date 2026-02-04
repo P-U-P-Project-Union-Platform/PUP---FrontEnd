@@ -16,17 +16,22 @@ import {
   Divider,
   DividerText,
   Form,
+  InputWrapper,
   Input,
+  PasswordToggleButton,
   SubmitButton,
   LinkText,
   StyledLink,
 } from '../styles/pages/authStyles';
+import eyeOpen from '../assets/비밀번호_보기.png';
+import eyeClosed from '../assets/비밀번호_안보기.png';
 
 export default function Login() {
   const navigate = useNavigate();
   const { login } = useApp();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -64,14 +69,28 @@ export default function Login() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
-              <Input
-                type="password"
-                placeholder="비밀번호"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                autoComplete="current-password"
-                required
-              />
+              <InputWrapper>
+                <Input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="비밀번호"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  autoComplete="current-password"
+                  style={{ paddingRight: '3rem' }}
+                  required
+                />
+                <PasswordToggleButton
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  aria-label={showPassword ? "비밀번호 숨기기" : "비밀번호 보기"}
+                >
+                  <img
+                    src={showPassword ? eyeOpen : eyeClosed}
+                    alt={showPassword ? "비밀번호 숨기기" : "비밀번호 보기"}
+                    style={{ width: '20px', height: '20px' }}
+                  />
+                </PasswordToggleButton>
+              </InputWrapper>
               {error && (
                 <div style={{ color: 'var(--color-error)', fontSize: '0.875rem', marginTop: '0.5rem' }}>
                   {error}

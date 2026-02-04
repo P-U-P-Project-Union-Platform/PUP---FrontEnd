@@ -143,6 +143,11 @@ export const Label = styled.label`
   margin-bottom: ${theme.spacing.sm};
 `;
 
+export const InputWrapper = styled.div`
+  position: relative;
+  width: 100%;
+`;
+
 export const Input = styled.input`
   width: 100%;
   padding: ${theme.spacing.lg};
@@ -165,6 +170,31 @@ export const Input = styled.input`
 
   &::placeholder {
     color: var(--color-text-tertiary);
+  }
+`;
+
+export const PasswordToggleButton = styled.button`
+  position: absolute;
+  right: ${theme.spacing.lg};
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: ${theme.spacing.xs};
+  color: var(--color-text-tertiary);
+  font-size: ${theme.fontSizes.xl};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color ${theme.transitions.base};
+
+  &:hover {
+    color: var(--color-text-secondary);
+  }
+
+  &:focus {
+    outline: none;
   }
 `;
 
