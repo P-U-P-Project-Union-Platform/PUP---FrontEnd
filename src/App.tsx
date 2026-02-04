@@ -60,15 +60,17 @@ function AnimatedRoutes() {
 
 function AdminRoutes() {
     return (
-        <Routes>
-            <Route element={<ProtectedRoute requiredRole="admin" />}>
-                <Route element={<AdminLayout />}>
-                    <Route path="/admin" element={<PageTransition><AdminDashboard /></PageTransition>} />
-                    <Route path="/admin/users" element={<PageTransition><UserManagement /></PageTransition>} />
-                    <Route path="/admin/projects" element={<PageTransition><ProjectManagement /></PageTransition>} />
+        <AdminProvider>
+            <Routes>
+                <Route element={<ProtectedRoute requiredRole="admin"/>}>
+                    <Route element={<AdminLayout/>}>
+                        <Route path="/admin" element={<PageTransition><AdminDashboard/></PageTransition>}/>
+                        <Route path="/admin/users" element={<PageTransition><UserManagement/></PageTransition>}/>
+                        <Route path="/admin/projects" element={<PageTransition><ProjectManagement/></PageTransition>}/>
+                    </Route>
                 </Route>
-            </Route>
-        </Routes>
+            </Routes>
+        </AdminProvider>
     );
 }
 
@@ -81,15 +83,13 @@ function ThemedApp() {
         <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
             <GlobalStyle/>
             <ScrollToTop/>
-            <AdminProvider>
-                {isAdminRoute ? (
-                    <AdminRoutes />
-                ) : (
-                    <Layout>
-                        <AnimatedRoutes/>
-                    </Layout>
-                )}
-            </AdminProvider>
+            {isAdminRoute ? (
+                <AdminRoutes/>
+            ) : (
+                <Layout>
+                    <AnimatedRoutes/>
+                </Layout>
+            )}
         </ThemeProvider>
     );
 }

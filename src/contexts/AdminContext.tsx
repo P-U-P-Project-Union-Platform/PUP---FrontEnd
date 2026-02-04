@@ -57,13 +57,11 @@ export function AdminProvider({ children }: { children: ReactNode }) {
     if (adminService.updateUserRole(username, role)) {
       refreshUsers();
       refreshStats(); // 통계 새로고침
-      if (userProfile) {
-        addActivityLog(
-          '사용자 역할 변경',
-          username,
-          `역할을 ${role}로 변경했습니다`
-        );
-      }
+      addActivityLog(
+        '사용자 역할 변경',
+        username,
+        `역할을 ${role}로 변경했습니다`
+      );
     }
   };
 
@@ -71,13 +69,11 @@ export function AdminProvider({ children }: { children: ReactNode }) {
     if (adminService.suspendUser(username)) {
       refreshUsers();
       refreshStats(); // 통계 새로고침
-      if (userProfile) {
-        addActivityLog(
-          '계정 정지',
-          username,
-          '계정을 정지했습니다'
-        );
-      }
+      addActivityLog(
+        '계정 정지',
+        username,
+        '계정을 정지했습니다'
+      );
     }
   };
 
@@ -85,13 +81,11 @@ export function AdminProvider({ children }: { children: ReactNode }) {
     if (adminService.activateUser(username)) {
       refreshUsers();
       refreshStats(); // 통계 새로고침
-      if (userProfile) {
-        addActivityLog(
-          '계정 활성화',
-          username,
-          '계정을 활성화했습니다'
-        );
-      }
+      addActivityLog(
+        '계정 활성화',
+        username,
+        '계정을 활성화했습니다'
+      );
     }
   };
 
@@ -99,13 +93,11 @@ export function AdminProvider({ children }: { children: ReactNode }) {
     if (adminService.deleteUser(username)) {
       refreshUsers();
       refreshStats(); // 통계 새로고침
-      if (userProfile) {
-        addActivityLog(
-          '사용자 삭제',
-          username,
-          '사용자를 삭제했습니다'
-        );
-      }
+      addActivityLog(
+        '사용자 삭제',
+        username,
+        '사용자를 삭제했습니다'
+      );
     }
   };
 
@@ -113,13 +105,11 @@ export function AdminProvider({ children }: { children: ReactNode }) {
     if (adminService.approveProject(projectId)) {
       refreshProjects();
       refreshStats(); // 통계 새로고침
-      if (userProfile) {
-        addActivityLog(
-          '프로젝트 승인',
-          `프로젝트 #${projectId}`,
-          '프로젝트를 승인했습니다'
-        );
-      }
+      addActivityLog(
+        '프로젝트 승인',
+        `프로젝트 #${projectId}`,
+        '프로젝트를 승인했습니다'
+      );
     }
   };
 
@@ -127,13 +117,11 @@ export function AdminProvider({ children }: { children: ReactNode }) {
     if (adminService.rejectProject(projectId, reason)) {
       refreshProjects();
       refreshStats(); // 통계 새로고침
-      if (userProfile) {
-        addActivityLog(
-          '프로젝트 거부',
-          `프로젝트 #${projectId}`,
-          `거부 사유: ${reason}`
-        );
-      }
+      addActivityLog(
+        '프로젝트 거부',
+        `프로젝트 #${projectId}`,
+        `거부 사유: ${reason}`
+      );
     }
   };
 

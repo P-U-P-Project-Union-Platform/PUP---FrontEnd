@@ -58,6 +58,7 @@ export default function Login() {
                 placeholder="비밀번호"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                autoComplete="current-password"
                 required
               />
               <SubmitButton type="submit">로그인</SubmitButton>
