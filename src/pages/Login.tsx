@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useApp } from '../contexts/AppContext';
 import {
   Container,
   FormWrapper,
@@ -21,13 +23,22 @@ import {
 } from '../styles/pages/authStyles';
 
 export default function Login() {
+  const navigate = useNavigate();
+  const { login } = useApp();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("로그인 데이터:", { email, password });
-    alert("로그인되었습니다!");
+    setError("");
+
+    const success = login(email, password);
+    if (success) {
+      navigate('/');
+    } else {
+      setError("이메일 또는 비밀번호가 올바르지 않습니다.");
+    }
   };
 
   const handleGithubLogin = () => {
@@ -48,7 +59,7 @@ export default function Login() {
             <Form onSubmit={handleSubmit}>
               <Input
                 type="email"
-                placeholder="이메일"
+                placeholder="이메일 (예: admin@example.com)"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -61,6 +72,11 @@ export default function Login() {
                 autoComplete="current-password"
                 required
               />
+              {error && (
+                <div style={{ color: 'var(--color-error)', fontSize: '0.875rem', marginTop: '0.5rem' }}>
+                  {error}
+                </div>
+              )}
               <SubmitButton type="submit">로그인</SubmitButton>
             </Form>
           </Section>

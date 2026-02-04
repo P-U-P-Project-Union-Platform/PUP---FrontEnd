@@ -1,33 +1,36 @@
 import type { UserProfile, UserRole } from '../types';
-import { mockUsers } from '../mocks/users';
+import { getUserByEmail } from '../mocks/users';
 
 interface LoginCredentials {
-  username: string;
+  email: string;
   password: string;
 }
 
-// Mock password storage (in real app, this would be backend)
+// Mock password storage (email 기반, 백엔드 연동 시 삭제 예정)
 const mockPasswords: Record<string, string> = {
-  '김개발': 'admin123',
-  '김철수': 'user123',
-  '이영희': 'user123',
-  '이초보': 'user123',
-  '박프론트': 'user123',
-  '이코더': 'user123'
+  // 관리자 계정
+  'admin@example.com': 'admin123',
+
+  // 일반 사용자 계정
+  'kimcs@example.com': 'user123',
+  'leeyh@example.com': 'user123',
+  'leechobo@example.com': 'user123',
+  'parkfront@example.com': 'user123',
+  'leecoder@example.com': 'user123'
 };
 
 export const authService = {
   login: (credentials: LoginCredentials): UserProfile | null => {
-    const { username, password } = credentials;
+    const { email, password } = credentials;
 
     // Check if user exists
-    const user = mockUsers[username];
+    const user = getUserByEmail(email);
     if (!user) {
       return null;
     }
 
     // Check password
-    if (mockPasswords[username] !== password) {
+    if (mockPasswords[email] !== password) {
       return null;
     }
 
@@ -58,8 +61,17 @@ export const authService = {
   },
 
   getCurrentUser: (): UserProfile | null => {
-    const stored = localStorage.getItem('currentUser');
-    return stored ? JSON.parse(stored) : null;
+    try {
+      const stored = localStorage.getItem('currentUser');
+      if (!stored || stored === 'undefined' || stored === 'null') {
+        return null;
+      }
+      return JSON.parse(stored);
+    } catch (error) {
+      console.error('Failed to parse user from localStorage:', error);
+      localStorage.removeItem('currentUser');
+      return null;
+    }
   },
 
   saveCurrentUser: (user: UserProfile): void => {

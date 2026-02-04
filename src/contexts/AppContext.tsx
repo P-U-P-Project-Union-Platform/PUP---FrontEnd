@@ -27,15 +27,12 @@ interface AppContextType {
   // 인증
   isLoggedIn: boolean;
   isAdmin: boolean;
-  login: (username: string, password: string) => boolean;
+  login: (email: string, password: string) => boolean;
   logout: () => void;
   checkRole: (requiredRole: UserRole) => boolean;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
-
-// 현재 로그인한 사용자 (기본값: 김개발 - admin)
-const CURRENT_USER = '김개발';
 
 export function AppProvider({ children }: { children: ReactNode }) {
   const [recruits, setRecruits] = useState<RecruitPost[]>(mockRecruits);
@@ -44,17 +41,13 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [users, setUsers] = useState<Record<string, UserProfile>>(initialMockUsers);
   const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
 
-  // Initialize user from localStorage or default user
+  // Initialize user from localStorage only (no auto-login for production-ready setup)
   useEffect(() => {
     const savedUser = authService.getCurrentUser();
     if (savedUser) {
       setUserProfile(savedUser);
-    } else {
-      // Auto-login as default user for development
-      const defaultUser = initialMockUsers[CURRENT_USER];
-      setUserProfile(defaultUser);
-      authService.saveCurrentUser(defaultUser);
     }
+    // 백엔드 연동 시 자동 로그인 제거
   }, []);
 
   const addRecruit = (recruit: Omit<RecruitPost, 'id'>) => {
@@ -89,8 +82,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setIsDarkMode(prev => !prev);
   };
 
-  const login = (username: string, password: string): boolean => {
-    const user = authService.login({ username, password });
+  const login = (email: string, password: string): boolean => {
+    const user = authService.login({ email, password });
     if (user) {
       setUserProfile(user);
       authService.saveCurrentUser(user);
