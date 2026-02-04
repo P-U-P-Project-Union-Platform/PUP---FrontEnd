@@ -1,7 +1,8 @@
 import type { UserProfile } from '../types';
 
+// Email을 key로 사용하는 mockUsers (백엔드 연동 시 email 기반 인증을 위함)
 export const mockUsers: Record<string, UserProfile> = {
-  '김철수': {
+  'kimcs@example.com': {
     username: '김철수',
     name: '김철수',
     initial: '김',
@@ -21,7 +22,7 @@ export const mockUsers: Record<string, UserProfile> = {
     joinedAt: '2023-01-15',
     lastLoginAt: '2026-02-03T14:23:00Z'
   },
-  '이영희': {
+  'leeyh@example.com': {
     username: '이영희',
     name: '이영희',
     initial: '이',
@@ -39,7 +40,7 @@ export const mockUsers: Record<string, UserProfile> = {
     joinedAt: '2023-03-20',
     lastLoginAt: '2026-02-02T09:15:00Z'
   },
-  '김개발': {
+  'admin@example.com': {
     username: '김개발',
     name: '김개발',
     initial: '김',
@@ -58,7 +59,7 @@ export const mockUsers: Record<string, UserProfile> = {
     joinedAt: '2022-11-05',
     lastLoginAt: '2026-02-04T10:00:00Z'
   },
-  '이초보': {
+  'leechobo@example.com': {
     username: '이초보',
     name: '이초보',
     initial: '이',
@@ -76,7 +77,7 @@ export const mockUsers: Record<string, UserProfile> = {
     joinedAt: '2023-10-10',
     lastLoginAt: '2026-02-01T16:45:00Z'
   },
-  '박프론트': {
+  'parkfront@example.com': {
     username: '박프론트',
     name: '박프론트',
     initial: '박',
@@ -95,7 +96,7 @@ export const mockUsers: Record<string, UserProfile> = {
     joinedAt: '2023-02-14',
     lastLoginAt: '2026-02-04T08:30:00Z'
   },
-  '이코더': {
+  'leecoder@example.com': {
     username: '이코더',
     name: '이코더',
     initial: '이',
@@ -115,8 +116,14 @@ export const mockUsers: Record<string, UserProfile> = {
   }
 };
 
+// Email로 사용자 찾기
+export const getUserByEmail = (email: string): UserProfile | null => {
+  return mockUsers[email] || null;
+};
+
+// Username으로 사용자 찾기 (하위 호환성)
 export const getUserProfile = (username: string): UserProfile | null => {
-  return mockUsers[username] || null;
+  return Object.values(mockUsers).find(user => user.username === username) || null;
 };
 
 export const getAllUsers = (): UserProfile[] => {

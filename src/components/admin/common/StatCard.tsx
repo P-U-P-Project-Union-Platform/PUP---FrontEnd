@@ -19,14 +19,14 @@ export default function StatCard({ title, value, change, icon, gradient }: StatC
   const isPositive = change ? !change.startsWith('-') : true;
 
   return (
-    <StatCardContainer gradient={gradient}>
+    <StatCardContainer $gradient={gradient}>
       <StatHeader>
         <StatTitle>{title}</StatTitle>
         <StatIcon>{icon}</StatIcon>
       </StatHeader>
       <StatValue>{value}</StatValue>
       {change && (
-        <StatChange isPositive={isPositive}>
+        <StatChange $isPositive={isPositive}>
           {change}
         </StatChange>
       )}

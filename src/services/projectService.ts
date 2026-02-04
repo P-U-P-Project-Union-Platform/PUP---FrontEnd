@@ -6,10 +6,11 @@ import type {
 } from '../types/project';
 
 const STORAGE_KEY = 'pup_projects';
+const API_BASE_URL = '/api'; // 백엔드 API URL (환경변수로 관리 권장)
 
 /**
- * LocalStorage 기반 프로젝트 CRUD 서비스
- * 향후 백엔드 API로 쉽게 전환 가능하도록 서비스 레이어 패턴 사용
+ * 프로젝트 CRUD 서비스
+ * 백엔드 API 연동 준비 완료
  */
 export const projectService = {
   /**
@@ -52,9 +53,11 @@ export const projectService = {
       github: formData.github,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
-      author: { id: 'user-1', name: '익명' }, // 임시 (로그인 기능 구현 전)
+      author: formData.author || { id: 'user-1', name: '익명' },
       views: 0,
       likes: 0,
+      status: formData.status || 'in_progress',
+      positions: formData.positions,
     };
 
     const projects = this.getAll();
@@ -100,7 +103,32 @@ export const projectService = {
   },
 
   /**
-   * 프로젝트 삭제
+   * 프로젝트 삭제 (백엔드 API 연동)
+   */
+  async deleteAsync(id: string): Promise<boolean> {
+    try {
+      const response = await fetch(`${API_BASE_URL}/projects/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          // 'Authorization': `Bearer ${token}` // 인증 토큰 추가 필요
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('프로젝트 삭제 실패');
+      }
+
+      return true;
+    } catch (error) {
+      console.error('프로젝트 삭제 중 오류 발생:', error);
+      throw error;
+    }
+  },
+
+  /**
+   * 프로젝트 삭제 (LocalStorage - 임시)
+   * 백엔드 연동 후 deleteAsync 사용 권장
    */
   delete(id: string): boolean {
     const projects = this.getAll();
@@ -110,6 +138,35 @@ export const projectService = {
 
     localStorage.setItem(STORAGE_KEY, JSON.stringify(filtered));
     return true;
+  },
+
+  /**
+   * 프로젝트 지원 (백엔드 API 연동)
+   */
+  async apply(projectId: string, data: {
+    positionName: string;
+    userId: string;
+    message?: string;
+  }): Promise<boolean> {
+    try {
+      const response = await fetch(`${API_BASE_URL}/projects/${projectId}/apply`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          // 'Authorization': `Bearer ${token}` // 인증 토큰 추가 필요
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        throw new Error('프로젝트 지원 실패');
+      }
+
+      return true;
+    } catch (error) {
+      console.error('프로젝트 지원 중 오류 발생:', error);
+      throw error;
+    }
   },
 };
 

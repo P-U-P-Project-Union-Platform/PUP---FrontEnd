@@ -1,4 +1,4 @@
-import {useState, useMemo} from 'react';
+import {useState, useMemo, useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {useApp} from '../contexts/AppContext';
 import {projectService} from '../services/projectService';
@@ -33,8 +33,20 @@ const tabs = ['내 프로젝트', '참여 프로젝트', '내 게시글', '스�
 
 export default function MyPage() {
     const navigate = useNavigate();
-    const {userProfile, communityPosts} = useApp(); // communityPosts 추가
+    const {userProfile, communityPosts} = useApp();
     const [activeTab, setActiveTab] = useState('내 프로젝트');
+
+    // userProfile이 null이면 로그인 페이지로 리다이렉트
+    useEffect(() => {
+        if (!userProfile) {
+            navigate('/login');
+        }
+    }, [userProfile, navigate]);
+
+    // userProfile이 null이면 아무것도 렌더링하지 않음
+    if (!userProfile) {
+        return null;
+    }
 
     const currentUserId = '1';
 
@@ -48,8 +60,8 @@ export default function MyPage() {
     const participatingProjects: Project[] = [];
 
     const myFilteredPosts = useMemo(
-        () => communityPosts.filter((post) => post.author === userProfile.name),
-        [communityPosts, userProfile.name]
+        () => communityPosts.filter((post) => post.author === userProfile?.name),
+        [communityPosts, userProfile?.name]
     );
 
     const renderContent = () => {
@@ -131,16 +143,16 @@ export default function MyPage() {
             <MaxWidthWrapper>
                 <ProfileSection>
                     <ProfileHeader>
-                        <Avatar style={userProfile.avatar ? {
+                        <Avatar style={userProfile?.avatar ? {
                             background: `url(${userProfile.avatar}) center/cover`,
                             fontSize: 0
                         } : {}}>
-                            {!userProfile.avatar && userProfile.initial}
+                            {!userProfile?.avatar && userProfile?.initial}
                         </Avatar>
                         <ProfileInfo>
-                            <Name>{userProfile.name}</Name>
-                            <Email>{userProfile.email || 'email@example.com'}</Email>
-                            <Bio>{userProfile.bio}</Bio>
+                            <Name>{userProfile?.name}</Name>
+                            <Email>{userProfile?.email || 'email@example.com'}</Email>
+                            <Bio>{userProfile?.bio}</Bio>
                         </ProfileInfo>
                         <EditButton onClick={() => navigate('/mypage/edit')}>
                             프로필 수정
@@ -161,7 +173,7 @@ export default function MyPage() {
                             <StatLabel>게시글</StatLabel>
                         </StatItem>
                         <StatItem>
-                            <StatValue>{userProfile.stats.likes}</StatValue>
+                            <StatValue>{userProfile?.stats?.likes || 0}</StatValue>
                             <StatLabel>받은 좋아요</StatLabel>
                         </StatItem>
                     </StatsGrid>

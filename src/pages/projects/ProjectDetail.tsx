@@ -9,6 +9,9 @@ import {
     Thumbnail,
     ThumbnailImage,
     DetailContent,
+    ActionButtons,
+    EditButton,
+    DeleteButton,
     BackLink,
     CategoryBadge,
     Title,
@@ -45,34 +48,42 @@ import {
     NotFoundLink,
 } from '../../styles/pages/projects/detailStyles';
 
-// 임시 인원 모집 데이터 (실제로는 프로젝트 데이터에 포함되어야 함)
-const recruitData: { [key: string]: any } = {
+// 지원 현황 추적 (실제로는 백엔드에서 관리)
+const applicationStatus: { [key: string]: { [key: string]: number } } = {
     '1': {
-        isRecruiting: true,
-        positions: [
-            {name: '프론트엔드 개발자', current: 1, total: 2},
-            {name: 'AI 엔지니어', current: 0, total: 1},
-            {name: 'UI/UX 디자이너', current: 1, total: 1}
-        ]
+        '프론트엔드 개발자': 1,
+        'AI 엔지니어': 0,
+        'UI/UX 디자이너': 1
     },
     '2': {
-        isRecruiting: true,
-        positions: [
-            {name: '백엔드 개발자', current: 0, total: 2},
-            {name: '모바일 개발자', current: 1, total: 2}
-        ]
+        '백엔드 개발자': 0,
+        '모바일 개발자': 1
     }
 };
 
 export default function ProjectDetail() {
     const {id} = useParams<{ id: string }>();
     const navigate = useNavigate();
-    const {users} = useApp();
+    const {users, isLoggedIn, userProfile} = useApp();
     const project = id ? projectService.getById(id) : null;
-    const recruitInfo = id ? recruitData[id] : null;
-    const authorProfile = project ? users[project.author.name] : null;
+
+    // users는 이제 email 기반이므로 이름으로 찾기
+    const authorProfile = project ? Object.values(users).find(u => u.name === project.author.name) : null;
+
     const [hasApplied, setHasApplied] = useState(false);
     const [selectedPosition, setSelectedPosition] = useState<number | null>(null);
+
+    // 작성자 확인
+    const isAuthor = userProfile?.name === project?.author.name;
+
+    // 프로젝트 positions를 모집 정보로 변환
+    const recruitPositions = project?.positions?.map(pos => ({
+        name: pos.name,
+        current: id && applicationStatus[id] ? (applicationStatus[id][pos.name] || 0) : 0,
+        total: parseInt(pos.count) || 0
+    })) || [];
+
+    const isRecruiting = project?.status === 'recruiting' && recruitPositions.some(pos => pos.current < pos.total);
 
     const handleBackClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
         e.preventDefault();
@@ -102,7 +113,16 @@ export default function ProjectDetail() {
         setSelectedPosition(index === selectedPosition ? null : index);
     };
 
-    const handleApply = () => {
+    const handleApply = async () => {
+        // 로그인 체크
+        if (!isLoggedIn) {
+            const confirmed = window.confirm('로그인이 필요한 서비스입니다. 로그인 페이지로 이동하시겠습니까?');
+            if (confirmed) {
+                navigate('/login');
+            }
+            return;
+        }
+
         if (hasApplied) {
             alert('이미 지원하셨습니다!');
             return;
@@ -113,19 +133,41 @@ export default function ProjectDetail() {
             return;
         }
 
-        const position = recruitInfo.positions[selectedPosition];
+        const position = recruitPositions[selectedPosition];
         const confirmed = window.confirm(`${position.name} 포지션에 지원하시겠습니까?`);
         if (confirmed) {
-            // 실제로는 API 호출
-            console.log('프로젝트 지원:', id, '포지션:', position.name);
-            setHasApplied(true);
-            alert('지원이 완료되었습니다! 프로젝트 담당자가 연락드릴 예정입니다.');
+            try {
+                await projectService.apply(id!, {
+                    positionName: position.name,
+                    userId: userProfile?.username || '',
+                });
+                setHasApplied(true);
+                alert('지원이 완료되었습니다! 프로젝트 담당자가 연락드릴 예정입니다.');
+            } catch (error) {
+                alert('지원 중 오류가 발생했습니다.');
+                console.error(error);
+            }
         }
     };
 
-    const isRecruitingOpen = recruitInfo?.isRecruiting && recruitInfo.positions.some(
-        (pos: any) => pos.current < pos.total
-    );
+    const handleEdit = () => {
+        // TODO: 수정 페이지로 이동
+        alert('수정 기능은 준비 중입니다.');
+    };
+
+    const handleDelete = async () => {
+        const confirmed = window.confirm('정말로 이 프로젝트를 삭제하시겠습니까?');
+        if (confirmed) {
+            try {
+                await projectService.deleteAsync(id!);
+                alert('프로젝트가 삭제되었습니다.');
+                navigate('/projects');
+            } catch (error) {
+                alert('프로젝트 삭제 중 오류가 발생했습니다.');
+                console.error(error);
+            }
+        }
+    };
 
     return (
         <Container>
@@ -139,6 +181,12 @@ export default function ProjectDetail() {
                 </Thumbnail>
 
                 <DetailContent>
+                    {isAuthor && (
+                        <ActionButtons>
+                            <EditButton onClick={handleEdit}>수정</EditButton>
+                            <DeleteButton onClick={handleDelete}>삭제</DeleteButton>
+                        </ActionButtons>
+                    )}
                     <BackLink to="/projects" onClick={handleBackClick}>← 목록으로</BackLink>
 
                     <CategoryBadge>
@@ -247,17 +295,17 @@ export default function ProjectDetail() {
                         </Section>
                     )}
 
-                    {recruitInfo && (
+                    {recruitPositions.length > 0 && (
                         <RecruitSection>
                             <RecruitHeader>
                                 <RecruitTitle>👥 팀원 모집</RecruitTitle>
-                                <RecruitStatus isOpen={isRecruitingOpen}>
-                                    {isRecruitingOpen ? '모집중' : '모집완료'}
+                                <RecruitStatus isOpen={isRecruiting}>
+                                    {isRecruiting ? '모집중' : '모집완료'}
                                 </RecruitStatus>
                             </RecruitHeader>
 
                             <PositionList>
-                                {recruitInfo.positions.map((position: any, index: number) => {
+                                {recruitPositions.map((position: any, index: number) => {
                                     const isSelected = selectedPosition === index;
                                     const isFull = position.current >= position.total;
                                     return (
@@ -284,13 +332,13 @@ export default function ProjectDetail() {
 
                             <ApplyButton
                                 onClick={handleApply}
-                                disabled={!isRecruitingOpen || hasApplied || selectedPosition === null}
+                                disabled={!isRecruiting || hasApplied || selectedPosition === null}
                             >
                                 {hasApplied
                                     ? '지원 완료'
                                     : selectedPosition === null
                                         ? '포지션을 선택해주세요'
-                                        : isRecruitingOpen
+                                        : isRecruiting
                                             ? '지원하기'
                                             : '모집 마감'}
                             </ApplyButton>

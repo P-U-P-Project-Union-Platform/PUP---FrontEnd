@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useApp } from '../../contexts/AppContext';
 import { projectService } from '../../services/projectService';
 import { PROJECT_CATEGORIES } from '../../types/project';
 import ImageUploader from '../../components/projects/ImageUploader';
@@ -37,6 +38,7 @@ interface Position {
 
 export default function Recruit() {
   const navigate = useNavigate();
+  const { userProfile } = useApp();
   const [thumbnail, setThumbnail] = useState<string>('');
   const [category, setCategory] = useState<string>('');
   const [projectTitle, setProjectTitle] = useState('');
@@ -110,8 +112,8 @@ export default function Recruit() {
       techStack,
       github,
       author: {
-        id: '1',
-        name: '김개발' // 실제로는 로그인한 사용자 정보
+        id: userProfile?.username || '1',
+        name: userProfile?.name || '익명'
       },
       status: 'recruiting' as const,
       positions: positions.filter(p => p.name.trim() && p.count.trim())

@@ -31,6 +31,18 @@ const commonTheme = {
     '3xl': '4rem',   // 64px
   },
 
+  // 데코레이션 크기
+  decorationSizes: {
+    circle: '100px',
+  },
+
+  // 투명도
+  opacity: {
+    decorationBg: 'rgba(255, 255, 255, 0.1)',
+    textPrimary: 'rgba(255, 255, 255, 0.9)',
+    textSecondary: 'rgba(255, 255, 255, 0.7)',
+  },
+
   // Border Radius
   borderRadius: {
     sm: '4px',

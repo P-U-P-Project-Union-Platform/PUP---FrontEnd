@@ -39,18 +39,30 @@ function AnimatedRoutes() {
                 <Route path="/signup" element={<PageTransition><Signup/></PageTransition>}/>
                 <Route path="/projects">
                     <Route index element={<PageTransition><ProjectList/></PageTransition>}/>
-                    <Route path="register" element={<PageTransition><Register/></PageTransition>}/>
                     <Route path=":id" element={<PageTransition><ProjectDetail/></PageTransition>}/>
+                    {/* 로그인 필요 */}
+                    <Route element={<ProtectedRoute />}>
+                        <Route path="register" element={<PageTransition><Register/></PageTransition>}/>
+                    </Route>
                 </Route>
-                <Route path="/recruit" element={<PageTransition><Recruit/></PageTransition>}/>
+                {/* 로그인 필요 */}
+                <Route element={<ProtectedRoute />}>
+                    <Route path="/recruit" element={<PageTransition><Recruit/></PageTransition>}/>
+                </Route>
                 <Route path="/community">
                     <Route path="/community" element={<PageTransition><Community/></PageTransition>}/>
-                    <Route path="/community/write" element={<PageTransition><CommunityWrite/></PageTransition>}/>
                     <Route path="/community/:id" element={<PageTransition><CommunityDetail/></PageTransition>}/>
+                    {/* 로그인 필요 */}
+                    <Route element={<ProtectedRoute />}>
+                        <Route path="/community/write" element={<PageTransition><CommunityWrite/></PageTransition>}/>
+                    </Route>
                 </Route>
-                <Route path="/mypage">
-                    <Route index element={<PageTransition><MyPage/></PageTransition>}/>
-                    <Route path="edit" element={<PageTransition><ProfileEdit/></PageTransition>}/>
+                {/* 로그인 필요 */}
+                <Route element={<ProtectedRoute />}>
+                    <Route path="/mypage">
+                        <Route index element={<PageTransition><MyPage/></PageTransition>}/>
+                        <Route path="edit" element={<PageTransition><ProfileEdit/></PageTransition>}/>
+                    </Route>
                 </Route>
                 <Route path="/user/:username" element={<PageTransition><UserProfile/></PageTransition>}/>
             </Routes>
@@ -60,15 +72,17 @@ function AnimatedRoutes() {
 
 function AdminRoutes() {
     return (
-        <Routes>
-            <Route element={<ProtectedRoute requiredRole="admin" />}>
-                <Route element={<AdminLayout />}>
-                    <Route path="/admin" element={<PageTransition><AdminDashboard /></PageTransition>} />
-                    <Route path="/admin/users" element={<PageTransition><UserManagement /></PageTransition>} />
-                    <Route path="/admin/projects" element={<PageTransition><ProjectManagement /></PageTransition>} />
+        <AdminProvider>
+            <Routes>
+                <Route element={<ProtectedRoute requiredRole="admin"/>}>
+                    <Route element={<AdminLayout/>}>
+                        <Route path="/admin" element={<PageTransition><AdminDashboard/></PageTransition>}/>
+                        <Route path="/admin/users" element={<PageTransition><UserManagement/></PageTransition>}/>
+                        <Route path="/admin/projects" element={<PageTransition><ProjectManagement/></PageTransition>}/>
+                    </Route>
                 </Route>
-            </Route>
-        </Routes>
+            </Routes>
+        </AdminProvider>
     );
 }
 
@@ -81,15 +95,13 @@ function ThemedApp() {
         <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
             <GlobalStyle/>
             <ScrollToTop/>
-            <AdminProvider>
-                {isAdminRoute ? (
-                    <AdminRoutes />
-                ) : (
-                    <Layout>
-                        <AnimatedRoutes/>
-                    </Layout>
-                )}
-            </AdminProvider>
+            {isAdminRoute ? (
+                <AdminRoutes/>
+            ) : (
+                <Layout>
+                    <AnimatedRoutes/>
+                </Layout>
+            )}
         </ThemeProvider>
     );
 }

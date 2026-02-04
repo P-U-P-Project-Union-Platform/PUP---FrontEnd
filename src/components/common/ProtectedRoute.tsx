@@ -9,13 +9,13 @@ interface ProtectedRouteProps {
 
 export default function ProtectedRoute({
   requiredRole = 'user',
-  redirectTo = '/'
+  redirectTo = '/login'
 }: ProtectedRouteProps) {
   const { isLoggedIn, checkRole } = useApp();
 
   // Check if user is logged in
   if (!isLoggedIn) {
-    return <Navigate to={redirectTo} replace />;
+    return <Navigate to="/login" replace />;
   }
 
   // Check if user has required role
